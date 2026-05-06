@@ -1,6 +1,6 @@
 # Week 5 Project Feedback by PM/TA
 
-**Dedicated PM/TA**: Peer Mentor (Local Repository Review)
+**Dedicated PM/TA**: Utkarsh Narain (<utkarshnarain2026@u.northwestern.edu>)
 
 ## How to Read This Feedback
 > [!NOTE]
