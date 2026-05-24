@@ -13,7 +13,7 @@
   - **State of the system**: a new `Card` is created with the last enum value, `CardType.NOPE`
   - **Expected output**: a `Card` object is created successfully
 
-- **TC4: constructorRejectsNullCardType** ( :x: )
+- **TC4: constructorRejectsNullCardType** ( :white_check_mark: )
   - **State of the system**: a new `Card` is created with `null` instead of a `CardType`
   - **Expected output**: throws `NullPointerException`
 
