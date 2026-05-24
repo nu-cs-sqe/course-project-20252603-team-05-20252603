@@ -1,5 +1,7 @@
 plugins {
     id("java")
+    jacoco
+    id("info.solidsoft.pitest") version "1.19.0"
 }
 
 group = "nu.csse.sqe"
@@ -26,4 +28,38 @@ tasks.compileJava {
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+jacoco {
+    toolVersion = "0.8.14"
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+}
+
+tasks.jacocoTestCoverageVerification {
+    dependsOn(tasks.test)
+
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.80".toBigDecimal()
+            }
+        }
+    }
+}
+
+pitest {
+    junit5PluginVersion.set("1.2.3")
+    threads.set(4)
+    outputFormats.set(setOf("HTML", "XML"))
+    timestampedReports.set(false)
 }
