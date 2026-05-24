@@ -4,8 +4,6 @@
 2. [done] Rachel: Set up Github Repo
 
 
-# Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
+# Week 8 (05/18/2026-05/24/2026)
 **Planning and Progress Tracking**:
-1. [done] Person: Task (Links to PR)
-2. [not started] Person: Task (Links to PR)
-3. [80% done] Person: Task (Links to PR)
+1. [done] Helena: Set up mutation testing (https://github.com/nu-cs-sqe/course-project-20252603-team-05-20252603/pull/15)
