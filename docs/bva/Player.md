@@ -13,18 +13,18 @@
 ### Method: `addCard(Card card)`
 
 | Test Case | State of the System | Expected Output | Implemented? |
-|---|---|---|---|
-| P6 | Card is `null` | Throws `IllegalArgumentException` | :x: |
-| P7 | Player has 0 cards, add 1 valid card | Hand size becomes 1 and hand contains the card | :x: |
-| P8 | Player has 1 card, add another valid card | Hand size becomes 2 and hand contains both cards | :x: |
+|---|---|---|--------------|
+| P6 | Card is `null` | Throws `IllegalArgumentException` | :y:          |
+| P7 | Player has 0 cards, add 1 valid card | Hand size becomes 1 and hand contains the card | :y:          |
+| P8 | Player has 1 card, add another valid card | Hand size becomes 2 and hand contains both cards | :y:          |
 
 ### Method: `getHand()`
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
 | P9 | Player has no cards | Returns an empty hand | :y:          |
-| P10 | Player has 1 card | Returns a hand containing exactly that card | :x:          |
-| P11 | Player has multiple cards | Returns all cards in the player's hand | :x:          |
+| P10 | Player has 1 card | Returns a hand containing exactly that card | :y:          |
+| P11 | Player has multiple cards | Returns all cards in the player's hand | :y:          |
 | P12 | External code tries to modify the returned hand | Player's internal hand is not modified | :x:          |
 
 ### Method: `getName()`

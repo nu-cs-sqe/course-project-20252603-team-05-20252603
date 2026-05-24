@@ -23,4 +23,11 @@ public class Player {
     public List<Card> getHand() {
         return Collections.unmodifiableList(hand);
     }
+
+    public void addCard(Card card) {
+        if (card == null) {
+            throw new IllegalArgumentException("Card cannot be null");
+        }
+        hand.add(card);
+    }
 }
