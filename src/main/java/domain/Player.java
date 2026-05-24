@@ -9,6 +9,9 @@ public class Player {
     private final List<Card> hand;
 
     public Player(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Player name cannot be null or empty");
+        }
         this.name = name;
         this.hand = new ArrayList<>();
     }

@@ -41,4 +41,19 @@ public class PlayerTest {
         assertEquals("Anthony", player.getName());
     }
 
+    @Test
+    public void constructor_nullName_throwsException() {
+        assertThrows(IllegalArgumentException.class, () -> new Player(null));
+    }
+
+    @Test
+    public void constructor_emptyName_throwsException() {
+        assertThrows(IllegalArgumentException.class, () -> new Player(""));
+    }
+
+    @Test
+    public void constructor_whitespaceName_throwsException() {
+        assertThrows(IllegalArgumentException.class, () -> new Player("   "));
+    }
+
 }
