@@ -25,7 +25,7 @@
 | P9 | Player has no cards | Returns an empty hand | :y:          |
 | P10 | Player has 1 card | Returns a hand containing exactly that card | :y:          |
 | P11 | Player has multiple cards | Returns all cards in the player's hand | :y:          |
-| P12 | External code tries to modify the returned hand | Player's internal hand is not modified | :x:          |
+| P12 | External code tries to modify the returned hand | Player's internal hand is not modified | :y:          |
 
 ### Method: `getName()`
 

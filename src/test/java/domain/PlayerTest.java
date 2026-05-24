@@ -1,6 +1,7 @@
 package domain;
 
 import org.junit.jupiter.api.Test;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
@@ -114,6 +115,25 @@ public class PlayerTest {
         assertTrue(player.getHand().contains(firstCard));
         assertTrue(player.getHand().contains(secondCard));
         assertTrue(player.getHand().contains(thirdCard));
+    }
+
+    @Test
+    public void getHand_externalModification_doesNotModifyPlayerHand() {
+        Player player = new Player("Anthony");
+        Card originalCard = new Card(CardType.DEFUSE);
+        Card extraCard = new Card(CardType.SKIP);
+
+        player.addCard(originalCard);
+        List<Card> returnedHand = player.getHand();
+
+        try {
+            returnedHand.add(extraCard);
+        } catch (UnsupportedOperationException ignored) {
+        }
+
+        assertEquals(1, player.getHand().size());
+        assertTrue(player.getHand().contains(originalCard));
+        assertFalse(player.getHand().contains(extraCard));
     }
 
 }
