@@ -3,15 +3,17 @@ package domain;
 import java.util.*;
 
 public class Deck {
-    final private List<Card> cards;
-    final private Map<CardType, Integer> cardAmounts;
+    private final List<Card> cards;
+    private final Map<CardType, Integer> cardAmounts;
+    private final Random rand;
 
-    public Deck(){
-        cards = new ArrayList<>();
-        cardAmounts = new EnumMap<>(CardType.class);
+    public Deck(Random rand){
+        this.cards = new ArrayList<>();
+        this.cardAmounts = new EnumMap<>(CardType.class);
         for (CardType type : CardType.values()) {
             cardAmounts.put(type, 0);
         }
+        this.rand = rand;
 
         addCards(CardType.ATTACK, 3);
         addCards(CardType.SHUFFLE, 4);
@@ -56,7 +58,13 @@ public class Deck {
     }
 
     public void shuffle(){
+        for (int deckIndex = cards.size() - 1; deckIndex > 0; deckIndex--) {
+            int indexToSwap = rand.nextInt(deckIndex + 1);
 
+            Card temporaryCard = cards.get(indexToSwap);
+            cards.set(indexToSwap, cards.get(deckIndex));
+            cards.set(deckIndex, temporaryCard);
+        }
     }
 
 }

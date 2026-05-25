@@ -107,6 +107,10 @@ Output Value: Deck
   - **State of the system**: Deck contains exactly 1 card
   - **Expected output**: `size()` still returns 1, same card still there, no exception
 
-- **TC17: shuffle_multipleCardDeck** (:todo:)
+- **TC17: shuffle_multipleCardDeck_KeepsSameAmtCardTypes** (:done:)
   - **State of the system**: Deck contains multiple cards
   - **Expected output**: `size()` is unchanged and card amounts are unchanged
+
+- **TC18: shuffle_multipleCardDeck_ChangesOrder** (:done:)
+  - **State of the system**: Deck contains multiple cards
+  - **Expected output**: `size()` is unchanged and card amounts are unchanged, and ordering of cards has changed

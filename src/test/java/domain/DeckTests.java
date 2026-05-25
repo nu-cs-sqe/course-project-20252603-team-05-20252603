@@ -1,19 +1,24 @@
 package domain;
 
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
+
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTests {
     @Test
     public void TC1_Constructor_InitializesNonEmptyDeck() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         assertTrue(deck.size() > 0);
     }
 
     @Test
     public void TC2_Constructor_ContainsCorrectAmountCardTypes() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         assertEquals(34, deck.size());
         assertEquals(3, deck.amtCardType(CardType.ATTACK));
         assertEquals(4, deck.amtCardType(CardType.SHUFFLE));
@@ -30,7 +35,8 @@ public class DeckTests {
 
     @Test
     public void TC9_Draw_FromEmptyDeck_ThrowsException() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         while (deck.size() > 0) {
             deck.draw();
         }
@@ -39,7 +45,8 @@ public class DeckTests {
 
     @Test
     public void TC10_Draw_FromOneCardDeck_ReturnsCardAndDeckBecomesEmpty() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         while (deck.size() > 1) {
             deck.draw();
         }
@@ -50,7 +57,8 @@ public class DeckTests {
 
     @Test
     public void TC11_Draw_FromFullCardDeck() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         Card card = deck.draw();
         assertNotNull(card);
         assertEquals(33, deck.size());
@@ -58,7 +66,8 @@ public class DeckTests {
 
     @Test
     public void TC3_Size_EmptyDeck() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         while (deck.size() > 0) {
             deck.draw();
         }
@@ -67,7 +76,8 @@ public class DeckTests {
 
     @Test
     public void TC4_Size_OneCardDeck() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         while (deck.size() > 1) {
             deck.draw();
         }
@@ -76,7 +86,8 @@ public class DeckTests {
 
     @Test
     public void TC5_Size_TwoCardDeck() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         while (deck.size() > 2) {
             deck.draw();
         }
@@ -85,7 +96,8 @@ public class DeckTests {
 
     @Test
     public void TC12_InsertBottom_IntoEmptyDeck() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         while (deck.size() > 0) {
             deck.draw();
         }
@@ -96,7 +108,8 @@ public class DeckTests {
 
     @Test
     public void TC13_InsertBottom_IntoNonEmptyDeck() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         int originalSize = deck.size();
         deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
         assertEquals(originalSize + 1, deck.size());
@@ -105,7 +118,8 @@ public class DeckTests {
 
     @Test
     public void TC14_InsertBottom_DuplicateCardType() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         deck.insertBottom(new Card(CardType.DEFUSE));
         deck.insertBottom(new Card(CardType.DEFUSE));
         assertEquals(2, deck.amtCardType(CardType.DEFUSE));
@@ -113,26 +127,30 @@ public class DeckTests {
 
     @Test
     public void TC6_AmtCardType_NotPresent_ReturnsZero() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         assertEquals(0, deck.amtCardType(CardType.EXPLODING_KITTEN));
     }
 
     @Test
     public void TC7_AmtCardType_OnePresent_ReturnsOne() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
         assertEquals(1, deck.amtCardType(CardType.EXPLODING_KITTEN));
     }
 
     @Test
     public void TC8_AmtCardType_MultiplePresent_ReturnsCount() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         assertEquals(3,deck.amtCardType(CardType.ATTACK));
     }
 
     @Test
     public void TC15_Shuffle_EmptyDeck() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         while (deck.size() > 0) {
             deck.draw();
         }
@@ -142,7 +160,8 @@ public class DeckTests {
 
     @Test
     public void TC16_Shuffle_OneCardDeck() {
-        Deck deck = new Deck();
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
         while (deck.size() > 1) {
             deck.draw();
         }
@@ -153,5 +172,23 @@ public class DeckTests {
         assertEquals(0, deck.size());
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void TC17_Shuffle_MultipleCardDeck_KeepsSameAmtCardTypes() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+        int originalSize = deck.size();
+        deck.shuffle();
+        assertEquals(originalSize, deck.size());
+        assertEquals(3, deck.amtCardType(CardType.ATTACK));
+    }
+
+//    @Test
+//    public void TC18_shuffle_multipleCardDeck_ChangesOrder(){
+//        Random rand = EasyMock.createMock(Random.class);
+//        EasyMock.expect(rand.nextInt(6)).andStubReturn(0);
+//        EasyMock.replay(rand);
+//        Deck deck = new Deck(rand);
+//    }
 
 }
