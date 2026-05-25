@@ -71,6 +71,10 @@ Output State: Deck
 - **TC11: draw_fromFullCardDeck** (:done:)
   - **State of the system**: Deck contains full deck after construction (34)
   - **Expected output**: One card is returned and `size()` returns 33
+  - 
+- **TC19: draw_fromBottom** (:done:)
+  - **State of the system**: Deck contains 2 different cards
+  - **Expected output**: One card is returned (the one on the bottom) and `size()` returns 1
 
 
 ### Method under test: `insertBottom(Card card)`

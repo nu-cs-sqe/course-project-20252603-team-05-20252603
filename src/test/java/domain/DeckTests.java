@@ -203,4 +203,18 @@ public class DeckTests {
         EasyMock.verify(randMock);
     }
 
+    @Test
+    public void TC19_draw_fromBottom(){
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+        Card firstCard = new Card(CardType.DEFUSE);
+        Card secondCard = new Card(CardType.EXPLODING_KITTEN);
+        deck.insertBottom(firstCard);
+        deck.insertBottom(secondCard);
+        assertEquals(secondCard, deck.draw());
+    }
+
 }
