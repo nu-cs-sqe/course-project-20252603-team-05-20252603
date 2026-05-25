@@ -83,12 +83,12 @@ Output Value: Deck
   - **Input Value**: DEFUSE card
   - **Expected output**: `size()` returns 1 and `amtCardType(DEFUSE)` returns 1
 
-- **TC13: insertBottom_intoNonEmptyDeck** (:todo:)
+- **TC13: insertBottom_intoNonEmptyDeck** (:done:)
   - **State of the system**: Deck contains multiple cards
   - **Input Value**: EXPLODING_KITTEN card
   - **Expected output**: `size()` increases by 1 and `amtCardType(EXPLODING_KITTEN)` returns 1
 
-- **TC14: insertBottom_duplicateCardType** (:todo:)
+- **TC14: insertBottom_duplicateCardType** (:done:)
   - **State of the system**: Deck already contains 1 DEFUSE card
   - **Input Value**: DEFUSE card
   - **Expected output**: `amtCardType(DEFUSE)` returns 2

@@ -94,6 +94,23 @@ public class DeckTests {
         assertEquals(1, deck.amtCardType(CardType.DEFUSE));
     }
 
+    @Test
+    public void TC13_InsertBottom_IntoNonEmptyDeck() {
+        Deck deck = new Deck();
+        int originalSize = deck.size();
+        deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        assertEquals(originalSize + 1, deck.size());
+        assertEquals(1, deck.amtCardType(CardType.EXPLODING_KITTEN));
+    }
+
+    @Test
+    public void TC14_InsertBottom_DuplicateCardType() {
+        Deck deck = new Deck();
+        deck.insertBottom(new Card(CardType.DEFUSE));
+        deck.insertBottom(new Card(CardType.DEFUSE));
+        assertEquals(2, deck.amtCardType(CardType.DEFUSE));
+    }
+
 
 
 
