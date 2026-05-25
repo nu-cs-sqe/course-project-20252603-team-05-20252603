@@ -55,4 +55,8 @@ public class Deck {
         cardAmounts.put(card.getType(), cardAmounts.get(card.getType()) + 1);
     }
 
+    public void shuffle(){
+
+    }
+
 }

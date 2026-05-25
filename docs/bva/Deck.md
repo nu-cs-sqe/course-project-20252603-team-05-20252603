@@ -99,7 +99,7 @@ Input State: Deck
 Input Value: None  
 Output Value: Deck
 
-- **TC15: shuffle_emptyDeck** (:todo:)
+- **TC15: shuffle_emptyDeck** (:done:)
   - **State of the system**: Deck contains 0 cards
   - **Expected output**: `size()` still returns 0, no exception
 

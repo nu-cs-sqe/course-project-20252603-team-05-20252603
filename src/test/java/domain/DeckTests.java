@@ -130,5 +130,14 @@ public class DeckTests {
         assertEquals(3,deck.amtCardType(CardType.ATTACK));
     }
 
+    @Test
+    public void TC15_Shuffle_EmptyDeck() {
+        Deck deck = new Deck();
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+        deck.shuffle();
+        assertEquals(0, deck.size());
+    }
 
 }
