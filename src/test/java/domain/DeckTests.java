@@ -183,12 +183,24 @@ public class DeckTests {
         assertEquals(3, deck.amtCardType(CardType.ATTACK));
     }
 
-//    @Test
-//    public void TC18_shuffle_multipleCardDeck_ChangesOrder(){
-//        Random rand = EasyMock.createMock(Random.class);
-//        EasyMock.expect(rand.nextInt(6)).andStubReturn(0);
-//        EasyMock.replay(rand);
-//        Deck deck = new Deck(rand);
-//    }
+    @Test
+    public void TC18_shuffle_multipleCardDeck_ChangesOrder(){
+        Random randMock = EasyMock.createMock(Random.class);
+        EasyMock.expect(randMock.nextInt(2)).andReturn(0);
+        EasyMock.replay(randMock);
+        Deck deck = new Deck(randMock);
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        Card firstCard = new Card(CardType.DEFUSE);
+        Card secondCard = new Card(CardType.EXPLODING_KITTEN);
+        deck.insertBottom(firstCard);
+        deck.insertBottom(secondCard);
+        deck.shuffle();
+        Card newTop = deck.draw();
+        assertEquals(CardType.DEFUSE, newTop.getType());
+        EasyMock.verify(randMock);
+    }
 
 }

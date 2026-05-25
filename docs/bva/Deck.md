@@ -112,5 +112,5 @@ Output Value: Deck
   - **Expected output**: `size()` is unchanged and card amounts are unchanged
 
 - **TC18: shuffle_multipleCardDeck_ChangesOrder** (:done:)
-  - **State of the system**: Deck contains multiple cards
+  - **State of the system**: Deck contains multiple cards (2)
   - **Expected output**: `size()` is unchanged and card amounts are unchanged, and ordering of cards has changed
