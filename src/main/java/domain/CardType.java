@@ -5,8 +5,11 @@ public enum CardType {
     DEFUSE,
     ATTACK,
     SKIP,
-    FAVOR,
     SHUFFLE,
     SEE_THE_FUTURE,
-    NOPE
+    NOPE,
+    TACO_CAT,
+    BEARD_CAT,
+    RAINBOW_RALPHING_CAT,
+    HAIRY_POTATO_CAT
 }
