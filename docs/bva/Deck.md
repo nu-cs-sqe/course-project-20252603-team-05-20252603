@@ -38,17 +38,17 @@ Input State: Deck
 Input Value: CardType  
 Output Value: Integer
 
-- **TC6: amtCardType_notPresent_returnsZero** (:todo:)
+- **TC6: amtCardType_notPresent_returnsZero** (:done:)
   - **State of the system**: Deck contains no cards of the requested CardType
   - **Input Value**: EXPLODING_KITTEN
   - **Expected output**: 0
 
-- **TC7: amtCardType_onePresent_returnsOne** (:todo:)
+- **TC7: amtCardType_onePresent_returnsOne** (:done:)
   - **State of the system**: Deck contains exactly 1 card of the requested CardType (insert an Exploding Kitten)
   - **Input Value**: EXPLODING_KITTEN
   - **Expected output**: 1
 
-- **TC8: amtCardType_multiplePresent_returnsCount** (:todo:)
+- **TC8: amtCardType_multiplePresent_returnsCount** (:done:)
   - **State of the system**: Deck contains multiple cards of the requested CardType 
   - **Input Value**: ATTACK
   - **Expected output**: 3

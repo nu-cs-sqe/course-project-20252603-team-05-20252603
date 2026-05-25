@@ -111,7 +111,24 @@ public class DeckTests {
         assertEquals(2, deck.amtCardType(CardType.DEFUSE));
     }
 
+    @Test
+    public void TC6_AmtCardType_NotPresent_ReturnsZero() {
+        Deck deck = new Deck();
+        assertEquals(0, deck.amtCardType(CardType.EXPLODING_KITTEN));
+    }
 
+    @Test
+    public void TC7_AmtCardType_OnePresent_ReturnsOne() {
+        Deck deck = new Deck();
+        deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        assertEquals(1, deck.amtCardType(CardType.EXPLODING_KITTEN));
+    }
+
+    @Test
+    public void TC8_AmtCardType_MultiplePresent_ReturnsCount() {
+        Deck deck = new Deck();
+        assertEquals(3,deck.amtCardType(CardType.ATTACK));
+    }
 
 
 }
