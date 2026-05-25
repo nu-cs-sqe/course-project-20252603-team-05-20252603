@@ -9,15 +9,34 @@ public class Deck {
     public Deck(){
         cards = new ArrayList<>();
         cardAmounts = new EnumMap<>(CardType.class);
-
         for (CardType type : CardType.values()) {
             cardAmounts.put(type, 0);
         }
 
+        addCards(CardType.ATTACK, 3);
+        addCards(CardType.SHUFFLE, 4);
+        addCards(CardType.SKIP, 3);
+        addCards(CardType.SEE_THE_FUTURE, 4);
+        addCards(CardType.NOPE, 4);
+        addCards(CardType.TACO_CAT, 4);
+        addCards(CardType.BEARD_CAT, 4);
+        addCards(CardType.RAINBOW_RALPHING_CAT, 4);
+        addCards(CardType.HAIRY_POTATO_CAT, 4);
+    }
+
+    private void addCards(CardType type, int amount){
+        for(int i = 0; i < amount; i++){
+            cards.add(new Card(type));
+        }
+        cardAmounts.put(type, cardAmounts.get(type) + amount);
     }
 
     public int size(){
-        return 1;
+        return cards.size();
+    }
+
+    public int amtCardType(CardType type){
+        return cardAmounts.get(type);
     }
 
 }
