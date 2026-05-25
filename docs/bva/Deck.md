@@ -64,7 +64,7 @@ Output State: Deck
   - **State of the system**: Deck contains 0 cards
   - **Expected output**: IllegalStateException
 
-- **TC10: draw_fromOneCardDeck** (:todo:)
+- **TC10: draw_fromOneCardDeck** (:done:)
   - **State of the system**: Deck contains exactly 1 card
   - **Expected output**: One card is returned and `size()` returns 0
 

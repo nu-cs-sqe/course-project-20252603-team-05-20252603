@@ -37,6 +37,18 @@ public class DeckTests {
         assertThrows(IllegalStateException.class, deck::draw);
     }
 
+    @Test
+    public void TC11_Draw_FromOneCardDeck_ReturnsCardAndDeckBecomesEmpty() {
+        Deck deck = new Deck();
+        while (deck.size() > 1) {
+            deck.draw();
+        }
+        Card card = deck.draw();
+        assertNotNull(card);
+        assertEquals(0, deck.size());
+    }
+
+
 
 
 }
