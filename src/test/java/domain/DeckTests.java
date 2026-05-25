@@ -56,6 +56,33 @@ public class DeckTests {
         assertEquals(33, deck.size());
     }
 
+    @Test
+    public void TC3_Size_EmptyDeck() {
+        Deck deck = new Deck();
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+        assertEquals(0, deck.size());
+    }
+
+    @Test
+    public void TC4_Size_OneCardDeck() {
+        Deck deck = new Deck();
+        while (deck.size() > 1) {
+            deck.draw();
+        }
+        assertEquals(1, deck.size());
+    }
+
+    @Test
+    public void TC5_Size_TwoCardDeck() {
+        Deck deck = new Deck();
+        while (deck.size() > 2) {
+            deck.draw();
+        }
+        assertEquals(2, deck.size());
+    }
+
 
 
 

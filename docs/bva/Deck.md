@@ -20,15 +20,15 @@ Input State: Deck
 Input Value: None  
 Output Value: Integer
 
-- **TC3: size_emptyDeck** (:todo:)
+- **TC3: size_emptyDeck** (:done:)
   - **State of the system**: Deck contains 0 cards
   - **Expected output**: 0
 
-- **TC4: size_oneCardDeck** (:todo:)
+- **TC4: size_oneCardDeck** (:done:)
   - **State of the system**: Deck contains exactly 1 card
   - **Expected output**: 1
 
-- **TC5: size_twoCardDeck** (:todo:)
+- **TC5: size_twoCardDeck** (:done:)
   - **State of the system**: Deck contains 2 cards
   - **Expected output**: The number of cards currently in the deck (2)
 
@@ -68,7 +68,7 @@ Output State: Deck
   - **State of the system**: Deck contains exactly 1 card
   - **Expected output**: One card is returned and `size()` returns 0
 
-- **TC11: draw_fromFullCardDeck** (:todo:)
+- **TC11: draw_fromFullCardDeck** (:done:)
   - **State of the system**: Deck contains full deck after construction (34)
   - **Expected output**: One card is returned and `size()` returns 33
 
