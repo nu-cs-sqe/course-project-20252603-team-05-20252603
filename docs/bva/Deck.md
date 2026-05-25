@@ -103,9 +103,9 @@ Output Value: Deck
   - **State of the system**: Deck contains 0 cards
   - **Expected output**: `size()` still returns 0, no exception
 
-- **TC16: shuffle_oneCardDeck** (:todo:)
+- **TC16: shuffle_oneCardDeck** (:done:)
   - **State of the system**: Deck contains exactly 1 card
-  - **Expected output**: `size()` still returns 1, no exception
+  - **Expected output**: `size()` still returns 1, same card still there, no exception
 
 - **TC17: shuffle_multipleCardDeck** (:todo:)
   - **State of the system**: Deck contains multiple cards

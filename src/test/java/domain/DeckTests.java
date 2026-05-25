@@ -140,4 +140,18 @@ public class DeckTests {
         assertEquals(0, deck.size());
     }
 
+    @Test
+    public void TC16_Shuffle_OneCardDeck() {
+        Deck deck = new Deck();
+        while (deck.size() > 1) {
+            deck.draw();
+        }
+        Card expected = deck.draw();
+        deck.insertBottom(expected);
+        deck.shuffle();
+        Card actual = deck.draw();
+        assertEquals(0, deck.size());
+        assertEquals(expected, actual);
+    }
+
 }
