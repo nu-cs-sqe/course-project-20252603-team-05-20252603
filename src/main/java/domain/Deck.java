@@ -39,4 +39,14 @@ public class Deck {
         return cardAmounts.get(type);
     }
 
+    public Card draw(){
+        if (cards.isEmpty()){
+            throw new IllegalStateException("Cannot draw from empty deck");
+        }
+
+        Card drawn = cards.remove(cards.size() - 1);
+        cardAmounts.put(drawn.getType(), cardAmounts.get(drawn.getType()) - 1);
+        return drawn;
+    }
+
 }

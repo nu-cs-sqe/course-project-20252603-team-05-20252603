@@ -6,11 +6,11 @@ Input Value: None
 Output Value: Initialized Deck
   - 3 Attack, 4 Shuffle, 3 Skip, 4 See the Future, 4 Nope, 16 Cat Cards (34 cards)
 
-- **TC1: constructor_initializesNonEmptyDeck** (:todo:)
+- **TC1: constructor_initializesNonEmptyDeck** (:done:)
   - **State of the system**: No deck object exists yet
   - **Expected output**: A new deck is created and `size()` returns 34
 
-- **TC2: constructor_containsCorrectAmountCardTypes** (:todo:)
+- **TC2: constructor_containsCorrectAmountCardTypes** (:done:)
   - **State of the system**: No deck object exists yet
   - **Expected output**: A new deck is created and contains 3 Attack, 4 Shuffle, 3 Skip, 4 See the Future, 4 Nope, 16 Cat Cards, 0 Defuse, 0 Exploding Kittens
 
@@ -60,7 +60,7 @@ Input Value: None
 Output Value: Card or IllegalStateException  
 Output State: Deck
 
-- **TC9: draw_fromEmptyDeck** (:todo:)
+- **TC9: draw_fromEmptyDeck** (:done:)
   - **State of the system**: Deck contains 0 cards
   - **Expected output**: IllegalStateException
 

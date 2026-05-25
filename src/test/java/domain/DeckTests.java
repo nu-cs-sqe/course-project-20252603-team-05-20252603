@@ -2,8 +2,7 @@ package domain;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTests {
     @Test
@@ -27,6 +26,15 @@ public class DeckTests {
         assertEquals(4, deck.amtCardType(CardType.HAIRY_POTATO_CAT));
         assertEquals(0, deck.amtCardType(CardType.DEFUSE));
         assertEquals(0, deck.amtCardType(CardType.EXPLODING_KITTEN));
+    }
+
+    @Test
+    public void TC10_Draw_FromEmptyDeck_ThrowsException() {
+        Deck deck = new Deck();
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+        assertThrows(IllegalStateException.class, deck::draw);
     }
 
 
