@@ -83,6 +83,17 @@ public class DeckTests {
         assertEquals(2, deck.size());
     }
 
+    @Test
+    public void TC12_InsertBottom_IntoEmptyDeck() {
+        Deck deck = new Deck();
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+        deck.insertBottom(new Card(CardType.DEFUSE));
+        assertEquals(1, deck.size());
+        assertEquals(1, deck.amtCardType(CardType.DEFUSE));
+    }
+
 
 
 

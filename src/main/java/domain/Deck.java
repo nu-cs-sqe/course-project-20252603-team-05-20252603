@@ -39,6 +39,7 @@ public class Deck {
         return cardAmounts.get(type);
     }
 
+    // draws from the bottom of the deck
     public Card draw(){
         if (cards.isEmpty()){
             throw new IllegalStateException("Cannot draw from empty deck");
@@ -47,6 +48,11 @@ public class Deck {
         Card drawn = cards.remove(cards.size() - 1);
         cardAmounts.put(drawn.getType(), cardAmounts.get(drawn.getType()) - 1);
         return drawn;
+    }
+
+    public void insertBottom(Card card){
+        cards.add(card);
+        cardAmounts.put(card.getType(), cardAmounts.get(card.getType()) + 1);
     }
 
 }

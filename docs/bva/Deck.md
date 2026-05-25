@@ -78,7 +78,7 @@ Input State: Deck
 Input Value: Card  
 Output Value: Deck
 
-- **TC12: insertBottom_intoEmptyDeck** (:todo:)
+- **TC12: insertBottom_intoEmptyDeck** (:done:)
   - **State of the system**: Deck contains 0 cards
   - **Input Value**: DEFUSE card
   - **Expected output**: `size()` returns 1 and `amtCardType(DEFUSE)` returns 1
