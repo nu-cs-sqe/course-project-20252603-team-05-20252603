@@ -29,7 +29,7 @@ public class DeckTests {
     }
 
     @Test
-    public void TC10_Draw_FromEmptyDeck_ThrowsException() {
+    public void TC9_Draw_FromEmptyDeck_ThrowsException() {
         Deck deck = new Deck();
         while (deck.size() > 0) {
             deck.draw();
@@ -38,7 +38,7 @@ public class DeckTests {
     }
 
     @Test
-    public void TC11_Draw_FromOneCardDeck_ReturnsCardAndDeckBecomesEmpty() {
+    public void TC10_Draw_FromOneCardDeck_ReturnsCardAndDeckBecomesEmpty() {
         Deck deck = new Deck();
         while (deck.size() > 1) {
             deck.draw();
@@ -46,6 +46,14 @@ public class DeckTests {
         Card card = deck.draw();
         assertNotNull(card);
         assertEquals(0, deck.size());
+    }
+
+    @Test
+    public void TC11_Draw_FromFullCardDeck() {
+        Deck deck = new Deck();
+        Card card = deck.draw();
+        assertNotNull(card);
+        assertEquals(33, deck.size());
     }
 
 
