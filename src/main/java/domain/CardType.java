@@ -5,7 +5,7 @@ public enum CardType {
     DEFUSE,
     ATTACK,
     SKIP,
-    FAVOR,
+    CAT,
     SHUFFLE,
     SEE_THE_FUTURE,
     NOPE
