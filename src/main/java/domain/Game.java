@@ -60,4 +60,12 @@ public class Game {
         deck.shuffle();
         setupComplete = true;
     }
+
+    public Player getCurrentPlayer() {
+        if (!setupComplete) {
+            throw new IllegalStateException("Game setup has not been completed");
+        }
+
+        return null;
+    }
 }
