@@ -579,4 +579,29 @@ public class GameTest {
 
         assertFalse(player1.isActive());
     }
+
+    // G37
+    @Test
+    public void drawCardContinuesGameWhenPlayerExplodesWithThreeOrMorePlayersAlive() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+
+        player1.removeCard(CardType.DEFUSE);
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertFalse(player1.isActive());
+        assertEquals(player2, game.getCurrentPlayer());
+    }
 }
