@@ -476,4 +476,23 @@ public class GameTest {
             game.drawCard();
         });
     }
+
+    // G32
+    @Test
+    public void drawCardThrowsExceptionWhenDeckIsEmpty() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        assertThrows(IllegalStateException.class, () -> {
+            game.drawCard();
+        });
+    }
 }
