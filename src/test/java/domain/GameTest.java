@@ -247,4 +247,17 @@ public class GameTest {
         assertEquals(6, player2.getHand().size());
         assertEquals(6, player3.getHand().size());
     }
+
+    // G18
+    @Test
+    public void setupGameShufflesDeckAfterExplodingKittensAreInserted() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random(1));
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+
+        assertEquals(1, deck.amtCardType(CardType.EXPLODING_KITTEN));
+    }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Game {
     private static final int STARTING_RANDOM_CARDS = 5;
-    
+
     private final List<Player> players;
     private final Deck deck;
 
@@ -49,5 +49,7 @@ public class Game {
         for (int i = 0; i < players.size() - 1; i++) {
             deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
         }
+
+        deck.shuffle();
     }
 }

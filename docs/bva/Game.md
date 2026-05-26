@@ -26,7 +26,7 @@
 | G15 | Game has 5 players | Adds 4 Exploding Kittens to the deck | :y: |
 | G16 | Game setup is completed | Each player has exactly 1 Defuse card | :y: |
 | G17 | Game setup is completed | Each player receives the correct number of starting cards | :y: |
-| G18 | Game setup is completed | Deck is shuffled after Exploding Kittens are inserted | :x: |
+| G18 | Game setup is completed | Deck is shuffled after Exploding Kittens are inserted | :y: |
 | G19 | `setupGame()` is called twice | Throws `IllegalStateException` or prevents duplicate setup | :x: |
 
 ### Method: `getCurrentPlayer()`
