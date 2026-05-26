@@ -69,8 +69,8 @@
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
 | G40 | Game has not started | Returns `false` | :y: |
-| G41 | Game has 5 active players | Returns `false` | :x: |
-| G42 | Game has 3 active players | Returns `false` | :x: |
+| G41 | Game has 5 active players | Returns `false` | :y: |
+| G42 | Game has 3 active players | Returns `false` | :y: |
 | G43 | Game has 2 active players | Returns `false` | :x: |
 | G44 | Game has exactly 1 active player | Returns `true` | :x: |
 | G45 | Game has 0 active players | Returns `true` or throws error for invalid state | :x: |
