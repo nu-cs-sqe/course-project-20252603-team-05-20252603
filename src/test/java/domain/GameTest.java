@@ -60,4 +60,17 @@ public class GameTest {
             new Game(List.of(player1, player2), deck);
         });
     }
+
+    // G6
+    @Test
+    public void constructorCreatesGameWhenPlayersListHasThreePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+
+        assertDoesNotThrow(() -> {
+            new Game(List.of(player1, player2, player3), deck);
+        });
+    }
 }
