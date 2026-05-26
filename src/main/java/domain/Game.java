@@ -153,4 +153,8 @@ public class Game {
 
         return getActivePlayerCount() <= 1;
     }
+
+    public Player getWinner() {
+        return null;
+    }
 }
