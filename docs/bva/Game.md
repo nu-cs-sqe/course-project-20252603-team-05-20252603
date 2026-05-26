@@ -89,7 +89,7 @@
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
 | G50 | Game has 2 players | Returns list of 2 players | :y: |
-| G51 | Game has 5 players | Returns list of 5 players | :x: |
+| G51 | Game has 5 players | Returns list of 5 players | :y: |
 | G52 | External code tries to modify returned players list | Game's internal player list is not modified | :x: |
 
 ### Method: `getDeck()`
