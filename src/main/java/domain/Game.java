@@ -145,4 +145,8 @@ public class Game {
         currentPlayer.addCard(drawnCard);
         endTurn();
     }
+
+    public boolean isGameOver() {
+        return false;
+    }
 }
