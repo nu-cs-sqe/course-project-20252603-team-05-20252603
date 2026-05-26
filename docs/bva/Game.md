@@ -5,7 +5,7 @@
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
 | G1 | Players list is `null` | Throws `IllegalArgumentException` | :y: |
-| G2 | Deck is `null` | Throws `IllegalArgumentException` | :x: |
+| G2 | Deck is `null` | Throws `IllegalArgumentException` | :y: |
 | G3 | Players list has 0 players | Throws `IllegalArgumentException` | :x: |
 | G4 | Players list has 1 player | Throws `IllegalArgumentException` | :x: |
 | G5 | Players list has minimum valid count: 2 players | Game is created successfully | :x: |

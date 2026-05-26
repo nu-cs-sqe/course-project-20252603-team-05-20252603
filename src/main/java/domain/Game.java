@@ -7,5 +7,9 @@ public class Game {
         if (players == null) {
             throw new IllegalArgumentException("Players list cannot be null");
         }
+
+        if (deck == null) {
+            throw new IllegalArgumentException("Deck cannot be null");
+        }
     }
 }
