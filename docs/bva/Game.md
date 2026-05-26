@@ -60,8 +60,8 @@
 | G34 | Current player draws a normal card | Turn ends after drawing | :y: |
 | G35 | Current player draws an Exploding Kitten and has a Defuse | Defuse is used and player remains active | :y: |
 | G36 | Current player draws an Exploding Kitten and has no Defuse | Player is eliminated | :y: |
-| G37 | Current player explodes while 3 or more players are alive | Game continues | :x: |
-| G38 | Current player explodes while exactly 2 players are alive | Game ends | :x: |
+| G37 | Current player explodes while 3 or more players are alive | Game continues | :y: |
+| G38 | Current player explodes while exactly 2 players are alive | Game ends | :y: |
 | G39 | Game is already over | Throws `IllegalStateException` | :x: |
 
 ### Method: `isGameOver()`

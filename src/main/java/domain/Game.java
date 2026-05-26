@@ -126,11 +126,15 @@ public class Game {
         if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
             if (currentPlayer.hasCard(CardType.DEFUSE)) {
                 currentPlayer.removeCard(CardType.DEFUSE);
+                endTurn();
             } else {
                 currentPlayer.eliminate();
+
+                if (getActivePlayerCount() > 1) {
+                    endTurn();
+                }
             }
 
-            endTurn();
             return;
         }
 
