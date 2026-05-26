@@ -157,4 +157,18 @@ public class GameTest {
 
         assertEquals(1, deck.amtCardType(CardType.EXPLODING_KITTEN));
     }
+
+    // G13
+    @Test
+    public void setupGameAddsTwoExplodingKittensForThreePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+
+        assertEquals(2, deck.amtCardType(CardType.EXPLODING_KITTEN));
+    }
 }

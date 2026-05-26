@@ -5,7 +5,7 @@ import java.util.List;
 public class Game {
     private final List<Player> players;
     private final Deck deck;
-    
+
     public Game(List<Player> players, Deck deck) {
         if (players == null) {
             throw new IllegalArgumentException("Players list cannot be null");
@@ -34,6 +34,8 @@ public class Game {
     }
 
     public void setupGame() {
-        deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        for (int i = 0; i < players.size() - 1; i++) {
+            deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        }
     }
 }
