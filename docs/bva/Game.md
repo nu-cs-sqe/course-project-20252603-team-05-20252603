@@ -4,7 +4,7 @@
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G1 | Players list is `null` | Throws `IllegalArgumentException` | :x: |
+| G1 | Players list is `null` | Throws `IllegalArgumentException` | :y: |
 | G2 | Deck is `null` | Throws `IllegalArgumentException` | :x: |
 | G3 | Players list has 0 players | Throws `IllegalArgumentException` | :x: |
 | G4 | Players list has 1 player | Throws `IllegalArgumentException` | :x: |
