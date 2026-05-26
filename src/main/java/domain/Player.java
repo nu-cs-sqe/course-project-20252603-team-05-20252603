@@ -7,13 +7,16 @@ import java.util.List;
 public class Player {
     private final String name;
     private final List<Card> hand;
+    private boolean active;
 
     public Player(String name) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Player name cannot be null or empty");
         }
+
         this.name = name;
         this.hand = new ArrayList<>();
+        this.active = true;
     }
 
     public String getName() {
@@ -29,5 +32,13 @@ public class Player {
             throw new IllegalArgumentException("Card cannot be null");
         }
         hand.add(card);
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void eliminate() {
+        active = false;
     }
 }
