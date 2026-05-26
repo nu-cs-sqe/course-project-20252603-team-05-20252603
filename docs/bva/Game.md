@@ -21,7 +21,7 @@
 |---|---|---|--------------|
 | G11 | Game has valid players and valid deck | Game setup completes successfully | :y: |
 | G12 | Game has 2 players | Adds 1 Exploding Kitten to the deck | :y: |
-| G13 | Game has 3 players | Adds 2 Exploding Kittens to the deck | :x: |
+| G13 | Game has 3 players | Adds 2 Exploding Kittens to the deck | :y: |
 | G14 | Game has 4 players | Adds 3 Exploding Kittens to the deck | :x: |
 | G15 | Game has 5 players | Adds 4 Exploding Kittens to the deck | :x: |
 | G16 | Game setup is completed | Each player has exactly 1 Defuse card | :x: |
