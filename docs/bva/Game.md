@@ -97,4 +97,4 @@
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
 | G53 | Game has a valid deck | Returns the game deck | :y: |
-| G54 | Game setup has completed | Returns deck with updated card count after dealing and inserting Exploding Kittens | :x: |
+| G54 | Game setup has completed | Returns deck with updated card count after dealing and inserting Exploding Kittens | :y: |
