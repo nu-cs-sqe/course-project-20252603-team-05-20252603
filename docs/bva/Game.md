@@ -80,7 +80,7 @@
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
 | G46 | Game has not started | Returns `null` or throws `IllegalStateException` | :y: |
-| G47 | Game has more than 1 active player | Returns `null` | :x: |
+| G47 | Game has more than 1 active player | Returns `null` | :y: |
 | G48 | Game has exactly 1 active player | Returns the remaining active player | :x: |
 | G49 | Game has 0 active players | Returns `null` or throws error for invalid state | :x: |
 

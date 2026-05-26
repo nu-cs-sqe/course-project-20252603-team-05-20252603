@@ -22,4 +22,18 @@ public class GameGetWinnerTest {
 
         assertNull(game.getWinner());
     }
+
+    // G47
+    @Test
+    public void getWinnerReturnsNullWhenGameHasMoreThanOneActivePlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+
+        assertNull(game.getWinner());
+    }
 }
