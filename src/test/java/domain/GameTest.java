@@ -447,4 +447,20 @@ public class GameTest {
 
         assertEquals(player3, game.getCurrentPlayer());
     }
+
+    // G30
+    @Test
+    public void endTurnThrowsExceptionWhenGameIsAlreadyOver() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.eliminate();
+
+        assertThrows(IllegalStateException.class, () -> {
+            game.endTurn();
+        });
+    }
 }
