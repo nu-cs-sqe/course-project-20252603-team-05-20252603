@@ -69,6 +69,19 @@ public class Game {
             throw new IllegalStateException("Game setup has not been completed");
         }
 
-        return players.get(currentPlayerIndex);
+        int playersChecked = 0;
+
+        while (playersChecked < players.size()) {
+            Player currentPlayer = players.get(currentPlayerIndex);
+
+            if (currentPlayer.isActive()) {
+                return currentPlayer;
+            }
+
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+            playersChecked++;
+        }
+
+        return null;
     }
 }
