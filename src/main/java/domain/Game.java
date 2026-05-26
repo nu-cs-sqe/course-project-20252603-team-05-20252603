@@ -122,5 +122,6 @@ public class Game {
 
         Card drawnCard = deck.draw();
         getCurrentPlayer().addCard(drawnCard);
+        endTurn();
     }
 }
