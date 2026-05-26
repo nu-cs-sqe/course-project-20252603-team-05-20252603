@@ -46,7 +46,7 @@
 | G25 | Game has not started | Throws `IllegalStateException` | :y: |
 | G26 | Game has 2 active players | Current player changes to the other player | :y: |
 | G27 | Game has 4 active players and current player is not last | Current player advances to the next player | :y: |
-| G28 | Current player is the last player in the list | Turn order wraps around to the first active player | :x: |
+| G28 | Current player is the last player in the list | Turn order wraps around to the first active player | :y: |
 | G29 | Next player in turn order is eliminated | Turn skips eliminated player and advances to the next active player | :x: |
 | G30 | Game is already over | Throws `IllegalStateException` | :x: |
 
