@@ -67,6 +67,12 @@ public class GameDrawCardTest {
 
         game.setupGame();
 
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SHUFFLE));
+
         int handSizeBeforeDraw = player1.getHand().size();
 
         game.drawCard();
@@ -83,6 +89,12 @@ public class GameDrawCardTest {
         Game game = new Game(List.of(player1, player2), deck);
 
         game.setupGame();
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SHUFFLE));
 
         assertEquals(player1, game.getCurrentPlayer());
 
