@@ -3,6 +3,9 @@ package domain;
 import java.util.List;
 
 public class Game {
+    private final List<Player> players;
+    private final Deck deck;
+    
     public Game(List<Player> players, Deck deck) {
         if (players == null) {
             throw new IllegalArgumentException("Players list cannot be null");
@@ -25,9 +28,12 @@ public class Game {
                 throw new IllegalArgumentException("Players list cannot contain null players");
             }
         }
+
+        this.players = players;
+        this.deck = deck;
     }
 
     public void setupGame() {
-        
+        deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
     }
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import java.util.Arrays;
 
@@ -142,5 +143,18 @@ public class GameTest {
         assertDoesNotThrow(() -> {
             game.setupGame();
         });
+    }
+
+    // G12
+    @Test
+    public void setupGameAddsOneExplodingKittenForTwoPlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+
+        assertEquals(1, deck.amtCardType(CardType.EXPLODING_KITTEN));
     }
 }
