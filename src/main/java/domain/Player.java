@@ -63,4 +63,20 @@ public class Player {
 
         return false;
     }
+
+    public int countCardsOfType(CardType type) {
+        if (type == null) {
+            throw new IllegalArgumentException("Card type cannot be null");
+        }
+
+        int count = 0;
+
+        for (Card card : hand) {
+            if (card.getType() == type) {
+                count++;
+            }
+        }
+
+        return count;
+    }
 }
