@@ -3,6 +3,8 @@ package domain;
 import java.util.List;
 
 public class Game {
+    private static final int STARTING_RANDOM_CARDS = 5;
+    
     private final List<Player> players;
     private final Deck deck;
 
@@ -36,6 +38,12 @@ public class Game {
     public void setupGame() {
         for (Player player : players) {
             player.addCard(new Card(CardType.DEFUSE));
+        }
+
+        for (int i = 0; i < STARTING_RANDOM_CARDS; i++) {
+            for (Player player : players) {
+                player.addCard(deck.draw());
+            }
         }
 
         for (int i = 0; i < players.size() - 1; i++) {
