@@ -13,13 +13,13 @@
 | G7 | Players list has normal valid count: 4 players | Game is created successfully | :y: |
 | G8 | Players list has maximum valid count: 5 players | Game is created successfully | :y: |
 | G9 | Players list has 6 players | Throws `IllegalArgumentException` | :y: |
-| G10 | Players list contains a `null` player | Throws `IllegalArgumentException` | :x: |
+| G10 | Players list contains a `null` player | Throws `IllegalArgumentException` | :y: |
 
 ### Method: `setupGame()`
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G11 | Game has valid players and valid deck | Game setup completes successfully | :x: |
+| G11 | Game has valid players and valid deck | Game setup completes successfully | :y: |
 | G12 | Game has 2 players | Adds 1 Exploding Kitten to the deck | :x: |
 | G13 | Game has 3 players | Adds 2 Exploding Kittens to the deck | :x: |
 | G14 | Game has 4 players | Adds 3 Exploding Kittens to the deck | :x: |

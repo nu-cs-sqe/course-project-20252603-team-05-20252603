@@ -26,4 +26,8 @@ public class Game {
             }
         }
     }
+
+    public void setupGame() {
+        
+    }
 }
