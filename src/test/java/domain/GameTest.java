@@ -33,4 +33,14 @@ public class GameTest {
             new Game(List.of(), deck);
         });
     }
+
+    @Test
+    public void constructorThrowsExceptionWhenPlayersListHasOnePlayer() {
+        Player player1 = new Player("Player 1");
+        Deck deck = new Deck(new Random());
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Game(List.of(player1), deck);
+        });
+    }
 }

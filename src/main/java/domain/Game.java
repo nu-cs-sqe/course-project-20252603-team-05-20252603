@@ -12,8 +12,8 @@ public class Game {
             throw new IllegalArgumentException("Deck cannot be null");
         }
 
-        if (players.isEmpty()) {
-            throw new IllegalArgumentException("Players list cannot be empty");
+        if (players.size() < 2) {
+            throw new IllegalArgumentException("Game must have at least 2 players");
         }
     }
 }
