@@ -288,4 +288,17 @@ public class GameTest {
             game.getCurrentPlayer();
         });
     }
+
+    // G21
+    @Test
+    public void getCurrentPlayerReturnsFirstPlayerAfterSetupWithTwoPlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
 }

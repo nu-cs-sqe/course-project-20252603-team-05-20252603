@@ -10,6 +10,8 @@ public class Game {
 
     private boolean setupComplete;
 
+    private int currentPlayerIndex;
+
     public Game(List<Player> players, Deck deck) {
         if (players == null) {
             throw new IllegalArgumentException("Players list cannot be null");
@@ -36,6 +38,7 @@ public class Game {
         this.players = players;
         this.deck = deck;
         this.setupComplete = false;
+        this.currentPlayerIndex = 0;
     }
 
     public void setupGame() {
@@ -66,6 +69,6 @@ public class Game {
             throw new IllegalStateException("Game setup has not been completed");
         }
 
-        return null;
+        return players.get(currentPlayerIndex);
     }
 }

@@ -34,7 +34,7 @@
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
 | G20 | Game has not started or setup has not completed | Returns `null` or throws `IllegalStateException` | :y: |
-| G21 | Game has started with 2 players | Returns one of the active players | :x: |
+| G21 | Game has started with 2 players | Returns one of the active players | :y: |
 | G22 | Game has started with 4 players | Returns the player whose turn it currently is | :x: |
 | G23 | Current player has been eliminated | Returns the next active player | :x: |
 | G24 | Game is over | Returns `null` or throws `IllegalStateException` | :x: |
