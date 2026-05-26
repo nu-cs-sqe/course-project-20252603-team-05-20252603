@@ -120,6 +120,10 @@ public class Game {
             throw new IllegalStateException("Game setup has not been completed");
         }
 
+        if (getActivePlayerCount() <= 1) {
+            throw new IllegalStateException("Game is over");
+        }
+
         Player currentPlayer = getCurrentPlayer();
         Card drawnCard = deck.draw();
 

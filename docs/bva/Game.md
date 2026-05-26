@@ -62,7 +62,7 @@
 | G36 | Current player draws an Exploding Kitten and has no Defuse | Player is eliminated | :y: |
 | G37 | Current player explodes while 3 or more players are alive | Game continues | :y: |
 | G38 | Current player explodes while exactly 2 players are alive | Game ends | :y: |
-| G39 | Game is already over | Throws `IllegalStateException` | :x: |
+| G39 | Game is already over | Throws `IllegalStateException` | :y: |
 
 ### Method: `isGameOver()`
 
