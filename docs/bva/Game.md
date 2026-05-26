@@ -6,9 +6,9 @@
 |---|---|---|--------------|
 | G1 | Players list is `null` | Throws `IllegalArgumentException` | :y: |
 | G2 | Deck is `null` | Throws `IllegalArgumentException` | :y: |
-| G3 | Players list has 0 players | Throws `IllegalArgumentException` | :x: |
-| G4 | Players list has 1 player | Throws `IllegalArgumentException` | :x: |
-| G5 | Players list has minimum valid count: 2 players | Game is created successfully | :x: |
+| G3 | Players list has 0 players | Throws `IllegalArgumentException` | :y: |
+| G4 | Players list has 1 player | Throws `IllegalArgumentException` | :y: |
+| G5 | Players list has minimum valid count: 2 players | Game is created successfully | :y: |
 | G6 | Players list has normal valid count: 3 players | Game is created successfully | :x: |
 | G7 | Players list has normal valid count: 4 players | Game is created successfully | :x: |
 | G8 | Players list has maximum valid count: 5 players | Game is created successfully | :x: |

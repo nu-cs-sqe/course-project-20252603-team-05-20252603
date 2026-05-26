@@ -3,9 +3,11 @@ package domain;
 import org.junit.jupiter.api.Test;
 import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.util.List;
 
 public class GameTest {
+    // G1
     @Test
     public void constructorThrowsExceptionWhenPlayersListIsNull() {
         Deck deck = new Deck(new Random());
@@ -15,6 +17,7 @@ public class GameTest {
         });
     }
 
+    // G2
     @Test
     public void constructorThrowsExceptionWhenDeckIsNull() {
         Player player1 = new Player("Player 1");
@@ -25,6 +28,7 @@ public class GameTest {
         });
     }
 
+    // G3
     @Test
     public void constructorThrowsExceptionWhenPlayersListIsEmpty() {
         Deck deck = new Deck(new Random());
@@ -34,6 +38,7 @@ public class GameTest {
         });
     }
 
+    // G4
     @Test
     public void constructorThrowsExceptionWhenPlayersListHasOnePlayer() {
         Player player1 = new Player("Player 1");
@@ -41,6 +46,18 @@ public class GameTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Game(List.of(player1), deck);
+        });
+    }
+
+    // G5
+    @Test
+    public void constructorCreatesGameWhenPlayersListHasTwoPlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+
+        assertDoesNotThrow(() -> {
+            new Game(List.of(player1, player2), deck);
         });
     }
 }
