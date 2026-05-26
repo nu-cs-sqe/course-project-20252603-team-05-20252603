@@ -5,6 +5,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.util.List;
+import java.util.Arrays;
 
 public class GameTest {
     // G1
@@ -116,6 +117,17 @@ public class GameTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Game(List.of(player1, player2, player3, player4, player5, player6), deck);
+        });
+    }
+
+    // G10
+    @Test
+    public void constructorThrowsExceptionWhenPlayersListContainsNullPlayer() {
+        Player player1 = new Player("Player 1");
+        Deck deck = new Deck(new Random());
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Game(Arrays.asList(player1, null), deck);
         });
     }
 }

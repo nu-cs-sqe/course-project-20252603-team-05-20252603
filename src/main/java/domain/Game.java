@@ -19,5 +19,11 @@ public class Game {
         if (players.size() > 5) {
             throw new IllegalArgumentException("Game cannot have more than 5 players");
         }
+
+        for (Player player : players) {
+            if (player == null) {
+                throw new IllegalArgumentException("Players list cannot contain null players");
+            }
+        }
     }
 }
