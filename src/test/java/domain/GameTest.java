@@ -360,4 +360,21 @@ public class GameTest {
             game.endTurn();
         });
     }
+
+    // G26
+    @Test
+    public void endTurnChangesCurrentPlayerWhenGameHasTwoActivePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+
+        assertEquals(player1, game.getCurrentPlayer());
+
+        game.endTurn();
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
 }

@@ -105,5 +105,7 @@ public class Game {
         if (!setupComplete) {
             throw new IllegalStateException("Game setup has not been completed");
         }
+
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
 }
