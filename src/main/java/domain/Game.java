@@ -100,4 +100,10 @@ public class Game {
 
         return count;
     }
+
+    public void endTurn() {
+        if (!setupComplete) {
+            throw new IllegalStateException("Game setup has not been completed");
+        }
+    }
 }
