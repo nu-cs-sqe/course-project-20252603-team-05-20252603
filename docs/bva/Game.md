@@ -58,43 +58,43 @@
 | G32 | Deck is empty | Throws `IllegalStateException` | :y: |
 | G33 | Current player draws a normal card | Card is added to current player's hand | :y: |
 | G34 | Current player draws a normal card | Turn ends after drawing | :y: |
-| G35 | Current player draws an Exploding Kitten and has a Defuse | Defuse is used and player remains active | :x: |
-| G36 | Current player draws an Exploding Kitten and has no Defuse | Player is eliminated | :x: |
-| G37 | Current player explodes while 3 or more players are alive | Game continues | :x: |
-| G38 | Current player explodes while exactly 2 players are alive | Game ends | :x: |
-| G39 | Game is already over | Throws `IllegalStateException` | :x: |
+| G35 | Current player draws an Exploding Kitten and has a Defuse | Defuse is used and player remains active | :y: |
+| G36 | Current player draws an Exploding Kitten and has no Defuse | Player is eliminated | :y: |
+| G37 | Current player explodes while 3 or more players are alive | Game continues | :y: |
+| G38 | Current player explodes while exactly 2 players are alive | Game ends | :y: |
+| G39 | Game is already over | Throws `IllegalStateException` | :y: |
 
 ### Method: `isGameOver()`
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G40 | Game has not started | Returns `false` | :x: |
-| G41 | Game has 5 active players | Returns `false` | :x: |
-| G42 | Game has 3 active players | Returns `false` | :x: |
-| G43 | Game has 2 active players | Returns `false` | :x: |
-| G44 | Game has exactly 1 active player | Returns `true` | :x: |
-| G45 | Game has 0 active players | Returns `true` or throws error for invalid state | :x: |
+| G40 | Game has not started | Returns `false` | :y: |
+| G41 | Game has 5 active players | Returns `false` | :y: |
+| G42 | Game has 3 active players | Returns `false` | :y: |
+| G43 | Game has 2 active players | Returns `false` | :y: |
+| G44 | Game has exactly 1 active player | Returns `true` | :y: |
+| G45 | Game has 0 active players | Returns `true` or throws error for invalid state | :y: |
 
 ### Method: `getWinner()`
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G46 | Game has not started | Returns `null` or throws `IllegalStateException` | :x: |
-| G47 | Game has more than 1 active player | Returns `null` | :x: |
-| G48 | Game has exactly 1 active player | Returns the remaining active player | :x: |
-| G49 | Game has 0 active players | Returns `null` or throws error for invalid state | :x: |
+| G46 | Game has not started | Returns `null` or throws `IllegalStateException` | :y: |
+| G47 | Game has more than 1 active player | Returns `null` | :y: |
+| G48 | Game has exactly 1 active player | Returns the remaining active player | :y: |
+| G49 | Game has 0 active players | Returns `null` or throws error for invalid state | :y: |
 
 ### Method: `getPlayers()`
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G50 | Game has 2 players | Returns list of 2 players | :x: |
-| G51 | Game has 5 players | Returns list of 5 players | :x: |
-| G52 | External code tries to modify returned players list | Game's internal player list is not modified | :x: |
+| G50 | Game has 2 players | Returns list of 2 players | :y: |
+| G51 | Game has 5 players | Returns list of 5 players | :y: |
+| G52 | External code tries to modify returned players list | Game's internal player list is not modified | :y: |
 
 ### Method: `getDeck()`
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G53 | Game has a valid deck | Returns the game deck | :x: |
-| G54 | Game setup has completed | Returns deck with updated card count after dealing and inserting Exploding Kittens | :x: |
+| G53 | Game has a valid deck | Returns the game deck | :y: |
+| G54 | Game setup has completed | Returns deck with updated card count after dealing and inserting Exploding Kittens | :y: |

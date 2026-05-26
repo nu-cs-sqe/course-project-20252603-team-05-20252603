@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.List;
+import java.util.Collections;
 
 public class Game {
     private static final int STARTING_RANDOM_CARDS = 5;
@@ -120,8 +121,63 @@ public class Game {
             throw new IllegalStateException("Game setup has not been completed");
         }
 
+        if (getActivePlayerCount() <= 1) {
+            throw new IllegalStateException("Game is over");
+        }
+
+        Player currentPlayer = getCurrentPlayer();
         Card drawnCard = deck.draw();
-        getCurrentPlayer().addCard(drawnCard);
+
+        if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
+            if (currentPlayer.hasCard(CardType.DEFUSE)) {
+                currentPlayer.removeCard(CardType.DEFUSE);
+                endTurn();
+            } else {
+                currentPlayer.eliminate();
+
+                if (getActivePlayerCount() > 1) {
+                    endTurn();
+                }
+            }
+
+            return;
+        }
+
+        currentPlayer.addCard(drawnCard);
         endTurn();
+    }
+
+    public boolean isGameOver() {
+        if (!setupComplete) {
+            return false;
+        }
+
+        return getActivePlayerCount() <= 1;
+    }
+
+    public Player getWinner() {
+        if (!setupComplete) {
+            return null;
+        }
+
+        if (getActivePlayerCount() != 1) {
+            return null;
+        }
+
+        for (Player player : players) {
+            if (player.isActive()) {
+                return player;
+            }
+        }
+
+        return null;
+    }
+
+    public List<Player> getPlayers() {
+        return Collections.unmodifiableList(players);
+    }
+
+    public Deck getDeck() {
+        return deck;
     }
 }

@@ -41,4 +41,26 @@ public class Player {
     public void eliminate() {
         active = false;
     }
+
+    public Card removeCard(CardType type) {
+        for (int i = 0; i < hand.size(); i++) {
+            Card card = hand.get(i);
+
+            if (card.getType() == type) {
+                return hand.remove(i);
+            }
+        }
+
+        throw new IllegalStateException("Player does not have card of type " + type);
+    }
+
+    public boolean hasCard(CardType type) {
+        for (Card card : hand) {
+            if (card.getType() == type) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
