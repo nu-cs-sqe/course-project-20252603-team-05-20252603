@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.util.List;
 import java.util.Arrays;
 
@@ -553,5 +554,29 @@ public class GameTest {
 
         assertTrue(player1.isActive());
         assertEquals(0, countCardsOfType(player1, CardType.DEFUSE));
+    }
+
+    // G36
+    @Test
+    public void drawCardEliminatesPlayerWhenCurrentPlayerDrawsExplodingKittenAndHasNoDefuse() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+
+        player1.removeCard(CardType.DEFUSE);
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertFalse(player1.isActive());
     }
 }

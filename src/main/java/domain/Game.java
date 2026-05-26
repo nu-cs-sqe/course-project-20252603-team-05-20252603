@@ -124,7 +124,12 @@ public class Game {
         Card drawnCard = deck.draw();
 
         if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
-            currentPlayer.removeCard(CardType.DEFUSE);
+            if (currentPlayer.hasCard(CardType.DEFUSE)) {
+                currentPlayer.removeCard(CardType.DEFUSE);
+            } else {
+                currentPlayer.eliminate();
+            }
+
             endTurn();
             return;
         }
