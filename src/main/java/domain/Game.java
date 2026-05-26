@@ -114,4 +114,10 @@ public class Game {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         } while (!players.get(currentPlayerIndex).isActive());
     }
+
+    public void drawCard() {
+        if (!setupComplete) {
+            throw new IllegalStateException("Game setup has not been completed");
+        }
+    }
 }
