@@ -73,4 +73,18 @@ public class GameTest {
             new Game(List.of(player1, player2, player3), deck);
         });
     }
+
+    // G7
+    @Test
+    public void constructorCreatesGameWhenPlayersListHasFourPlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Player player4 = new Player("Player 4");
+        Deck deck = new Deck(new Random());
+
+        assertDoesNotThrow(() -> {
+            new Game(List.of(player1, player2, player3, player4), deck);
+        });
+    }
 }
