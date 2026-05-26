@@ -69,6 +69,10 @@ public class Game {
             throw new IllegalStateException("Game setup has not been completed");
         }
 
+        if (getActivePlayerCount() <= 1) {
+            throw new IllegalStateException("Game is over");
+        }
+
         int playersChecked = 0;
 
         while (playersChecked < players.size()) {
@@ -82,6 +86,18 @@ public class Game {
             playersChecked++;
         }
 
-        return null;
+        throw new IllegalStateException("No active players available");
+    }
+
+    private int getActivePlayerCount() {
+        int count = 0;
+
+        for (Player player : players) {
+            if (player.isActive()) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
