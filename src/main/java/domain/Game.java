@@ -15,5 +15,9 @@ public class Game {
         if (players.size() < 2) {
             throw new IllegalArgumentException("Game must have at least 2 players");
         }
+
+        if (players.size() > 5) {
+            throw new IllegalArgumentException("Game cannot have more than 5 players");
+        }
     }
 }
