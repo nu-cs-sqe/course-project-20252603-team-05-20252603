@@ -8,6 +8,8 @@ public class Game {
     private final List<Player> players;
     private final Deck deck;
 
+    private boolean setupComplete;
+
     public Game(List<Player> players, Deck deck) {
         if (players == null) {
             throw new IllegalArgumentException("Players list cannot be null");
@@ -33,9 +35,14 @@ public class Game {
 
         this.players = players;
         this.deck = deck;
+        this.setupComplete = false;
     }
 
     public void setupGame() {
+        if (setupComplete) {
+            throw new IllegalStateException("Game setup has already been completed");
+        }
+
         for (Player player : players) {
             player.addCard(new Card(CardType.DEFUSE));
         }
@@ -51,5 +58,6 @@ public class Game {
         }
 
         deck.shuffle();
+        setupComplete = true;
     }
 }
