@@ -12,19 +12,6 @@ import java.util.List;
 import java.util.Arrays;
 
 public class GameSetupTest {
-    // helper function:
-    private int countCardsOfType(Player player, CardType type) {
-        int count = 0;
-
-        for (Card card : player.getHand()) {
-            if (card.getType() == type) {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
     // G11
     @Test
     public void setupGameCompletesSuccessfullyWithValidPlayersAndDeck() {
@@ -107,9 +94,9 @@ public class GameSetupTest {
 
         game.setupGame();
 
-        assertEquals(1, countCardsOfType(player1, CardType.DEFUSE));
-        assertEquals(1, countCardsOfType(player2, CardType.DEFUSE));
-        assertEquals(1, countCardsOfType(player3, CardType.DEFUSE));
+        assertEquals(1, player1.countCardsOfType(CardType.DEFUSE));
+        assertEquals(1, player2.countCardsOfType(CardType.DEFUSE));
+        assertEquals(1, player3.countCardsOfType(CardType.DEFUSE));
     }
 
     // G17

@@ -12,19 +12,6 @@ import java.util.List;
 import java.util.Arrays;
 
 public class GameDrawCardTest {
-    // helper function:
-    private int countCardsOfType(Player player, CardType type) {
-        int count = 0;
-
-        for (Card card : player.getHand()) {
-            if (card.getType() == type) {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
     // G31
     @Test
     public void drawCardThrowsExceptionWhenGameHasNotStarted() {
@@ -119,12 +106,12 @@ public class GameDrawCardTest {
 
         deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
 
-        assertEquals(1, countCardsOfType(player1, CardType.DEFUSE));
+        assertEquals(1, player1.countCardsOfType(CardType.DEFUSE));
 
         game.drawCard();
 
         assertTrue(player1.isActive());
-        assertEquals(0, countCardsOfType(player1, CardType.DEFUSE));
+        assertEquals(0, player1.countCardsOfType(CardType.DEFUSE));
     }
 
     // G36
