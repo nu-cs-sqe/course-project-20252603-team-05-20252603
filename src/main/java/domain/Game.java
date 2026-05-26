@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.List;
+import java.util.Collections;
 
 public class Game {
     private static final int STARTING_RANDOM_CARDS = 5;
@@ -173,6 +174,6 @@ public class Game {
     }
 
     public List<Player> getPlayers() {
-        return players;
+        return Collections.unmodifiableList(players);
     }
 }
