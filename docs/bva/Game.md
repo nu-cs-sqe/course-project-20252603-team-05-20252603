@@ -90,11 +90,11 @@
 |---|---|---|--------------|
 | G50 | Game has 2 players | Returns list of 2 players | :y: |
 | G51 | Game has 5 players | Returns list of 5 players | :y: |
-| G52 | External code tries to modify returned players list | Game's internal player list is not modified | :x: |
+| G52 | External code tries to modify returned players list | Game's internal player list is not modified | :y: |
 
 ### Method: `getDeck()`
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G53 | Game has a valid deck | Returns the game deck | :x: |
+| G53 | Game has a valid deck | Returns the game deck | :y: |
 | G54 | Game setup has completed | Returns deck with updated card count after dealing and inserting Exploding Kittens | :x: |
