@@ -106,6 +106,12 @@ public class Game {
             throw new IllegalStateException("Game setup has not been completed");
         }
 
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        if (getActivePlayerCount() <= 1) {
+            throw new IllegalStateException("Game is over");
+        }
+
+        do {
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        } while (!players.get(currentPlayerIndex).isActive());
     }
 }

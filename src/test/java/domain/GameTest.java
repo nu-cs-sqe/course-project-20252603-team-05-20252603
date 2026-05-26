@@ -427,4 +427,24 @@ public class GameTest {
         game.endTurn();
         assertEquals(player1, game.getCurrentPlayer());
     }
+
+    // G29
+    @Test
+    public void endTurnSkipsEliminatedPlayerAndAdvancesToNextActivePlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+
+        player2.eliminate();
+
+        assertEquals(player1, game.getCurrentPlayer());
+
+        game.endTurn();
+
+        assertEquals(player3, game.getCurrentPlayer());
+    }
 }
