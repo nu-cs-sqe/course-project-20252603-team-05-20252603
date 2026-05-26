@@ -82,13 +82,13 @@
 | G46 | Game has not started | Returns `null` or throws `IllegalStateException` | :y: |
 | G47 | Game has more than 1 active player | Returns `null` | :y: |
 | G48 | Game has exactly 1 active player | Returns the remaining active player | :y: |
-| G49 | Game has 0 active players | Returns `null` or throws error for invalid state | :x: |
+| G49 | Game has 0 active players | Returns `null` or throws error for invalid state | :y: |
 
 ### Method: `getPlayers()`
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G50 | Game has 2 players | Returns list of 2 players | :x: |
+| G50 | Game has 2 players | Returns list of 2 players | :y: |
 | G51 | Game has 5 players | Returns list of 5 players | :x: |
 | G52 | External code tries to modify returned players list | Game's internal player list is not modified | :x: |
 
