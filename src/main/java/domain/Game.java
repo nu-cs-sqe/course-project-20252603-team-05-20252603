@@ -120,6 +120,7 @@ public class Game {
             throw new IllegalStateException("Game setup has not been completed");
         }
 
-        deck.draw();
+        Card drawnCard = deck.draw();
+        getCurrentPlayer().addCard(drawnCard);
     }
 }
