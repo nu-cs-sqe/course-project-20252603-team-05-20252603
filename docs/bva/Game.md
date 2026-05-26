@@ -58,7 +58,7 @@
 | G32 | Deck is empty | Throws `IllegalStateException` | :y: |
 | G33 | Current player draws a normal card | Card is added to current player's hand | :y: |
 | G34 | Current player draws a normal card | Turn ends after drawing | :y: |
-| G35 | Current player draws an Exploding Kitten and has a Defuse | Defuse is used and player remains active | :x: |
+| G35 | Current player draws an Exploding Kitten and has a Defuse | Defuse is used and player remains active | :y: |
 | G36 | Current player draws an Exploding Kitten and has no Defuse | Player is eliminated | :x: |
 | G37 | Current player explodes while 3 or more players are alive | Game continues | :x: |
 | G38 | Current player explodes while exactly 2 players are alive | Game ends | :x: |

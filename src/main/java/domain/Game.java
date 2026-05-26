@@ -120,8 +120,16 @@ public class Game {
             throw new IllegalStateException("Game setup has not been completed");
         }
 
+        Player currentPlayer = getCurrentPlayer();
         Card drawnCard = deck.draw();
-        getCurrentPlayer().addCard(drawnCard);
+
+        if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
+            currentPlayer.removeCard(CardType.DEFUSE);
+            endTurn();
+            return;
+        }
+
+        currentPlayer.addCard(drawnCard);
         endTurn();
     }
 }
