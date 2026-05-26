@@ -9,6 +9,19 @@ import java.util.List;
 import java.util.Arrays;
 
 public class GameTest {
+    // helper functions:
+    private int countCardsOfType(Player player, CardType type) {
+        int count = 0;
+
+        for (Card card : player.getHand()) {
+            if (card.getType() == type) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+    
     // G1
     @Test
     public void constructorThrowsExceptionWhenPlayersListIsNull() {
@@ -201,5 +214,21 @@ public class GameTest {
         game.setupGame();
 
         assertEquals(4, deck.amtCardType(CardType.EXPLODING_KITTEN));
+    }
+
+    // G16
+    @Test
+    public void setupGameGivesEachPlayerOneDefuseCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+
+        assertEquals(1, countCardsOfType(player1, CardType.DEFUSE));
+        assertEquals(1, countCardsOfType(player2, CardType.DEFUSE));
+        assertEquals(1, countCardsOfType(player3, CardType.DEFUSE));
     }
 }

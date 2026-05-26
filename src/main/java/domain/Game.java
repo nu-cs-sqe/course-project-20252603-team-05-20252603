@@ -34,6 +34,10 @@ public class Game {
     }
 
     public void setupGame() {
+        for (Player player : players) {
+            player.addCard(new Card(CardType.DEFUSE));
+        }
+
         for (int i = 0; i < players.size() - 1; i++) {
             deck.insertBottom(new Card(CardType.EXPLODING_KITTEN));
         }
