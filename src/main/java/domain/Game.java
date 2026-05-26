@@ -155,6 +155,20 @@ public class Game {
     }
 
     public Player getWinner() {
+        if (!setupComplete) {
+            return null;
+        }
+
+        if (getActivePlayerCount() != 1) {
+            return null;
+        }
+
+        for (Player player : players) {
+            if (player.isActive()) {
+                return player;
+            }
+        }
+
         return null;
     }
 }
