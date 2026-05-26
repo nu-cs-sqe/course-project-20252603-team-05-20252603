@@ -11,5 +11,9 @@ public class Game {
         if (deck == null) {
             throw new IllegalArgumentException("Deck cannot be null");
         }
+
+        if (players.isEmpty()) {
+            throw new IllegalArgumentException("Players list cannot be empty");
+        }
     }
 }
