@@ -9,6 +9,23 @@ The following chapters of the textbook are considered: Chapter 1, 2, 3, 4, 5, 6,
 Please note that this feedback does not include evaluation of your progress, the proper use of linters, the quality of your test cases, or your compliance of TDD/BDD workflow.  
 You can find the weekly feedback from your dedicated PM/TA for that.
 
+## Week 7-8 Code Review
+This review is for the code your team developed in Week 7 and 8.
+I apologize for this delayed code review (should have been given last Friday but I got really sick...).
+As compensation, I will add one extra code review in Week 10 (around Thursday).
+
+I've reviewed the code in the `main` branch, and the main comment I have is your methods can be broken into multiple ones so that
+"each function only does one thing". One example is the `Game` class. Each `for` looop in the `setupGame` method should be encapsulated 
+into its own private method with a descriptive name, like a method named `private void dealInitDefuse()` for the following for loop:
+```        
+for (Player player : players) {
+  player.addCard(new Card(CardType.DEFUSE));
+}
+```
+None of the tests would need to change --- just a refactoring of the production code!
+
+Look forward to reviewing more of your code next week!
+
 ## Week 6 Code Review
 There is no code in the main branch yet so there's nothing for me to review :(.
 Look forward to seeing your code in the next review!
