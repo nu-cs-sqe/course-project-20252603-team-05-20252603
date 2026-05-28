@@ -293,4 +293,19 @@ public class DeckTests {
         assertEquals(CardType.SKIP, peeked.get(2).getType());
         assertEquals(3, deck.size());
     }
+
+    @Test
+    public void TC25_Peek_DeckSize_Duplicates() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+        int original_size = deck.size();
+
+        List<Card> peeked = deck.peek(3);
+        assertEquals(3, peeked.size());
+        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(0).getType());
+        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(1).getType());
+        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(2).getType());
+
+        assertEquals(original_size, deck.size());
+    }
 }

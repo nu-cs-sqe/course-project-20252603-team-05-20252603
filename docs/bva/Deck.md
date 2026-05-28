@@ -150,10 +150,10 @@ Output State: Deck is unchanged
   - **Input Value**: 3
   - **Expected output**: Returns the top 3 cards in correct order and `size()` is unchanged
 
-- **TC25: peek_DeckSize_checksOrder** (:todo:)
+- **TC25: peek_DeckSize_Duplicates** (:done:)
   - **State of the system**: Deck contains more than 3 cards in known order
   - **Input Value**: 3
-  - **Expected output**: Returns all 3 cards in correct order and `size()` is unchanged
+  - **Expected output**: Returns all 3 cards and `size()` is unchanged
 
 - **TC26: peek_moreThanDeckSize** (:todo:)
   - **State of the system**: Deck contains exactly 2 cards
