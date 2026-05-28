@@ -155,7 +155,7 @@ Output State: Deck is unchanged
   - **Input Value**: 3
   - **Expected output**: Returns all 3 cards and `size()` is unchanged
 
-- **TC26: peek_moreThanDeckSize** (:todo:)
+- **TC26: peek_moreThanDeckSize** (:done:)
   - **State of the system**: Deck contains exactly 2 cards
   - **Input Value**: 3
   - **Expected output**: IllegalArgumentException

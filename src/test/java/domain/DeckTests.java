@@ -308,4 +308,21 @@ public class DeckTests {
 
         assertEquals(original_size, deck.size());
     }
+
+    @Test
+    public void TC26_Peek_MoreThanDeckSize() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SKIP));
+        deck.insertBottom(new Card(CardType.ATTACK));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> deck.peek(3));
+        assertEquals("Cannot peek at more cards than exist in deck", exception.getMessage()
+        );
+    }
 }
