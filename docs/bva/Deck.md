@@ -125,17 +125,17 @@ Input Value: Integer
 Output Value: List<Card> or IllegalArgumentException  
 Output State: Deck is unchanged
 
-- **TC20: peek_zeroCards** (:todo:)
+- **TC20: peek_zeroCards** (:done:)
   - **State of the system**: Deck contains multiple cards
   - **Input Value**: 0
   - **Expected output**: IllegalArgumentException
 
-- **TC21: peek_negativeCards** (:todo:)
+- **TC21: peek_negativeCards** (:done:)
   - **State of the system**: Deck contains multiple cards
   - **Input Value**: -1
   - **Expected output**: IllegalArgumentException
 
-- **TC22: peek_oneCard_checksOrder** (:todo:)
+- **TC22: peek_oneCard_checksOrder** (:done:)
   - **State of the system**: Deck contains multiple cards with a known top card
   - **Input Value**: 1
   - **Expected output**: Returns the top 1 card in correct order and `size()` is unchanged

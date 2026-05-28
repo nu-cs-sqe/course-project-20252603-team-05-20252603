@@ -76,7 +76,12 @@ public class Deck {
                     "Cannot peek at a negative number of cards");
         }
 
-        return new ArrayList<>();
+        List<Card> peekedCards = new ArrayList<>();
+        for (int i = cards.size() - 1; i >= cards.size() - x; i--) {
+            peekedCards.add(cards.get(i));
+        }
+
+        return peekedCards;
     }
 
 }

@@ -3,6 +3,7 @@ package domain;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -233,5 +234,24 @@ public class DeckTests {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> deck.peek(-1));
         assertEquals("Cannot peek at a negative number of cards", exception.getMessage());
     }
+
+    @Test
+    public void TC22_Peek_OneCard_ChecksOrder() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SKIP));
+        deck.insertBottom(new Card(CardType.ATTACK));
+
+        List<Card> peeked = deck.peek(1);
+        assertEquals(1, peeked.size());
+        assertEquals(CardType.ATTACK, peeked.get(0).getType());
+        assertEquals(2, deck.size());
+    }
+
 
 }
