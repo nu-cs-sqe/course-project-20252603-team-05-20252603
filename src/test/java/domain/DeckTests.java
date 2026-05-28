@@ -272,4 +272,25 @@ public class DeckTests {
         assertEquals(CardType.ATTACK, peeked.get(1).getType());
         assertEquals(3, deck.size());
     }
+
+    @Test
+    public void TC24_Peek_ThreeCards_ChecksOrder() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SKIP));
+        deck.insertBottom(new Card(CardType.ATTACK));
+        deck.insertBottom(new Card(CardType.DEFUSE));
+
+        List<Card> peeked = deck.peek(3);
+        assertEquals(3, peeked.size());
+        assertEquals(CardType.DEFUSE, peeked.get(0).getType());
+        assertEquals(CardType.ATTACK, peeked.get(1).getType());
+        assertEquals(CardType.SKIP, peeked.get(2).getType());
+        assertEquals(3, deck.size());
+    }
 }

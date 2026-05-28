@@ -140,18 +140,18 @@ Output State: Deck is unchanged
   - **Input Value**: 1
   - **Expected output**: Returns the top 1 card in correct order and `size()` is unchanged
 
-- **TC23: peek_twoCards_checksOrder** (:todo:)
+- **TC23: peek_twoCards_checksOrder** (:done:)
   - **State of the system**: Deck contains at least 2 cards in known order
   - **Input Value**: 2
   - **Expected output**: Returns the top 2 cards in correct order and `size()` is unchanged
 
-- **TC24: peek_threeCards_checksOrder** (:todo:)
+- **TC24: peek_threeCards_checksOrder** (:done:)
   - **State of the system**: Deck contains at least 3 cards in known order
   - **Input Value**: 3
   - **Expected output**: Returns the top 3 cards in correct order and `size()` is unchanged
 
-- **TC25: peek_exactDeckSize_checksOrder** (:todo:)
-  - **State of the system**: Deck contains exactly 3 cards in known order
+- **TC25: peek_DeckSize_checksOrder** (:todo:)
+  - **State of the system**: Deck contains more than 3 cards in known order
   - **Input Value**: 3
   - **Expected output**: Returns all 3 cards in correct order and `size()` is unchanged
 
