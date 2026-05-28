@@ -72,9 +72,9 @@ public class Deck {
             throw new IllegalArgumentException("Cannot peek at 0 cards");
         }
 
-//        if (x < 0) {throw new IllegalArgumentException(
-//                    "Cannot peek at a negative number of cards");
-//        }
+        if (x < 0) {throw new IllegalArgumentException(
+                    "Cannot peek at a negative number of cards");
+        }
 
         return new ArrayList<>();
     }

@@ -225,4 +225,13 @@ public class DeckTests {
         assertEquals("Cannot peek at 0 cards", exception.getMessage());
     }
 
+    @Test
+    public void TC21_Peek_NegativeCards() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> deck.peek(-1));
+        assertEquals("Cannot peek at a negative number of cards", exception.getMessage());
+    }
+
 }
