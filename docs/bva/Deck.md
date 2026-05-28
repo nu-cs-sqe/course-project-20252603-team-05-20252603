@@ -159,8 +159,3 @@ Output State: Deck is unchanged
   - **State of the system**: Deck contains exactly 2 cards
   - **Input Value**: 3
   - **Expected output**: IllegalArgumentException
-
-- **TC27: peek_duplicateCards_checksOrder** (:todo:)
-  - **State of the system**: Deck contains duplicate card types near the top of the deck
-  - **Input Value**: 2
-  - **Expected output**: Returns both duplicate cards in correct order and `size()` is unchanged
