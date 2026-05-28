@@ -118,3 +118,49 @@ Output Value: Deck
 - **TC18: shuffle_multipleCardDeck_ChangesOrder** (:done:)
   - **State of the system**: Deck contains multiple cards (2)
   - **Expected output**: `size()` is unchanged and card amounts are unchanged, and ordering of cards has changed
+
+### Method under test: `peek(int x)`
+Input State: Deck  
+Input Value: Integer  
+Output Value: List<Card> or IllegalArgumentException  
+Output State: Deck is unchanged
+
+- **TC20: peek_zeroCards** (:todo:)
+  - **State of the system**: Deck contains multiple cards
+  - **Input Value**: 0
+  - **Expected output**: IllegalArgumentException
+
+- **TC21: peek_negativeCards** (:todo:)
+  - **State of the system**: Deck contains multiple cards
+  - **Input Value**: -1
+  - **Expected output**: IllegalArgumentException
+
+- **TC22: peek_oneCard_checksOrder** (:todo:)
+  - **State of the system**: Deck contains multiple cards with a known top card
+  - **Input Value**: 1
+  - **Expected output**: Returns the top 1 card in correct order and `size()` is unchanged
+
+- **TC23: peek_twoCards_checksOrder** (:todo:)
+  - **State of the system**: Deck contains at least 2 cards in known order
+  - **Input Value**: 2
+  - **Expected output**: Returns the top 2 cards in correct order and `size()` is unchanged
+
+- **TC24: peek_threeCards_checksOrder** (:todo:)
+  - **State of the system**: Deck contains at least 3 cards in known order
+  - **Input Value**: 3
+  - **Expected output**: Returns the top 3 cards in correct order and `size()` is unchanged
+
+- **TC25: peek_exactDeckSize_checksOrder** (:todo:)
+  - **State of the system**: Deck contains exactly 3 cards in known order
+  - **Input Value**: 3
+  - **Expected output**: Returns all 3 cards in correct order and `size()` is unchanged
+
+- **TC26: peek_moreThanDeckSize** (:todo:)
+  - **State of the system**: Deck contains exactly 2 cards
+  - **Input Value**: 3
+  - **Expected output**: IllegalArgumentException
+
+- **TC27: peek_duplicateCards_checksOrder** (:todo:)
+  - **State of the system**: Deck contains duplicate card types near the top of the deck
+  - **Input Value**: 2
+  - **Expected output**: Returns both duplicate cards in correct order and `size()` is unchanged
