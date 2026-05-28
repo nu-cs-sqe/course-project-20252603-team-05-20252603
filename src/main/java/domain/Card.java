@@ -15,13 +15,4 @@ public class Card {
         return type;
     }
 
-    public void play(){
-        if (type == CardType.SEE_THE_FUTURE){
-            SeeTheFuture();
-        }
-    }
-
-    private List<CardType> SeeTheFuture(){
-        return Arrays.asList(CardType.SEE_THE_FUTURE);
-    }
 }

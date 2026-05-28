@@ -67,4 +67,16 @@ public class Deck {
         }
     }
 
+    public List<Card> peek(int x){
+        if (x == 0) {
+            throw new IllegalArgumentException("Cannot peek at 0 cards");
+        }
+
+//        if (x < 0) {throw new IllegalArgumentException(
+//                    "Cannot peek at a negative number of cards");
+//        }
+
+        return new ArrayList<>();
+    }
+
 }

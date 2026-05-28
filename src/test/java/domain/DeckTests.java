@@ -217,4 +217,12 @@ public class DeckTests {
         assertEquals(secondCard, deck.draw());
     }
 
+    @Test
+    public void TC20_peek_zeroCards_ReturnsError(){
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> deck.peek(0));
+        assertEquals("Cannot peek at 0 cards", exception.getMessage());
+    }
+
 }
