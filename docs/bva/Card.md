@@ -29,3 +29,4 @@
 - **TC7: getTypeReturnsLastCardType** ( :white_check_mark: )
   - **State of the system**: card was created with the last enum value, `CardType.NOPE`
   - **Expected output**: returns `CardType.NOPE`
+

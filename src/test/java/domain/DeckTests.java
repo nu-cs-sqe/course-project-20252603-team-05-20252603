@@ -3,6 +3,7 @@ package domain;
 import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -217,4 +218,111 @@ public class DeckTests {
         assertEquals(secondCard, deck.draw());
     }
 
+    @Test
+    public void TC20_peek_zeroCards_ReturnsError(){
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> deck.peek(0));
+        assertEquals("Cannot peek at 0 cards", exception.getMessage());
+    }
+
+    @Test
+    public void TC21_Peek_NegativeCards() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> deck.peek(-1));
+        assertEquals("Cannot peek at a negative number of cards", exception.getMessage());
+    }
+
+    @Test
+    public void TC22_Peek_OneCard_ChecksOrder() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SKIP));
+        deck.insertBottom(new Card(CardType.ATTACK));
+
+        List<Card> peeked = deck.peek(1);
+        assertEquals(1, peeked.size());
+        assertEquals(CardType.ATTACK, peeked.get(0).getType());
+        assertEquals(2, deck.size());
+    }
+
+    @Test
+    public void TC23_Peek_TwoCards_ChecksOrder() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SKIP));
+        deck.insertBottom(new Card(CardType.ATTACK));
+        deck.insertBottom(new Card(CardType.DEFUSE));
+
+        List<Card> peeked = deck.peek(2);
+        assertEquals(2, peeked.size());
+        assertEquals(CardType.DEFUSE, peeked.get(0).getType());
+        assertEquals(CardType.ATTACK, peeked.get(1).getType());
+        assertEquals(3, deck.size());
+    }
+
+    @Test
+    public void TC24_Peek_ThreeCards_ChecksOrder() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SKIP));
+        deck.insertBottom(new Card(CardType.ATTACK));
+        deck.insertBottom(new Card(CardType.DEFUSE));
+
+        List<Card> peeked = deck.peek(3);
+        assertEquals(3, peeked.size());
+        assertEquals(CardType.DEFUSE, peeked.get(0).getType());
+        assertEquals(CardType.ATTACK, peeked.get(1).getType());
+        assertEquals(CardType.SKIP, peeked.get(2).getType());
+        assertEquals(3, deck.size());
+    }
+
+    @Test
+    public void TC25_Peek_DeckSize_Duplicates() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+        int original_size = deck.size();
+
+        List<Card> peeked = deck.peek(3);
+        assertEquals(3, peeked.size());
+        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(0).getType());
+        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(1).getType());
+        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(2).getType());
+
+        assertEquals(original_size, deck.size());
+    }
+
+    @Test
+    public void TC26_Peek_MoreThanDeckSize() {
+        Random rand = new Random();
+        Deck deck = new Deck(rand);
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SKIP));
+        deck.insertBottom(new Card(CardType.ATTACK));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> deck.peek(3));
+        assertEquals("Cannot peek at more cards than exist in deck", exception.getMessage()
+        );
+    }
 }

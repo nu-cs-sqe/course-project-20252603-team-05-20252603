@@ -67,4 +67,25 @@ public class Deck {
         }
     }
 
+    public List<Card> peek(int x){
+        if (x == 0){
+            throw new IllegalArgumentException("Cannot peek at 0 cards");
+        }
+
+        if (x < 0){
+            throw new IllegalArgumentException("Cannot peek at a negative number of cards");
+        }
+
+        if (x > cards.size()){
+            throw new IllegalArgumentException("Cannot peek at more cards than exist in deck");
+        }
+
+        List<Card> peekedCards = new ArrayList<>();
+        for (int i = cards.size() - 1; i >= cards.size() - x; i--){
+            peekedCards.add(cards.get(i));
+        }
+
+        return peekedCards;
+    }
+
 }
