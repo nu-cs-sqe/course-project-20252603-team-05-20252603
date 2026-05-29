@@ -5,6 +5,7 @@ plugins {
     id("java")
     jacoco
     id("info.solidsoft.pitest") version "1.19.0"
+    checkstyle
     id("com.github.spotbugs") version "6.0.25"
 }
 
@@ -92,4 +93,15 @@ tasks.spotbugsMain {
         outputLocation = layout.buildDirectory.file("reports/spotbugs/spotbugs.html")
         setStylesheet("fancy-hist.xsl")
     }
+}
+
+tasks.withType<Checkstyle>().configureEach {
+    reports {
+        xml.required = false
+        html.required = true
+    }
+}
+
+checkstyle{
+    isIgnoreFailures = false
 }
