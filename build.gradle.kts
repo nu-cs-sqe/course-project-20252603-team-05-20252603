@@ -1,7 +1,12 @@
+import com.github.spotbugs.snom.Confidence
+import com.github.spotbugs.snom.Effort
+
 plugins {
     id("java")
     jacoco
     id("info.solidsoft.pitest") version "1.19.0"
+    checkstyle
+    id("com.github.spotbugs") version "6.0.25"
 }
 
 group = "nu.csse.sqe"
@@ -17,6 +22,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.easymock/easymock
     testImplementation("org.easymock:easymock:4.2")
+
 }
 
 java {
@@ -65,4 +71,37 @@ pitest {
     threads.set(4)
     outputFormats.set(setOf("HTML", "XML"))
     timestampedReports.set(false)
+}
+
+spotbugs {
+    ignoreFailures = true // enable this later
+    showStackTraces = true
+    showProgress = true
+    effort = Effort.DEFAULT
+    reportLevel = Confidence.DEFAULT
+    //omitVisitors = listOf("FindNonShortCircuit")
+    reportsDir = file("spotbugs")
+    //onlyAnalyze = listOf("com.foobar.MyClass", "com.foobar.mypkg.*")
+    maxHeapSize = "1g"
+    extraArgs = listOf("-nested:false")
+    //jvmArgs = listOf("-Duser.language=ja") // set user language to japanese
+}
+
+tasks.spotbugsMain {
+    reports.create("html") {
+        required = true
+        outputLocation = layout.buildDirectory.file("reports/spotbugs/spotbugs.html")
+        setStylesheet("fancy-hist.xsl")
+    }
+}
+
+tasks.withType<Checkstyle>().configureEach {
+    reports {
+        xml.required = false
+        html.required = true
+    }
+}
+
+checkstyle{
+    isIgnoreFailures = false
 }

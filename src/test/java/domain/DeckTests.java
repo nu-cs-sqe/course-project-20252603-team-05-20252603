@@ -222,7 +222,8 @@ public class DeckTests {
     public void TC20_peek_zeroCards_ReturnsError(){
         Random rand = new Random();
         Deck deck = new Deck(rand);
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> deck.peek(0));
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class, () -> deck.peek(0));
         assertEquals("Cannot peek at 0 cards", exception.getMessage());
     }
 
@@ -231,7 +232,8 @@ public class DeckTests {
         Random rand = new Random();
         Deck deck = new Deck(rand);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> deck.peek(-1));
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class, () -> deck.peek(-1));
         assertEquals("Cannot peek at a negative number of cards", exception.getMessage());
     }
 
@@ -321,7 +323,8 @@ public class DeckTests {
         deck.insertBottom(new Card(CardType.SKIP));
         deck.insertBottom(new Card(CardType.ATTACK));
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> deck.peek(3));
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class, () -> deck.peek(3));
         assertEquals("Cannot peek at more cards than exist in deck", exception.getMessage()
         );
     }
