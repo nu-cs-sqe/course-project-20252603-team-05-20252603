@@ -61,11 +61,11 @@
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| P23 | Player has no cards | Throws `IllegalStateException` | :n:          |
-| P24 | Player has cards, but none match the requested type | Throws `IllegalStateException` | :n:          |
-| P25 | Player has one card matching the requested type | Removes and returns that card | :n:          |
-| P26 | Player has multiple cards matching the requested type | Removes and returns one matching card | :n:          |
-| P27 | Requested type is `null` | Throws `IllegalStateException` | :n:          |
+| P23 | Player has no cards | Throws `IllegalStateException` | :y:          |
+| P24 | Player has cards, but none match the requested type | Throws `IllegalStateException` | :y:          |
+| P25 | Player has one card matching the requested type | Removes and returns that card | :y:          |
+| P26 | Player has multiple cards matching the requested type | Removes and returns one matching card | :y:          |
+| P27 | Requested type is `null` | Throws `IllegalStateException` | :y:          |
 
 ### Method: `countCardsOfType(CardType type)`
 

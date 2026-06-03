@@ -205,4 +205,62 @@ public class PlayerTest {
         assertFalse(player.hasCard(null));
     }
 
+    @Test
+    public void removeCard_emptyHand_throwsException() {
+        Player player = new Player("Anthony");
+
+        assertThrows(IllegalStateException.class, () -> player.removeCard(CardType.DEFUSE));
+    }
+
+    @Test
+    public void removeCard_noMatchingCard_throwsException() {
+        Player player = new Player("Anthony");
+
+        player.addCard(new Card(CardType.SKIP));
+
+        assertThrows(IllegalStateException.class, () -> player.removeCard(CardType.DEFUSE));
+    }
+
+    @Test
+    public void removeCard_oneMatchingCard_removesAndReturnsCard() {
+        Player player = new Player("Anthony");
+        Card card = new Card(CardType.DEFUSE);
+
+        player.addCard(card);
+
+        Card removedCard = player.removeCard(CardType.DEFUSE);
+
+        assertSame(card, removedCard);
+        assertTrue(player.getHand().isEmpty());
+    }
+
+    @Test
+    public void removeCard_multipleMatchingCards_removesOnlyOneMatchingCard() {
+        Player player = new Player("Anthony");
+        Card firstCard = new Card(CardType.DEFUSE);
+        Card secondCard = new Card(CardType.DEFUSE);
+        Card otherCard = new Card(CardType.SKIP);
+
+        player.addCard(firstCard);
+        player.addCard(otherCard);
+        player.addCard(secondCard);
+
+        Card removedCard = player.removeCard(CardType.DEFUSE);
+
+        assertSame(firstCard, removedCard);
+        assertEquals(2, player.getHand().size());
+        assertFalse(player.getHand().contains(firstCard));
+        assertTrue(player.getHand().contains(secondCard));
+        assertTrue(player.getHand().contains(otherCard));
+    }
+
+    @Test
+    public void removeCard_nullType_throwsException() {
+        Player player = new Player("Anthony");
+
+        player.addCard(new Card(CardType.DEFUSE));
+
+        assertThrows(IllegalStateException.class, () -> player.removeCard(null));
+    }
+
 }
