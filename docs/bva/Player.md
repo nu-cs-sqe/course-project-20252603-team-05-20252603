@@ -33,3 +33,46 @@
 |---|---|---|--------------|
 | P13 | Player name is one character `"A"` | Returns `"A"` | :y:          |
 | P14 | Player name is normal string `"Anthony"` | Returns `"Anthony"` | :y:          |
+
+### Method: `isActive()`
+
+| Test Case | State of the System | Expected Output | Implemented? |
+|---|---|---|--------------|
+| P15 | Player has just been created | Returns `true` | :n:          |
+| P16 | Player has been eliminated | Returns `false` | :n:          |
+
+### Method: `eliminate()`
+
+| Test Case | State of the System | Expected Output | Implemented? |
+|---|---|---|--------------|
+| P17 | Player is active | Player becomes inactive | :n:          |
+| P18 | Player is already inactive | Player remains inactive | :n:          |
+
+### Method: `hasCard(CardType type)`
+
+| Test Case | State of the System | Expected Output | Implemented? |
+|---|---|---|--------------|
+| P19 | Player has no cards | Returns `false` | :n:          |
+| P20 | Player has cards, but none match the requested type | Returns `false` | :n:          |
+| P21 | Player has one card matching the requested type | Returns `true` | :n:          |
+| P22 | Requested type is `null` | Returns `false` | :n:          |
+
+### Method: `removeCard(CardType type)`
+
+| Test Case | State of the System | Expected Output | Implemented? |
+|---|---|---|--------------|
+| P23 | Player has no cards | Throws `IllegalStateException` | :n:          |
+| P24 | Player has cards, but none match the requested type | Throws `IllegalStateException` | :n:          |
+| P25 | Player has one card matching the requested type | Removes and returns that card | :n:          |
+| P26 | Player has multiple cards matching the requested type | Removes and returns one matching card | :n:          |
+| P27 | Requested type is `null` | Throws `IllegalStateException` | :n:          |
+
+### Method: `countCardsOfType(CardType type)`
+
+| Test Case | State of the System | Expected Output | Implemented? |
+|---|---|---|--------------|
+| P28 | Requested type is `null` | Throws `IllegalArgumentException` | :n:          |
+| P29 | Player has no cards | Returns `0` | :n:          |
+| P30 | Player has cards, but none match the requested type | Returns `0` | :n:          |
+| P31 | Player has one card matching the requested type | Returns `1` | :n:          |
+| P32 | Player has multiple cards matching the requested type | Returns the number of matching cards | :n:          |
