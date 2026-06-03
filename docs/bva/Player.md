@@ -71,8 +71,8 @@
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| P28 | Requested type is `null` | Throws `IllegalArgumentException` | :n:          |
-| P29 | Player has no cards | Returns `0` | :n:          |
-| P30 | Player has cards, but none match the requested type | Returns `0` | :n:          |
-| P31 | Player has one card matching the requested type | Returns `1` | :n:          |
-| P32 | Player has multiple cards matching the requested type | Returns the number of matching cards | :n:          |
+| P28 | Requested type is `null` | Throws `IllegalArgumentException` | :y:          |
+| P29 | Player has no cards | Returns `0` | :y:          |
+| P30 | Player has cards, but none match the requested type | Returns `0` | :y:          |
+| P31 | Player has one card matching the requested type | Returns `1` | :y:          |
+| P32 | Player has multiple cards matching the requested type | Returns the number of matching cards | :y:          |

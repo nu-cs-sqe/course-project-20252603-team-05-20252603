@@ -263,4 +263,47 @@ public class PlayerTest {
         assertThrows(IllegalStateException.class, () -> player.removeCard(null));
     }
 
+    @Test
+    public void countCardsOfType_nullType_throwsException() {
+        Player player = new Player("Anthony");
+
+        assertThrows(IllegalArgumentException.class, () -> player.countCardsOfType(null));
+    }
+
+    @Test
+    public void countCardsOfType_emptyHand_returnsZero() {
+        Player player = new Player("Anthony");
+
+        assertEquals(0, player.countCardsOfType(CardType.DEFUSE));
+    }
+
+    @Test
+    public void countCardsOfType_noMatchingCards_returnsZero() {
+        Player player = new Player("Anthony");
+
+        player.addCard(new Card(CardType.SKIP));
+
+        assertEquals(0, player.countCardsOfType(CardType.DEFUSE));
+    }
+
+    @Test
+    public void countCardsOfType_oneMatchingCard_returnsOne() {
+        Player player = new Player("Anthony");
+
+        player.addCard(new Card(CardType.DEFUSE));
+
+        assertEquals(1, player.countCardsOfType(CardType.DEFUSE));
+    }
+
+    @Test
+    public void countCardsOfType_multipleMatchingCards_returnsCount() {
+        Player player = new Player("Anthony");
+
+        player.addCard(new Card(CardType.DEFUSE));
+        player.addCard(new Card(CardType.SKIP));
+        player.addCard(new Card(CardType.DEFUSE));
+
+        assertEquals(2, player.countCardsOfType(CardType.DEFUSE));
+    }
+
 }
