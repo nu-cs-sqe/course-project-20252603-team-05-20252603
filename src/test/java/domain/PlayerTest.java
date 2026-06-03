@@ -136,4 +136,39 @@ public class PlayerTest {
         assertFalse(player.getHand().contains(extraCard));
     }
 
+    @Test
+    public void isActive_newPlayer_returnsTrue() {
+        Player player = new Player("Anthony");
+
+        assertTrue(player.isActive());
+    }
+
+    @Test
+    public void isActive_eliminatedPlayer_returnsFalse() {
+        Player player = new Player("Anthony");
+
+        player.eliminate();
+
+        assertFalse(player.isActive());
+    }
+
+    @Test
+    public void eliminate_activePlayer_becomesInactive() {
+        Player player = new Player("Anthony");
+
+        player.eliminate();
+
+        assertFalse(player.isActive());
+    }
+
+    @Test
+    public void eliminate_alreadyInactivePlayer_remainsInactive() {
+        Player player = new Player("Anthony");
+
+        player.eliminate();
+        player.eliminate();
+
+        assertFalse(player.isActive());
+    }
+
 }

@@ -38,15 +38,15 @@
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| P15 | Player has just been created | Returns `true` | :n:          |
-| P16 | Player has been eliminated | Returns `false` | :n:          |
+| P15 | Player has just been created | Returns `true` | :y:          |
+| P16 | Player has been eliminated | Returns `false` | :y:          |
 
 ### Method: `eliminate()`
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| P17 | Player is active | Player becomes inactive | :n:          |
-| P18 | Player is already inactive | Player remains inactive | :n:          |
+| P17 | Player is active | Player becomes inactive | :y:          |
+| P18 | Player is already inactive | Player remains inactive | :y:          |
 
 ### Method: `hasCard(CardType type)`
 
