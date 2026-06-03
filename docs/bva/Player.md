@@ -52,10 +52,10 @@
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| P19 | Player has no cards | Returns `false` | :n:          |
-| P20 | Player has cards, but none match the requested type | Returns `false` | :n:          |
-| P21 | Player has one card matching the requested type | Returns `true` | :n:          |
-| P22 | Requested type is `null` | Returns `false` | :n:          |
+| P19 | Player has no cards | Returns `false` | :y:          |
+| P20 | Player has cards, but none match the requested type | Returns `false` | :y:          |
+| P21 | Player has one card matching the requested type | Returns `true` | :y:          |
+| P22 | Requested type is `null` | Returns `false` | :y:          |
 
 ### Method: `removeCard(CardType type)`
 

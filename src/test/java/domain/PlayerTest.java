@@ -171,4 +171,38 @@ public class PlayerTest {
         assertFalse(player.isActive());
     }
 
+    @Test
+    public void hasCard_emptyHand_returnsFalse() {
+        Player player = new Player("Anthony");
+
+        assertFalse(player.hasCard(CardType.DEFUSE));
+    }
+
+    @Test
+    public void hasCard_noMatchingCard_returnsFalse() {
+        Player player = new Player("Anthony");
+
+        player.addCard(new Card(CardType.SKIP));
+
+        assertFalse(player.hasCard(CardType.DEFUSE));
+    }
+
+    @Test
+    public void hasCard_oneMatchingCard_returnsTrue() {
+        Player player = new Player("Anthony");
+
+        player.addCard(new Card(CardType.DEFUSE));
+
+        assertTrue(player.hasCard(CardType.DEFUSE));
+    }
+
+    @Test
+    public void hasCard_nullType_returnsFalse() {
+        Player player = new Player("Anthony");
+
+        player.addCard(new Card(CardType.DEFUSE));
+
+        assertFalse(player.hasCard(null));
+    }
+
 }
