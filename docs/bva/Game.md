@@ -103,8 +103,8 @@
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G55 | Game has just been created | Returns an empty discard pile | :n: |
-| G56 | External code tries to modify returned discard pile | Game's internal discard pile is not modified | :n: |
+| G55 | Game has just been created | Returns an empty discard pile | :y: |
+| G56 | External code tries to modify returned discard pile | Game's internal discard pile is not modified | :y: |
 
 ### Method: `playCard(CardType type)`
 

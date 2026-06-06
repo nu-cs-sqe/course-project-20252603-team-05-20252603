@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
@@ -8,6 +9,7 @@ public class Game {
 
     private final List<Player> players;
     private final Deck deck;
+    private final List<Card> discardPile;
 
     private boolean setupComplete;
 
@@ -38,6 +40,7 @@ public class Game {
 
         this.players = players;
         this.deck = deck;
+        this.discardPile = new ArrayList<>();
         this.setupComplete = false;
         this.currentPlayerIndex = 0;
     }
@@ -179,5 +182,9 @@ public class Game {
 
     public Deck getDeck() {
         return deck;
+    }
+
+    public List<Card> getDiscardPile() {
+        return Collections.unmodifiableList(discardPile);
     }
 }
