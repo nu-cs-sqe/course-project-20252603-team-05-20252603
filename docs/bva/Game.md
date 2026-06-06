@@ -114,7 +114,7 @@
 | G58 | Game has not started | Throws `IllegalStateException` | :y: |
 | G59 | Game is already over | Throws `IllegalStateException` | :y: |
 | G60 | Current player does not have the requested card type | Throws `IllegalStateException` | :y: |
-| G61 | Current player has one card matching the requested type | Removes that card from the current player's hand | :n: |
-| G62 | Current player has one card matching the requested type | Adds that card to the discard pile | :n: |
-| G63 | Current player has multiple cards matching the requested type | Removes only one matching card | :n: |
-| G64 | Current player plays a card | Current player does not change | :n: |
+| G61 | Current player has one card matching the requested type | Removes that card from the current player's hand | :y: |
+| G62 | Current player has one card matching the requested type | Adds that card to the discard pile | :y: |
+| G63 | Current player has multiple cards matching the requested type | Removes only one matching card | :y: |
+| G64 | Current player plays a card | Current player does not change | :y: |

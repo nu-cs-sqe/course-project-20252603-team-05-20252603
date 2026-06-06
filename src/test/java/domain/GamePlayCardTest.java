@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -94,5 +95,77 @@ public class GamePlayCardTest {
         assertThrows(IllegalStateException.class, () -> {
             game.playCard(CardType.EXPLODING_KITTEN);
         });
+    }
+
+    // G61
+    @Test
+    public void playCardRemovesMatchingCardFromCurrentPlayersHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+        Card card = new Card(CardType.SKIP);
+
+        game.setupGame();
+        player1.addCard(card);
+
+        game.playCard(CardType.SKIP);
+
+        assertFalse(player1.getHand().contains(card));
+    }
+
+    // G62
+    @Test
+    public void playCardAddsRemovedCardToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+        Card card = new Card(CardType.SKIP);
+
+        game.setupGame();
+        player1.addCard(card);
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(1, game.getDiscardPile().size());
+        assertTrue(game.getDiscardPile().contains(card));
+    }
+
+    // G63
+    @Test
+    public void playCardWithMultipleMatchingCardsRemovesOnlyOneCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        while (player1.hasCard(CardType.SKIP)) {
+            player1.removeCard(CardType.SKIP);
+        }
+        player1.addCard(new Card(CardType.SKIP));
+        player1.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(1, player1.countCardsOfType(CardType.SKIP));
+        assertEquals(1, game.getDiscardPile().size());
+    }
+
+    // G64
+    @Test
+    public void playCardDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(player1, game.getCurrentPlayer());
     }
 }
