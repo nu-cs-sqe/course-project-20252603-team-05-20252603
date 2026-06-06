@@ -187,4 +187,22 @@ public class Game {
     public List<Card> getDiscardPile() {
         return Collections.unmodifiableList(discardPile);
     }
+
+    public void playCard(CardType type) {
+        if (type == null) {
+            throw new IllegalArgumentException("Card type cannot be null");
+        }
+
+        if (!setupComplete) {
+            throw new IllegalStateException("Game setup has not been completed");
+        }
+
+        if (getActivePlayerCount() <= 1) {
+            throw new IllegalStateException("Game is over");
+        }
+
+        Player currentPlayer = getCurrentPlayer();
+        Card playedCard = currentPlayer.removeCard(type);
+        discardPile.add(playedCard);
+    }
 }

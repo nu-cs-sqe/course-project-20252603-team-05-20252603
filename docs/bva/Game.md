@@ -110,10 +110,10 @@
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G57 | Card type is `null` | Throws `IllegalArgumentException` | :n: |
-| G58 | Game has not started | Throws `IllegalStateException` | :n: |
-| G59 | Game is already over | Throws `IllegalStateException` | :n: |
-| G60 | Current player does not have the requested card type | Throws `IllegalStateException` | :n: |
+| G57 | Card type is `null` | Throws `IllegalArgumentException` | :y: |
+| G58 | Game has not started | Throws `IllegalStateException` | :y: |
+| G59 | Game is already over | Throws `IllegalStateException` | :y: |
+| G60 | Current player does not have the requested card type | Throws `IllegalStateException` | :y: |
 | G61 | Current player has one card matching the requested type | Removes that card from the current player's hand | :n: |
 | G62 | Current player has one card matching the requested type | Adds that card to the discard pile | :n: |
 | G63 | Current player has multiple cards matching the requested type | Removes only one matching card | :n: |
