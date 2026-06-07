@@ -7,6 +7,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameCardEffectsTest {
     private Game createStartedGame(Player... players) {
@@ -61,5 +62,23 @@ public class GameCardEffectsTest {
         game.drawCard();
 
         assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G67
+    @Test
+    public void explodingKittenEndsTwoPlayerGameAndDeclaresWinner() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertTrue(game.isGameOver());
+        assertEquals(player2, game.getWinner());
     }
 }
