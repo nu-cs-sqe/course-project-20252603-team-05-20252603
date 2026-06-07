@@ -136,7 +136,7 @@ public class Game {
                 discardPile.add(currentPlayer.removeCard(CardType.DEFUSE));
                 endTurn();
             } else if (currentPlayer.hasCard(CardType.SHIELD)) {
-                currentPlayer.removeCard(CardType.SHIELD);
+                discardPile.add(currentPlayer.removeCard(CardType.SHIELD));
                 endTurn();
             } else {
                 currentPlayer.eliminate();
