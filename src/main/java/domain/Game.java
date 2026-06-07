@@ -135,6 +135,9 @@ public class Game {
             if (currentPlayer.hasCard(CardType.DEFUSE)) {
                 currentPlayer.removeCard(CardType.DEFUSE);
                 endTurn();
+            } else if (currentPlayer.hasCard(CardType.SHIELD)) {
+                currentPlayer.removeCard(CardType.SHIELD);
+                endTurn();
             } else {
                 currentPlayer.eliminate();
 
