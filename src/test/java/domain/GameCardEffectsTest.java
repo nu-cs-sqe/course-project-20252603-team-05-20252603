@@ -331,4 +331,22 @@ public class GameCardEffectsTest {
 
         assertEquals(player1, game.getCurrentPlayer());
     }
+
+    // G83
+    @Test
+    public void zeroShieldsCannotPreventEliminationWithoutDefuse() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertFalse(player1.isActive());
+    }
 }
