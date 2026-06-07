@@ -5,11 +5,16 @@ public enum CardType {
     DEFUSE,
     ATTACK,
     SKIP,
+    FAVOR,
     SHUFFLE,
     SEE_THE_FUTURE,
     NOPE,
-    TACO_CAT,
-    BEARD_CAT,
-    RAINBOW_RALPHING_CAT,
-    HAIRY_POTATO_CAT
+    CAT_CARD,
+    TRADE,
+    DRAW_FROM_BOTTOM,
+    PEEK_SWAP,
+    SHIELD,
+    REVERSE,
+    AFTER_THE_FUTURE,
+    STEAL
 }
