@@ -127,7 +127,7 @@
 | G66 | Current player draws an Exploding Kitten with no Defuse or Shield while 3 players are active | Current player is eliminated and the game continues with 2 active players | :y: |
 | G67 | Current player draws an Exploding Kitten with no Defuse or Shield while exactly 2 players are active | Current player is eliminated and the other player wins | :y: |
 | G68 | Current player draws an Exploding Kitten while holding exactly 1 Defuse | Player remains active and the Defuse is consumed | :y: |
-| G69 | Current player draws an Exploding Kitten while holding exactly 1 Shield and no Defuse | Player remains active and the Shield is consumed | :n: |
+| G69 | Current player draws an Exploding Kitten while holding exactly 1 Shield and no Defuse | Player remains active and the Shield is consumed | :y: |
 | G70 | Current player draws an Exploding Kitten while holding neither a Defuse nor a Shield | Exploding Kitten is not added to the player's hand | :y: |
 
 ### Card Effect: `DEFUSE`
@@ -137,7 +137,7 @@
 | G71 | Current player has 0 Defuse cards and draws an Exploding Kitten | Player is eliminated | :y: |
 | G72 | Current player has exactly 1 Defuse card and draws an Exploding Kitten | Exactly 1 Defuse is removed and the player remains active | :y: |
 | G73 | Current player has 2 Defuse cards and draws an Exploding Kitten | Exactly 1 Defuse is removed and 1 Defuse remains | :y: |
-| G74 | A Defuse is used | Used Defuse is added to the discard pile | :n: |
+| G74 | A Defuse is used | Used Defuse is added to the discard pile | :y: |
 | G75 | A Defuse is used against an Exploding Kitten | Current player's turn ends and advances to the next active player | :y: |
 
 ### Card Effect: `SKIP`
@@ -147,18 +147,18 @@
 | G76 | Current player has 0 Skip cards and attempts to play Skip | Throws `IllegalStateException` | :y: |
 | G77 | Current player has exactly 1 Skip card and plays it | Exactly 1 Skip is removed and added to the discard pile | :y: |
 | G78 | Current player has 2 Skip cards and plays one | Exactly 1 Skip is removed and 1 Skip remains | :y: |
-| G79 | Current player plays Skip | Turn ends without drawing a card | :n: |
-| G80 | Current player plays Skip while the next player is active | Current player advances to the next player | :n: |
-| G81 | Current player plays Skip while the next player is eliminated | Turn advances to the next active player | :n: |
-| G82 | Last player in the list plays Skip | Turn order wraps around to the first active player | :n: |
+| G79 | Current player plays Skip | Turn ends without drawing a card | :y: |
+| G80 | Current player plays Skip while the next player is active | Current player advances to the next player | :y: |
+| G81 | Current player plays Skip while the next player is eliminated | Turn advances to the next active player | :y: |
+| G82 | Last player in the list plays Skip | Turn order wraps around to the first active player | :y: |
 
 ### Card Effect: `SHIELD`
 
 | Test Case | State of the System | Expected Output | Implemented? |
 |---|---|---|--------------|
-| G83 | Current player has 0 Shield cards and draws an Exploding Kitten | Player is eliminated if no Defuse is available | :n: |
-| G84 | Current player has exactly 1 Shield and no Defuse, then draws an Exploding Kitten | Exactly 1 Shield is removed and the player remains active | :n: |
-| G85 | Current player has 2 Shields and no Defuse, then draws an Exploding Kitten | Exactly 1 Shield is removed and 1 Shield remains | :n: |
-| G86 | A Shield is used against an Exploding Kitten | Used Shield is added to the discard pile | :n: |
-| G87 | A Shield is used against an Exploding Kitten | Current player's turn ends and advances to the next active player | :n: |
-| G88 | Current player has both a Defuse and a Shield when drawing an Exploding Kitten | Defuse is consumed first and Shield remains in the player's hand | :n: |
+| G83 | Current player has 0 Shield cards and draws an Exploding Kitten | Player is eliminated if no Defuse is available | :y: |
+| G84 | Current player has exactly 1 Shield and no Defuse, then draws an Exploding Kitten | Exactly 1 Shield is removed and the player remains active | :y: |
+| G85 | Current player has 2 Shields and no Defuse, then draws an Exploding Kitten | Exactly 1 Shield is removed and 1 Shield remains | :y: |
+| G86 | A Shield is used against an Exploding Kitten | Used Shield is added to the discard pile | :y: |
+| G87 | A Shield is used against an Exploding Kitten | Current player's turn ends and advances to the next active player | :y: |
+| G88 | Current player has both a Defuse and a Shield when drawing an Exploding Kitten | Defuse is consumed first and Shield remains in the player's hand | :y: |
