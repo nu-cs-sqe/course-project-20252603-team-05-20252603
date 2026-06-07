@@ -98,3 +98,23 @@
 |---|---|---|--------------|
 | G53 | Game has a valid deck | Returns the game deck | :y: |
 | G54 | Game setup has completed | Returns deck with updated card count after dealing and inserting Exploding Kittens | :y: |
+
+### Method: `getDiscardPile()`
+
+| Test Case | State of the System | Expected Output | Implemented? |
+|---|---|---|--------------|
+| G55 | Game has just been created | Returns an empty discard pile | :y: |
+| G56 | External code tries to modify returned discard pile | Game's internal discard pile is not modified | :y: |
+
+### Method: `playCard(CardType type)`
+
+| Test Case | State of the System | Expected Output | Implemented? |
+|---|---|---|--------------|
+| G57 | Card type is `null` | Throws `IllegalArgumentException` | :y: |
+| G58 | Game has not started | Throws `IllegalStateException` | :y: |
+| G59 | Game is already over | Throws `IllegalStateException` | :y: |
+| G60 | Current player does not have the requested card type | Throws `IllegalStateException` | :y: |
+| G61 | Current player has one card matching the requested type | Removes that card from the current player's hand | :y: |
+| G62 | Current player has one card matching the requested type | Adds that card to the discard pile | :y: |
+| G63 | Current player has multiple cards matching the requested type | Removes only one matching card | :y: |
+| G64 | Current player plays a card | Current player does not change | :y: |
