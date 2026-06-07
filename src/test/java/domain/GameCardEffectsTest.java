@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameCardEffectsTest {
     private Game createStartedGame(Player... players) {
@@ -42,5 +43,23 @@ public class GameCardEffectsTest {
         game.drawCard();
 
         assertFalse(player1.isActive());
+    }
+
+    // G66
+    @Test
+    public void explodingKittenLeavesTwoActivePlayersAndGameContinues() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(player2, game.getCurrentPlayer());
     }
 }
