@@ -268,4 +268,20 @@ public class GameCardEffectsTest {
 
         assertEquals(1, player1.countCardsOfType(CardType.SKIP));
     }
+
+    // G79
+    @Test
+    public void playingSkipEndsTurnWithoutDrawing() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.SKIP));
+        int deckSize = game.getDeck().size();
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(deckSize, game.getDeck().size());
+        assertEquals(player2, game.getCurrentPlayer());
+    }
 }

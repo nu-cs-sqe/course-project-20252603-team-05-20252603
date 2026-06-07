@@ -155,16 +155,16 @@ public class GamePlayCardTest {
 
     // G64
     @Test
-    public void playCardDoesNotAdvanceTurn() {
+    public void playCardWithoutTurnEffectDoesNotAdvanceTurn() {
         Player player1 = new Player("Player 1");
         Player player2 = new Player("Player 2");
         Deck deck = new Deck(new Random());
         Game game = new Game(List.of(player1, player2), deck);
 
         game.setupGame();
-        player1.addCard(new Card(CardType.SKIP));
+        player1.addCard(new Card(CardType.SHUFFLE));
 
-        game.playCard(CardType.SKIP);
+        game.playCard(CardType.SHUFFLE);
 
         assertEquals(player1, game.getCurrentPlayer());
     }
