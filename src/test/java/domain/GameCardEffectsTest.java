@@ -189,4 +189,22 @@ public class GameCardEffectsTest {
 
         assertEquals(1, player1.countCardsOfType(CardType.DEFUSE));
     }
+
+    // G74
+    @Test
+    public void usedDefuseIsAddedToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        Card defuse = new Card(CardType.DEFUSE);
+        player1.addCard(defuse);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertTrue(game.getDiscardPile().contains(defuse));
+    }
 }
