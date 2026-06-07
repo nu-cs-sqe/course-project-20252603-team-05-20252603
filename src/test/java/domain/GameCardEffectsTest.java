@@ -81,4 +81,22 @@ public class GameCardEffectsTest {
         assertTrue(game.isGameOver());
         assertEquals(player2, game.getWinner());
     }
+
+    // G68
+    @Test
+    public void explodingKittenConsumesOneDefuseAndKeepsPlayerActive() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.DEFUSE));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertTrue(player1.isActive());
+        assertEquals(0, player1.countCardsOfType(CardType.DEFUSE));
+    }
 }
