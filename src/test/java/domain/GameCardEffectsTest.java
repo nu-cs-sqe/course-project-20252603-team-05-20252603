@@ -171,4 +171,22 @@ public class GameCardEffectsTest {
         assertEquals(0, player1.countCardsOfType(CardType.DEFUSE));
         assertTrue(player1.isActive());
     }
+
+    // G73
+    @Test
+    public void oneDefuseRemainsWhenPlayerStartsWithTwo() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.DEFUSE));
+        player1.addCard(new Card(CardType.DEFUSE));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(1, player1.countCardsOfType(CardType.DEFUSE));
+    }
 }
