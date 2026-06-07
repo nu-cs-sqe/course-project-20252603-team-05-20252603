@@ -235,4 +235,21 @@ public class GameCardEffectsTest {
 
         assertThrows(IllegalStateException.class, () -> game.playCard(CardType.SKIP));
     }
+
+    // G77
+    @Test
+    public void playingOneSkipRemovesAndDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.SKIP);
+        Card skip = new Card(CardType.SKIP);
+        player1.addCard(skip);
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(0, player1.countCardsOfType(CardType.SKIP));
+        assertTrue(game.getDiscardPile().contains(skip));
+    }
 }
