@@ -20,10 +20,7 @@ public class Deck {
         addCards(CardType.SKIP, 3);
         addCards(CardType.SEE_THE_FUTURE, 4);
         addCards(CardType.NOPE, 4);
-        addCards(CardType.TACO_CAT, 4);
-        addCards(CardType.BEARD_CAT, 4);
-        addCards(CardType.RAINBOW_RALPHING_CAT, 4);
-        addCards(CardType.HAIRY_POTATO_CAT, 4);
+        addCards(CardType.CAT_CARD, 16);
     }
 
     private void addCards(CardType type, int amount){

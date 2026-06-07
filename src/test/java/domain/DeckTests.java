@@ -26,10 +26,7 @@ public class DeckTests {
         assertEquals(3, deck.amtCardType(CardType.SKIP));
         assertEquals(4, deck.amtCardType(CardType.SEE_THE_FUTURE));
         assertEquals(4, deck.amtCardType(CardType.NOPE));
-        assertEquals(4, deck.amtCardType(CardType.TACO_CAT));
-        assertEquals(4, deck.amtCardType(CardType.BEARD_CAT));
-        assertEquals(4, deck.amtCardType(CardType.RAINBOW_RALPHING_CAT));
-        assertEquals(4, deck.amtCardType(CardType.HAIRY_POTATO_CAT));
+        assertEquals(16, deck.amtCardType(CardType.CAT_CARD));
         assertEquals(0, deck.amtCardType(CardType.DEFUSE));
         assertEquals(0, deck.amtCardType(CardType.EXPLODING_KITTEN));
     }
@@ -304,9 +301,9 @@ public class DeckTests {
 
         List<Card> peeked = deck.peek(3);
         assertEquals(3, peeked.size());
-        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(0).getType());
-        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(1).getType());
-        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(2).getType());
+        assertEquals(CardType.CAT_CARD, peeked.get(0).getType());
+        assertEquals(CardType.CAT_CARD, peeked.get(1).getType());
+        assertEquals(CardType.CAT_CARD, peeked.get(2).getType());
 
         assertEquals(original_size, deck.size());
     }
