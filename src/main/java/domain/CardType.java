@@ -5,6 +5,7 @@ public enum CardType {
     DEFUSE,
     ATTACK,
     SKIP,
+    SHIELD,
     FAVOR,
     TRADE,
     MARK,
