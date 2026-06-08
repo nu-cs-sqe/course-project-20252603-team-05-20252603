@@ -1395,4 +1395,130 @@ public class GamePlayCardTest {
         assertTrue(player1.isActive());
         assertTrue(player2.isActive());
     }
+
+    // G140
+    @Test
+    public void catPairComboWithNullCardTypeThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatPairCombo(null, player2);
+        });
+    }
+
+    // G141
+    @Test
+    public void catPairComboWithNonCatCardTypeThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatPairCombo(CardType.ATTACK, player2);
+        });
+    }
+
+    // G142
+    @Test
+    public void catPairComboWithNullTargetThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatPairCombo(CardType.TACO_CAT, null);
+        });
+    }
+
+    // G143
+    @Test
+    public void catPairComboWithTargetNotInGameThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player3.addCard(new Card(CardType.SKIP));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatPairCombo(CardType.TACO_CAT, player3);
+        });
+    }
+
+    // G144
+    @Test
+    public void catPairComboTargetingCurrentPlayerThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatPairCombo(CardType.TACO_CAT, player1);
+        });
+    }
+
+    // G145
+    @Test
+    public void catPairComboWithFewerThanTwoMatchingCatCardsThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.TACO_CAT);
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        assertThrows(IllegalStateException.class, () -> {
+            game.playCatPairCombo(CardType.TACO_CAT, player2);
+        });
+    }
+
+    // G146
+    @Test
+    public void catPairComboTargetingPlayerWithNoCardsThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        assertThrows(IllegalStateException.class, () -> {
+            game.playCatPairCombo(CardType.TACO_CAT, player2);
+        });
+    }
+
+    // G147
+    @Test
+    public void invalidCatPairComboDoesNotConsumeOrDiscardCatCards() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstCat = new Card(CardType.TACO_CAT);
+        Card secondCat = new Card(CardType.TACO_CAT);
+
+        removeAll(player1, CardType.TACO_CAT);
+        player1.addCard(firstCat);
+        player1.addCard(secondCat);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatPairCombo(CardType.TACO_CAT, player1);
+        });
+        assertTrue(player1.getHand().contains(firstCat));
+        assertTrue(player1.getHand().contains(secondCat));
+        assertFalse(game.getDiscardPile().contains(firstCat));
+        assertFalse(game.getDiscardPile().contains(secondCat));
+    }
 }
