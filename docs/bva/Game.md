@@ -134,3 +134,12 @@
 | G78 | Current player plays `ATTACK` | No player is eliminated | :y: |
 | G79 | Attacked player plays `ATTACK` before drawing | Next player must take 4 turns | :y: |
 | G80 | Attacked player plays `ATTACK` after one attacked draw | Next player must take 3 turns | :y: |
+
+### Card Effect: `EXPLODING_KITTEN`
+
+| Test Case | State of the System | Expected Output | Implemented? |
+|---|---|---|--------------|
+| G81 | Current player draws an Exploding Kitten with no protection while 3 players are active | Current player is eliminated | :y: |
+| G82 | Current player draws an Exploding Kitten with no protection while 3 players are active | Game continues with the next active player | :y: |
+| G83 | Current player draws an Exploding Kitten with no protection while exactly 2 players are active | Current player is eliminated and the other player wins | :y: |
+| G84 | Current player draws an Exploding Kitten with no protection | Exploding Kitten is not added to the player's hand | :y: |
