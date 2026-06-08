@@ -1680,4 +1680,112 @@ public class GamePlayCardTest {
         assertTrue(player1.isActive());
         assertTrue(player2.isActive());
     }
+
+    // G160
+    @Test
+    public void zeroShieldsCannotPreventEliminationWithoutDefuse() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertFalse(player1.isActive());
+    }
+
+    // G161
+    @Test
+    public void oneShieldIsRemovedAndPreventsExplodingKittenElimination() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.SHIELD));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(0, player1.countCardsOfType(CardType.SHIELD));
+        assertTrue(player1.isActive());
+    }
+
+    // G162
+    @Test
+    public void oneShieldRemainsAfterExplodingKittenWhenPlayerHasTwo() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.SHIELD));
+        player1.addCard(new Card(CardType.SHIELD));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(1, player1.countCardsOfType(CardType.SHIELD));
+    }
+
+    // G163
+    @Test
+    public void usedShieldIsAddedToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        Card shield = new Card(CardType.SHIELD);
+        player1.addCard(shield);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertTrue(game.getDiscardPile().contains(shield));
+    }
+
+    // G164
+    @Test
+    public void usingShieldEndsTurnAndAdvancesToNextPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.SHIELD));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G165
+    @Test
+    public void defuseTakesPriorityWhenPlayerAlsoHasShield() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.DEFUSE));
+        player1.addCard(new Card(CardType.SHIELD));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(0, player1.countCardsOfType(CardType.DEFUSE));
+        assertEquals(1, player1.countCardsOfType(CardType.SHIELD));
+    }
 }

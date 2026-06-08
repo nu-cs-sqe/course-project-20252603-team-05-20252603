@@ -213,3 +213,9 @@
 | G157 | Current player plays a valid Cat pair combo | Current player does not change | :y: |
 | G158 | Current player plays a valid Cat pair combo | Deck size does not change | :y: |
 | G159 | Current player plays a valid Cat pair combo | No player is eliminated | :y: |
+| G160 | Current player has 0 Shield cards and no Defuse, then draws an Exploding Kitten | Player is eliminated | :y: |
+| G161 | Current player has exactly 1 Shield and no Defuse, then draws an Exploding Kitten | Exactly 1 Shield is removed and the player remains active | :y: |
+| G162 | Current player has 2 Shields and no Defuse, then draws an Exploding Kitten | Exactly 1 Shield is removed and 1 Shield remains | :y: |
+| G163 | A Shield is used against an Exploding Kitten | Used Shield is added to the discard pile | :y: |
+| G164 | A Shield is used against an Exploding Kitten | Current player's turn ends and advances to the next active player | :y: |
+| G165 | Current player has both a Defuse and a Shield when drawing an Exploding Kitten | Defuse is consumed first and Shield remains in the player's hand | :y: |
