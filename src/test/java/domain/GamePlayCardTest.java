@@ -357,4 +357,24 @@ public class GamePlayCardTest {
 
         assertEquals(player2, game.getCurrentPlayer());
     }
+
+    // G75
+    @Test
+    public void attackedPlayerAdvancesTurnAfterSecondDraw() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.ATTACK));
+        game.playCard(CardType.ATTACK);
+        deck.insertBottom(new Card(CardType.SKIP));
+        game.drawCard();
+        deck.insertBottom(new Card(CardType.SHUFFLE));
+
+        game.drawCard();
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
 }
