@@ -651,4 +651,19 @@ public class GamePlayCardTest {
 
         assertTrue(game.getDiscardPile().contains(defuse));
     }
+
+    // G89
+    @Test
+    public void usingDefuseEndsTurnAndAdvancesToNextPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
 }
