@@ -774,4 +774,99 @@ public class GamePlayCardTest {
 
         assertEquals(player1, game.getCurrentPlayer());
     }
+
+    // G97, G98, G99
+    @Test
+    public void playingFavorWithoutTargetThrowsExceptionAndDoesNotConsumeFavor() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card favor = new Card(CardType.FAVOR);
+
+        player1.addCard(favor);
+
+        assertThrows(IllegalArgumentException.class, () -> game.playCard(CardType.FAVOR));
+        assertTrue(player1.getHand().contains(favor));
+        assertFalse(game.getDiscardPile().contains(favor));
+    }
+
+    // G100
+    @Test
+    public void playingFavorWithNullTargetThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.FAVOR));
+
+        assertThrows(IllegalArgumentException.class, () -> game.playCard(CardType.FAVOR, null));
+    }
+
+    // G101
+    @Test
+    public void playingFavorWithTargetNotInGameThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.FAVOR));
+        player3.addCard(new Card(CardType.SKIP));
+
+        assertThrows(IllegalArgumentException.class, () -> game.playCard(CardType.FAVOR, player3));
+    }
+
+    // G102
+    @Test
+    public void playingFavorTargetingCurrentPlayerThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.FAVOR));
+
+        assertThrows(IllegalArgumentException.class, () -> game.playCard(CardType.FAVOR, player1));
+    }
+
+    // G103
+    @Test
+    public void playingFavorTargetingPlayerWithNoCardsThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.FAVOR));
+
+        assertThrows(IllegalStateException.class, () -> game.playCard(CardType.FAVOR, player2));
+    }
+
+    // G104
+    @Test
+    public void playingFavorWithoutFavorThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.FAVOR);
+
+        assertThrows(IllegalStateException.class, () -> game.playCard(CardType.FAVOR, player2));
+    }
+
+    // G105
+    @Test
+    public void invalidTargetedFavorDoesNotDiscardFavor() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card favor = new Card(CardType.FAVOR);
+
+        player1.addCard(favor);
+
+        assertThrows(IllegalArgumentException.class, () -> game.playCard(CardType.FAVOR, player1));
+        assertTrue(player1.getHand().contains(favor));
+        assertFalse(game.getDiscardPile().contains(favor));
+    }
 }
