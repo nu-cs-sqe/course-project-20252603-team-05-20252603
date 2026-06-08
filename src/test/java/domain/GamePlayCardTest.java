@@ -28,6 +28,24 @@ public class GamePlayCardTest {
         }
     }
 
+    private void assertCatPairComboSucceeds(CardType catType) {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, catType);
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(catType));
+        player1.addCard(new Card(catType));
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCatPairCombo(catType, player2);
+
+        assertEquals(2, game.getDiscardPile().size());
+    }
+
     // G55
     @Test
     public void getDiscardPileReturnsEmptyListForNewGame() {
@@ -1520,5 +1538,146 @@ public class GamePlayCardTest {
         assertTrue(player1.getHand().contains(secondCat));
         assertFalse(game.getDiscardPile().contains(firstCat));
         assertFalse(game.getDiscardPile().contains(secondCat));
+    }
+
+    // G148
+    @Test
+    public void validCatPairComboRemovesExactlyTwoMatchingCatCards() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.TACO_CAT);
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCatPairCombo(CardType.TACO_CAT, player2);
+
+        assertEquals(1, player1.countCardsOfType(CardType.TACO_CAT));
+    }
+
+    // G149
+    @Test
+    public void validCatPairComboAddsBothCatCardsToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstCat = new Card(CardType.TACO_CAT);
+        Card secondCat = new Card(CardType.TACO_CAT);
+
+        removeAll(player1, CardType.TACO_CAT);
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(firstCat);
+        player1.addCard(secondCat);
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCatPairCombo(CardType.TACO_CAT, player2);
+
+        assertTrue(game.getDiscardPile().contains(firstCat));
+        assertTrue(game.getDiscardPile().contains(secondCat));
+    }
+
+    // G150
+    @Test
+    public void catPairComboWithTacoCatSucceeds() {
+        assertCatPairComboSucceeds(CardType.TACO_CAT);
+    }
+
+    // G151
+    @Test
+    public void catPairComboWithBeardCatSucceeds() {
+        assertCatPairComboSucceeds(CardType.BEARD_CAT);
+    }
+
+    // G152
+    @Test
+    public void catPairComboWithRainbowRalphingCatSucceeds() {
+        assertCatPairComboSucceeds(CardType.RAINBOW_RALPHING_CAT);
+    }
+
+    // G153
+    @Test
+    public void catPairComboWithHairyPotatoCatSucceeds() {
+        assertCatPairComboSucceeds(CardType.HAIRY_POTATO_CAT);
+    }
+
+    // G154, G155, G156
+    @Test
+    public void validCatPairComboTransfersFirstTargetCardToCurrentPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstTargetCard = new Card(CardType.ATTACK);
+        Card secondTargetCard = new Card(CardType.NOPE);
+
+        removeAll(player1, CardType.TACO_CAT);
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player2.addCard(firstTargetCard);
+        player2.addCard(secondTargetCard);
+
+        game.playCatPairCombo(CardType.TACO_CAT, player2);
+
+        assertTrue(player1.getHand().contains(firstTargetCard));
+        assertFalse(player1.getHand().contains(secondTargetCard));
+        assertFalse(player2.getHand().contains(firstTargetCard));
+        assertTrue(player2.getHand().contains(secondTargetCard));
+    }
+
+    // G157
+    @Test
+    public void validCatPairComboDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        game.playCatPairCombo(CardType.TACO_CAT, player2);
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    // G158
+    @Test
+    public void validCatPairComboDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        int deckSizeBeforeCombo = game.getDeck().size();
+
+        game.playCatPairCombo(CardType.TACO_CAT, player2);
+
+        assertEquals(deckSizeBeforeCombo, game.getDeck().size());
+    }
+
+    // G159
+    @Test
+    public void validCatPairComboDoesNotEliminatePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        game.playCatPairCombo(CardType.TACO_CAT, player2);
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
     }
 }

@@ -287,6 +287,14 @@ public class Game {
         if (currentPlayer.countCardsOfType(catType) < 2) {
             throw new IllegalStateException("Current player needs two matching Cat Cards");
         }
+
+        Card firstCat = currentPlayer.removeCard(catType);
+        Card secondCat = currentPlayer.removeCard(catType);
+        discardPile.add(firstCat);
+        discardPile.add(secondCat);
+
+        Card transferredCard = targetPlayer.removeCard(targetPlayer.getHand().get(0).getType());
+        currentPlayer.addCard(transferredCard);
     }
 
     private void validateGameCanPlayCard() {
