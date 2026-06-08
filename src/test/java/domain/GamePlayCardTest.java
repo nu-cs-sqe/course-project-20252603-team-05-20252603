@@ -695,4 +695,20 @@ public class GamePlayCardTest {
         assertEquals(0, player1.countCardsOfType(CardType.SKIP));
         assertTrue(game.getDiscardPile().contains(skip));
     }
+
+    // G92
+    @Test
+    public void playingSkipLeavesSecondSkipInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.SKIP);
+        player1.addCard(new Card(CardType.SKIP));
+        player1.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(1, player1.countCardsOfType(CardType.SKIP));
+    }
 }
