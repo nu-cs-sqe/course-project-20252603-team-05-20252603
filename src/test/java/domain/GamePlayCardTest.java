@@ -545,4 +545,22 @@ public class GamePlayCardTest {
 
         assertEquals(player2, game.getCurrentPlayer());
     }
+
+    // G83
+    @Test
+    public void explodingKittenEndsTwoPlayerGameWithOtherPlayerAsWinner() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertFalse(player1.isActive());
+        assertTrue(game.isGameOver());
+        assertEquals(player2, game.getWinner());
+    }
 }
