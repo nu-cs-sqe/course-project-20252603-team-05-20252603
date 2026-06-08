@@ -46,6 +46,24 @@ public class GamePlayCardTest {
         assertEquals(2, game.getDiscardPile().size());
     }
 
+    private void assertCatThreeComboSucceeds(CardType catType) {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, catType);
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(catType));
+        player1.addCard(new Card(catType));
+        player1.addCard(new Card(catType));
+
+        game.playCatThreeCombo(catType, player2, CardType.SKIP);
+
+        assertEquals(3, game.getDiscardPile().size());
+    }
+
     // G55
     @Test
     public void getDiscardPileReturnsEmptyListForNewGame() {
@@ -1787,5 +1805,305 @@ public class GamePlayCardTest {
 
         assertEquals(0, player1.countCardsOfType(CardType.DEFUSE));
         assertEquals(1, player1.countCardsOfType(CardType.SHIELD));
+    }
+
+    // G166
+    @Test
+    public void catThreeComboWithNullCardTypeThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatThreeCombo(null, player2, CardType.SKIP);
+        });
+    }
+
+    // G167
+    @Test
+    public void catThreeComboWithNonCatCardTypeThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatThreeCombo(CardType.ATTACK, player2, CardType.SKIP);
+        });
+    }
+
+    // G168
+    @Test
+    public void catThreeComboWithNullTargetThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatThreeCombo(CardType.TACO_CAT, null, CardType.SKIP);
+        });
+    }
+
+    // G169
+    @Test
+    public void catThreeComboWithTargetNotInGameThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatThreeCombo(CardType.TACO_CAT, player3, CardType.SKIP);
+        });
+    }
+
+    // G170
+    @Test
+    public void catThreeComboTargetingCurrentPlayerThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatThreeCombo(CardType.TACO_CAT, player1, CardType.SKIP);
+        });
+    }
+
+    // G171
+    @Test
+    public void catThreeComboWithNullRequestedTypeThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatThreeCombo(CardType.TACO_CAT, player2, null);
+        });
+    }
+
+    // G172
+    @Test
+    public void catThreeComboWithFewerThanThreeMatchingCatCardsThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.TACO_CAT);
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        assertThrows(IllegalStateException.class, () -> {
+            game.playCatThreeCombo(CardType.TACO_CAT, player2, CardType.SKIP);
+        });
+    }
+
+    // G173
+    @Test
+    public void invalidCatThreeComboDoesNotConsumeOrDiscardCatCards() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstCat = new Card(CardType.TACO_CAT);
+        Card secondCat = new Card(CardType.TACO_CAT);
+        Card thirdCat = new Card(CardType.TACO_CAT);
+
+        removeAll(player1, CardType.TACO_CAT);
+        player1.addCard(firstCat);
+        player1.addCard(secondCat);
+        player1.addCard(thirdCat);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCatThreeCombo(CardType.TACO_CAT, player1, CardType.SKIP);
+        });
+        assertTrue(player1.getHand().contains(firstCat));
+        assertTrue(player1.getHand().contains(secondCat));
+        assertTrue(player1.getHand().contains(thirdCat));
+        assertFalse(game.getDiscardPile().contains(firstCat));
+        assertFalse(game.getDiscardPile().contains(secondCat));
+        assertFalse(game.getDiscardPile().contains(thirdCat));
+    }
+
+    // G174
+    @Test
+    public void validCatThreeComboRemovesExactlyThreeMatchingCatCards() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.TACO_CAT);
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        game.playCatThreeCombo(CardType.TACO_CAT, player2, CardType.SKIP);
+
+        assertEquals(1, player1.countCardsOfType(CardType.TACO_CAT));
+    }
+
+    // G175
+    @Test
+    public void validCatThreeComboAddsAllThreeCatCardsToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstCat = new Card(CardType.TACO_CAT);
+        Card secondCat = new Card(CardType.TACO_CAT);
+        Card thirdCat = new Card(CardType.TACO_CAT);
+
+        removeAll(player1, CardType.TACO_CAT);
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(firstCat);
+        player1.addCard(secondCat);
+        player1.addCard(thirdCat);
+
+        game.playCatThreeCombo(CardType.TACO_CAT, player2, CardType.SKIP);
+
+        assertTrue(game.getDiscardPile().contains(firstCat));
+        assertTrue(game.getDiscardPile().contains(secondCat));
+        assertTrue(game.getDiscardPile().contains(thirdCat));
+    }
+
+    // G176
+    @Test
+    public void catThreeComboWithTacoCatSucceeds() {
+        assertCatThreeComboSucceeds(CardType.TACO_CAT);
+    }
+
+    // G177
+    @Test
+    public void catThreeComboWithBeardCatSucceeds() {
+        assertCatThreeComboSucceeds(CardType.BEARD_CAT);
+    }
+
+    // G178
+    @Test
+    public void catThreeComboWithRainbowRalphingCatSucceeds() {
+        assertCatThreeComboSucceeds(CardType.RAINBOW_RALPHING_CAT);
+    }
+
+    // G179
+    @Test
+    public void catThreeComboWithHairyPotatoCatSucceeds() {
+        assertCatThreeComboSucceeds(CardType.HAIRY_POTATO_CAT);
+    }
+
+    // G180, G181, G182
+    @Test
+    public void validCatThreeComboTransfersRequestedCardToCurrentPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstRequestedCard = new Card(CardType.ATTACK);
+        Card secondRequestedCard = new Card(CardType.ATTACK);
+
+        removeAll(player1, CardType.TACO_CAT);
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player2.addCard(firstRequestedCard);
+        player2.addCard(secondRequestedCard);
+
+        game.playCatThreeCombo(CardType.TACO_CAT, player2, CardType.ATTACK);
+
+        assertTrue(player1.getHand().contains(firstRequestedCard));
+        assertFalse(player2.getHand().contains(firstRequestedCard));
+        assertTrue(player2.getHand().contains(secondRequestedCard));
+    }
+
+    // G183
+    @Test
+    public void catThreeComboWithRequestedCardAbsentSucceedsWithoutTransfer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.TACO_CAT);
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        int currentPlayerHandSize = player1.getHand().size();
+
+        game.playCatThreeCombo(CardType.TACO_CAT, player2, CardType.SKIP);
+
+        assertEquals(currentPlayerHandSize - 3, player1.getHand().size());
+        assertTrue(player2.getHand().isEmpty());
+        assertEquals(3, game.getDiscardPile().size());
+    }
+
+    // G184
+    @Test
+    public void validCatThreeComboDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        game.playCatThreeCombo(CardType.TACO_CAT, player2, CardType.SKIP);
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    // G185
+    @Test
+    public void validCatThreeComboDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        int deckSizeBeforeCombo = game.getDeck().size();
+
+        game.playCatThreeCombo(CardType.TACO_CAT, player2, CardType.SKIP);
+
+        assertEquals(deckSizeBeforeCombo, game.getDeck().size());
+    }
+
+    // G186
+    @Test
+    public void validCatThreeComboDoesNotEliminatePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        game.playCatThreeCombo(CardType.TACO_CAT, player2, CardType.SKIP);
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
     }
 }

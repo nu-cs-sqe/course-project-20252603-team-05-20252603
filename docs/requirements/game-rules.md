@@ -198,6 +198,14 @@ Implemented pair combo:
 - Discard both Cat Cards.
 - Take one card from the chosen player's hand.
 
+Implemented three-of-a-kind combo:
+- Play three matching Cat Cards.
+- Choose another player.
+- Request a specific card type.
+- Discard all three Cat Cards.
+- If the chosen player has the requested card type, take one matching card.
+- If the chosen player does not have the requested card type, take no card.
+
 ---
 
 # Special Combos

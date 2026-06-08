@@ -219,3 +219,24 @@
 | G163 | A Shield is used against an Exploding Kitten | Used Shield is added to the discard pile | :y: |
 | G164 | A Shield is used against an Exploding Kitten | Current player's turn ends and advances to the next active player | :y: |
 | G165 | Current player has both a Defuse and a Shield when drawing an Exploding Kitten | Defuse is consumed first and Shield remains in the player's hand | :y: |
+| G166 | Cat three combo has `null` card type | Throws `IllegalArgumentException` | :y: |
+| G167 | Cat three combo card type is not a Cat Card | Throws `IllegalArgumentException` | :y: |
+| G168 | Cat three combo target player is `null` | Throws `IllegalArgumentException` | :y: |
+| G169 | Cat three combo target player is not in the game | Throws `IllegalArgumentException` | :y: |
+| G170 | Cat three combo targets the current player | Throws `IllegalArgumentException` | :y: |
+| G171 | Cat three combo requested card type is `null` | Throws `IllegalArgumentException` | :y: |
+| G172 | Current player has fewer than three matching Cat Cards | Throws `IllegalStateException` | :y: |
+| G173 | Invalid Cat three combo attempt | Matching Cat Cards remain in current player's hand and are not discarded | :y: |
+| G174 | Current player plays a valid Cat three combo | Removes exactly three matching Cat Cards from current player's hand | :y: |
+| G175 | Current player plays a valid Cat three combo | Adds all three played Cat Cards to the discard pile | :y: |
+| G176 | Current player plays three matching `TACO_CAT` cards | Cat three combo succeeds | :y: |
+| G177 | Current player plays three matching `BEARD_CAT` cards | Cat three combo succeeds | :y: |
+| G178 | Current player plays three matching `RAINBOW_RALPHING_CAT` cards | Cat three combo succeeds | :y: |
+| G179 | Current player plays three matching `HAIRY_POTATO_CAT` cards | Cat three combo succeeds | :y: |
+| G180 | Target player has requested card type during valid Cat three combo | Transfers one matching requested card | :y: |
+| G181 | Target player has requested card type during valid Cat three combo | Target player loses the transferred requested card | :y: |
+| G182 | Target player has requested card type during valid Cat three combo | Current player gains the transferred requested card | :y: |
+| G183 | Target player does not have requested card type during valid Cat three combo | Combo succeeds with no card transferred | :y: |
+| G184 | Current player plays a valid Cat three combo | Current player does not change | :y: |
+| G185 | Current player plays a valid Cat three combo | Deck size does not change | :y: |
+| G186 | Current player plays a valid Cat three combo | No player is eliminated | :y: |
