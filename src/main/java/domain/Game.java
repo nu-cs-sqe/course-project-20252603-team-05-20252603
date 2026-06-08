@@ -204,5 +204,9 @@ public class Game {
         Player currentPlayer = getCurrentPlayer();
         Card playedCard = currentPlayer.removeCard(type);
         discardPile.add(playedCard);
+
+        if (type == CardType.ATTACK) {
+            endTurn();
+        }
     }
 }
