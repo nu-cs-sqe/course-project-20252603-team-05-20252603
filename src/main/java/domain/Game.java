@@ -210,6 +210,8 @@ public class Game {
         if (type == CardType.ATTACK) {
             pendingTurnsForCurrentPlayer += 2;
             moveToNextActivePlayer();
+        } else if (type == CardType.SKIP) {
+            endTurn();
         }
     }
 

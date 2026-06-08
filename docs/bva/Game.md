@@ -146,7 +146,7 @@
 | G90 | Current player has 0 Skip cards and attempts to play Skip | Throws `IllegalStateException` | :y: |
 | G91 | Current player has exactly 1 Skip card and plays it | Exactly 1 Skip is removed and added to the discard pile | :y: |
 | G92 | Current player has 2 Skip cards and plays one | Exactly 1 Skip is removed and 1 Skip remains | :y: |
-| G93 | Current player plays Skip | Turn ends without drawing a card | :n: |
-| G94 | Current player plays Skip while the next player is active | Current player advances to the next player | :n: |
-| G95 | Current player plays Skip while the next player is eliminated | Turn advances to the next active player | :n: |
-| G96 | Last player in the list plays Skip | Turn order wraps around to the first active player | :n: |
+| G93 | Current player plays Skip | Turn ends without drawing a card | :y: |
+| G94 | Current player plays Skip while the next player is active | Current player advances to the next player | :y: |
+| G95 | Current player plays Skip while the next player is eliminated | Turn advances to the next active player | :y: |
+| G96 | Last player in the list plays Skip | Turn order wraps around to the first active player | :y: |
