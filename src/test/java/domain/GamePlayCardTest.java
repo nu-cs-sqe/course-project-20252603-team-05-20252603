@@ -168,4 +168,88 @@ public class GamePlayCardTest {
 
         assertEquals(player1, game.getCurrentPlayer());
     }
+
+    // G65
+    @Test
+    public void playCardWithTacoCatMovesCardFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+        Card card = new Card(CardType.TACO_CAT);
+
+        game.setupGame();
+        while (player1.hasCard(CardType.TACO_CAT)) {
+            player1.removeCard(CardType.TACO_CAT);
+        }
+        player1.addCard(card);
+
+        game.playCard(CardType.TACO_CAT);
+
+        assertFalse(player1.getHand().contains(card));
+        assertTrue(game.getDiscardPile().contains(card));
+    }
+
+    // G66
+    @Test
+    public void playCardWithBeardCatMovesCardFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+        Card card = new Card(CardType.BEARD_CAT);
+
+        game.setupGame();
+        while (player1.hasCard(CardType.BEARD_CAT)) {
+            player1.removeCard(CardType.BEARD_CAT);
+        }
+        player1.addCard(card);
+
+        game.playCard(CardType.BEARD_CAT);
+
+        assertFalse(player1.getHand().contains(card));
+        assertTrue(game.getDiscardPile().contains(card));
+    }
+
+    // G67
+    @Test
+    public void playCardWithRainbowRalphingCatMovesCardFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+        Card card = new Card(CardType.RAINBOW_RALPHING_CAT);
+
+        game.setupGame();
+        while (player1.hasCard(CardType.RAINBOW_RALPHING_CAT)) {
+            player1.removeCard(CardType.RAINBOW_RALPHING_CAT);
+        }
+        player1.addCard(card);
+
+        game.playCard(CardType.RAINBOW_RALPHING_CAT);
+
+        assertFalse(player1.getHand().contains(card));
+        assertTrue(game.getDiscardPile().contains(card));
+    }
+
+    // G68
+    @Test
+    public void playCardWithHairyPotatoCatMovesCardFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+        Card card = new Card(CardType.HAIRY_POTATO_CAT);
+
+        game.setupGame();
+        while (player1.hasCard(CardType.HAIRY_POTATO_CAT)) {
+            player1.removeCard(CardType.HAIRY_POTATO_CAT);
+        }
+        player1.addCard(card);
+
+        game.playCard(CardType.HAIRY_POTATO_CAT);
+
+        assertFalse(player1.getHand().contains(card));
+        assertTrue(game.getDiscardPile().contains(card));
+    }
 }
