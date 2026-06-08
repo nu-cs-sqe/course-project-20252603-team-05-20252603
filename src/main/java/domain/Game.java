@@ -254,6 +254,22 @@ public class Game {
         }
     }
 
+    public Card playMark(Player targetPlayer) {
+        validateGameCanPlayCard();
+
+        Player currentPlayer = getCurrentPlayer();
+        validateTargetPlayer(targetPlayer, currentPlayer);
+
+        if (!currentPlayer.hasCard(CardType.MARK)) {
+            throw new IllegalStateException("Player does not have card of type " + CardType.MARK);
+        }
+
+        Card playedCard = currentPlayer.removeCard(CardType.MARK);
+        discardPile.add(playedCard);
+
+        return targetPlayer.getHand().get(0);
+    }
+
     private void validateGameCanPlayCard() {
         if (!setupComplete) {
             throw new IllegalStateException("Game setup has not been completed");

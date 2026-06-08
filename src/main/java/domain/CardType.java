@@ -7,6 +7,7 @@ public enum CardType {
     SKIP,
     FAVOR,
     TRADE,
+    MARK,
     SHUFFLE,
     SEE_THE_FUTURE,
     NOPE,

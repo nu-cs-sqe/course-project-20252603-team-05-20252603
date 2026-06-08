@@ -258,4 +258,14 @@ Effect:
 - The player who played Trade swaps one card with the chosen player.
 - The discarded Trade card cannot be swapped.
 
+## Mark
+
+Mark is an implemented additional card.
+
+Effect:
+- Choose another player.
+- Discard the Mark card.
+- Reveal one card from the chosen player's hand.
+- The revealed card stays in the chosen player's hand.
+
 Additional Win Condition:
