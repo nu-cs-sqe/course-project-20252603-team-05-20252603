@@ -741,4 +741,20 @@ public class GamePlayCardTest {
 
         assertEquals(player2, game.getCurrentPlayer());
     }
+
+    // G95
+    @Test
+    public void playingSkipBypassesEliminatedNextPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        player1.addCard(new Card(CardType.SKIP));
+        player2.eliminate();
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(player3, game.getCurrentPlayer());
+    }
 }
