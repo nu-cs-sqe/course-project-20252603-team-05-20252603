@@ -219,14 +219,14 @@
 | G163 | A Shield is used against an Exploding Kitten | Used Shield is added to the discard pile | :y: |
 | G164 | A Shield is used against an Exploding Kitten | Current player's turn ends and advances to the next active player | :y: |
 | G165 | Current player has both a Defuse and a Shield when drawing an Exploding Kitten | Defuse is consumed first and Shield remains in the player's hand | :y: |
-| G166 | Cat three combo has `null` card type | Throws `IllegalArgumentException` | :n: |
-| G167 | Cat three combo card type is not a Cat Card | Throws `IllegalArgumentException` | :n: |
-| G168 | Cat three combo target player is `null` | Throws `IllegalArgumentException` | :n: |
-| G169 | Cat three combo target player is not in the game | Throws `IllegalArgumentException` | :n: |
-| G170 | Cat three combo targets the current player | Throws `IllegalArgumentException` | :n: |
-| G171 | Cat three combo requested card type is `null` | Throws `IllegalArgumentException` | :n: |
-| G172 | Current player has fewer than three matching Cat Cards | Throws `IllegalStateException` | :n: |
-| G173 | Invalid Cat three combo attempt | Matching Cat Cards remain in current player's hand and are not discarded | :n: |
+| G166 | Cat three combo has `null` card type | Throws `IllegalArgumentException` | :y: |
+| G167 | Cat three combo card type is not a Cat Card | Throws `IllegalArgumentException` | :y: |
+| G168 | Cat three combo target player is `null` | Throws `IllegalArgumentException` | :y: |
+| G169 | Cat three combo target player is not in the game | Throws `IllegalArgumentException` | :y: |
+| G170 | Cat three combo targets the current player | Throws `IllegalArgumentException` | :y: |
+| G171 | Cat three combo requested card type is `null` | Throws `IllegalArgumentException` | :y: |
+| G172 | Current player has fewer than three matching Cat Cards | Throws `IllegalStateException` | :y: |
+| G173 | Invalid Cat three combo attempt | Matching Cat Cards remain in current player's hand and are not discarded | :y: |
 | G174 | Current player plays a valid Cat three combo | Removes exactly three matching Cat Cards from current player's hand | :n: |
 | G175 | Current player plays a valid Cat three combo | Adds all three played Cat Cards to the discard pile | :n: |
 | G176 | Current player plays three matching `TACO_CAT` cards | Cat three combo succeeds | :n: |

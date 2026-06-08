@@ -300,6 +300,29 @@ public class Game {
         currentPlayer.addCard(transferredCard);
     }
 
+    public void playCatThreeCombo(CardType catType, Player targetPlayer, CardType requestedType) {
+        if (catType == null) {
+            throw new IllegalArgumentException("Cat card type cannot be null");
+        }
+
+        if (!isCatCard(catType)) {
+            throw new IllegalArgumentException("Card type must be a Cat Card");
+        }
+
+        validateGameCanPlayCard();
+
+        Player currentPlayer = getCurrentPlayer();
+        validateTargetPlayerSelection(targetPlayer, currentPlayer);
+
+        if (requestedType == null) {
+            throw new IllegalArgumentException("Requested card type cannot be null");
+        }
+
+        if (currentPlayer.countCardsOfType(catType) < 3) {
+            throw new IllegalStateException("Current player needs three matching Cat Cards");
+        }
+    }
+
     private void validateGameCanPlayCard() {
         if (!setupComplete) {
             throw new IllegalStateException("Game setup has not been completed");
@@ -311,6 +334,14 @@ public class Game {
     }
 
     private void validateTargetPlayer(Player targetPlayer, Player currentPlayer) {
+        validateTargetPlayerSelection(targetPlayer, currentPlayer);
+
+        if (targetPlayer.getHand().isEmpty()) {
+            throw new IllegalStateException("Target player has no cards");
+        }
+    }
+
+    private void validateTargetPlayerSelection(Player targetPlayer, Player currentPlayer) {
         if (targetPlayer == null) {
             throw new IllegalArgumentException("Target player cannot be null");
         }
@@ -321,10 +352,6 @@ public class Game {
 
         if (targetPlayer == currentPlayer) {
             throw new IllegalArgumentException("Target player must be different");
-        }
-
-        if (targetPlayer.getHand().isEmpty()) {
-            throw new IllegalStateException("Target player has no cards");
         }
     }
 
