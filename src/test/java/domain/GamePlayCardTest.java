@@ -727,4 +727,18 @@ public class GamePlayCardTest {
         assertEquals(deckSize, game.getDeck().size());
         assertEquals(player2, game.getCurrentPlayer());
     }
+
+    // G94
+    @Test
+    public void playingSkipAdvancesToNextActivePlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
 }
