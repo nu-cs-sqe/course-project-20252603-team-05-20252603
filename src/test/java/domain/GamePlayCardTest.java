@@ -563,4 +563,21 @@ public class GamePlayCardTest {
         assertTrue(game.isGameOver());
         assertEquals(player2, game.getWinner());
     }
+
+    // G84
+    @Test
+    public void explodingKittenIsNotAddedToUnprotectedPlayersHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(0, player1.countCardsOfType(CardType.EXPLODING_KITTEN));
+    }
 }
