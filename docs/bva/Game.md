@@ -133,4 +133,4 @@
 | G77 | Current player plays `ATTACK` | Deck size does not change | :y: |
 | G78 | Current player plays `ATTACK` | No player is eliminated | :y: |
 | G79 | Attacked player plays `ATTACK` before drawing | Next player must take 4 turns | :y: |
-| G80 | Attacked player plays `ATTACK` after one attacked draw | Next player must take 3 turns | :x: |
+| G80 | Attacked player plays `ATTACK` after one attacked draw | Next player must take 3 turns | :y: |
