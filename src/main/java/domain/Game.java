@@ -14,6 +14,7 @@ public class Game {
     private boolean setupComplete;
 
     private int currentPlayerIndex;
+    private int pendingTurnsForCurrentPlayer;
 
     public Game(List<Player> players, Deck deck) {
         if (players == null) {
@@ -43,6 +44,7 @@ public class Game {
         this.discardPile = new ArrayList<>();
         this.setupComplete = false;
         this.currentPlayerIndex = 0;
+        this.pendingTurnsForCurrentPlayer = 0;
     }
 
     public void setupGame() {
@@ -114,9 +116,8 @@ public class Game {
             throw new IllegalStateException("Game is over");
         }
 
-        do {
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        } while (!players.get(currentPlayerIndex).isActive());
+        pendingTurnsForCurrentPlayer = 0;
+        moveToNextActivePlayer();
     }
 
     public void drawCard() {
@@ -134,12 +135,13 @@ public class Game {
         if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
             if (currentPlayer.hasCard(CardType.DEFUSE)) {
                 currentPlayer.removeCard(CardType.DEFUSE);
-                endTurn();
+                finishCurrentDrawTurn();
             } else {
                 currentPlayer.eliminate();
 
                 if (getActivePlayerCount() > 1) {
-                    endTurn();
+                    pendingTurnsForCurrentPlayer = 0;
+                    moveToNextActivePlayer();
                 }
             }
 
@@ -147,7 +149,7 @@ public class Game {
         }
 
         currentPlayer.addCard(drawnCard);
-        endTurn();
+        finishCurrentDrawTurn();
     }
 
     public boolean isGameOver() {
@@ -204,5 +206,26 @@ public class Game {
         Player currentPlayer = getCurrentPlayer();
         Card playedCard = currentPlayer.removeCard(type);
         discardPile.add(playedCard);
+
+        if (type == CardType.ATTACK) {
+            pendingTurnsForCurrentPlayer += 2;
+            moveToNextActivePlayer();
+        }
+    }
+
+    private void finishCurrentDrawTurn() {
+        if (pendingTurnsForCurrentPlayer > 1) {
+            pendingTurnsForCurrentPlayer--;
+            return;
+        }
+
+        pendingTurnsForCurrentPlayer = 0;
+        moveToNextActivePlayer();
+    }
+
+    private void moveToNextActivePlayer() {
+        do {
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        } while (!players.get(currentPlayerIndex).isActive());
     }
 }

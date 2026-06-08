@@ -302,4 +302,195 @@ public class GamePlayCardTest {
         assertTrue(player1.isActive());
         assertTrue(player2.isActive());
     }
+
+    // G72
+    @Test
+    public void playCardWithAttackMovesCardFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+        Card card = new Card(CardType.ATTACK);
+
+        game.setupGame();
+        while (player1.hasCard(CardType.ATTACK)) {
+            player1.removeCard(CardType.ATTACK);
+        }
+        player1.addCard(card);
+
+        game.playCard(CardType.ATTACK);
+
+        assertFalse(player1.getHand().contains(card));
+        assertTrue(game.getDiscardPile().contains(card));
+    }
+
+    // G73
+    @Test
+    public void playCardWithAttackAdvancesTurnToNextPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.ATTACK));
+
+        game.playCard(CardType.ATTACK);
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G74
+    @Test
+    public void attackedPlayerRemainsCurrentPlayerAfterFirstDraw() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.ATTACK));
+        game.playCard(CardType.ATTACK);
+        deck.insertBottom(new Card(CardType.SKIP));
+
+        game.drawCard();
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G75
+    @Test
+    public void attackedPlayerAdvancesTurnAfterSecondDraw() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.ATTACK));
+        game.playCard(CardType.ATTACK);
+        deck.insertBottom(new Card(CardType.SKIP));
+        game.drawCard();
+        deck.insertBottom(new Card(CardType.SHUFFLE));
+
+        game.drawCard();
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    // G76
+    @Test
+    public void playCardWithAttackSkipsEliminatedPlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+        player2.eliminate();
+        player1.addCard(new Card(CardType.ATTACK));
+
+        game.playCard(CardType.ATTACK);
+
+        assertEquals(player3, game.getCurrentPlayer());
+    }
+
+    // G77
+    @Test
+    public void playCardWithAttackDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.ATTACK));
+        int deckSizeBeforePlay = deck.size();
+
+        game.playCard(CardType.ATTACK);
+
+        assertEquals(deckSizeBeforePlay, deck.size());
+    }
+
+    // G78
+    @Test
+    public void playCardWithAttackDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.ATTACK));
+
+        game.playCard(CardType.ATTACK);
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
+    // G79
+    @Test
+    public void attackStacksToFourTurnsWhenAttackedPlayerAttacksBeforeDrawing() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.ATTACK));
+        player2.addCard(new Card(CardType.ATTACK));
+
+        game.playCard(CardType.ATTACK);
+        game.playCard(CardType.ATTACK);
+
+        deck.insertBottom(new Card(CardType.SKIP));
+        game.drawCard();
+        assertEquals(player3, game.getCurrentPlayer());
+
+        deck.insertBottom(new Card(CardType.SHUFFLE));
+        game.drawCard();
+        assertEquals(player3, game.getCurrentPlayer());
+
+        deck.insertBottom(new Card(CardType.NOPE));
+        game.drawCard();
+        assertEquals(player3, game.getCurrentPlayer());
+
+        deck.insertBottom(new Card(CardType.TACO_CAT));
+        game.drawCard();
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    // G80
+    @Test
+    public void attackStacksToThreeTurnsWhenAttackedPlayerAttacksAfterOneDraw() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.ATTACK));
+        player2.addCard(new Card(CardType.ATTACK));
+
+        game.playCard(CardType.ATTACK);
+        deck.insertBottom(new Card(CardType.SKIP));
+        game.drawCard();
+        game.playCard(CardType.ATTACK);
+
+        deck.insertBottom(new Card(CardType.SHUFFLE));
+        game.drawCard();
+        assertEquals(player3, game.getCurrentPlayer());
+
+        deck.insertBottom(new Card(CardType.NOPE));
+        game.drawCard();
+        assertEquals(player3, game.getCurrentPlayer());
+
+        deck.insertBottom(new Card(CardType.TACO_CAT));
+        game.drawCard();
+        assertEquals(player1, game.getCurrentPlayer());
+    }
 }
