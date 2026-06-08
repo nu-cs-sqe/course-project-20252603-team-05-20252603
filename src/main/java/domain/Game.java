@@ -195,8 +195,8 @@ public class Game {
             throw new IllegalArgumentException("Card type cannot be null");
         }
 
-        if (type == CardType.FAVOR) {
-            throw new IllegalArgumentException("Favor requires a target player");
+        if (type == CardType.FAVOR || type == CardType.TRADE) {
+            throw new IllegalArgumentException(type + " requires a target player");
         }
 
         if (!setupComplete) {
@@ -224,7 +224,7 @@ public class Game {
             throw new IllegalArgumentException("Card type cannot be null");
         }
 
-        if (type != CardType.FAVOR) {
+        if (type != CardType.FAVOR && type != CardType.TRADE) {
             playCard(type);
             return;
         }
@@ -232,13 +232,26 @@ public class Game {
         validateGameCanPlayCard();
 
         Player currentPlayer = getCurrentPlayer();
-        validateFavorTarget(targetPlayer, currentPlayer);
+        validateTargetPlayer(targetPlayer, currentPlayer);
+
+        if (type == CardType.TRADE) {
+            validateTradeCards(currentPlayer, targetPlayer);
+        }
 
         Card playedCard = currentPlayer.removeCard(type);
         discardPile.add(playedCard);
 
-        Card transferredCard = targetPlayer.removeCard(targetPlayer.getHand().get(0).getType());
-        currentPlayer.addCard(transferredCard);
+        if (type == CardType.FAVOR) {
+            Card transferredCard = targetPlayer.removeCard(targetPlayer.getHand().get(0).getType());
+            currentPlayer.addCard(transferredCard);
+        } else if (type == CardType.TRADE) {
+            Card currentPlayerCard = currentPlayer.removeCard(
+                    currentPlayer.getHand().get(0).getType());
+            Card targetPlayerCard = targetPlayer.removeCard(
+                    targetPlayer.getHand().get(0).getType());
+            currentPlayer.addCard(targetPlayerCard);
+            targetPlayer.addCard(currentPlayerCard);
+        }
     }
 
     private void validateGameCanPlayCard() {
@@ -251,7 +264,7 @@ public class Game {
         }
     }
 
-    private void validateFavorTarget(Player targetPlayer, Player currentPlayer) {
+    private void validateTargetPlayer(Player targetPlayer, Player currentPlayer) {
         if (targetPlayer == null) {
             throw new IllegalArgumentException("Target player cannot be null");
         }
@@ -262,6 +275,20 @@ public class Game {
 
         if (targetPlayer == currentPlayer) {
             throw new IllegalArgumentException("Target player must be different");
+        }
+
+        if (targetPlayer.getHand().isEmpty()) {
+            throw new IllegalStateException("Target player has no cards");
+        }
+    }
+
+    private void validateTradeCards(Player currentPlayer, Player targetPlayer) {
+        if (!currentPlayer.hasCard(CardType.TRADE)) {
+            throw new IllegalStateException("Player does not have card of type " + CardType.TRADE);
+        }
+
+        if (currentPlayer.getHand().size() < 2) {
+            throw new IllegalStateException("Current player has no card to trade");
         }
 
         if (targetPlayer.getHand().isEmpty()) {

@@ -248,4 +248,14 @@ That player wins.
 
 Additional Cards:
 
+## Trade
+
+Trade is Anthony's invented card.
+
+Effect:
+- Choose another player.
+- Discard the Trade card.
+- The player who played Trade swaps one card with the chosen player.
+- The discarded Trade card cannot be swapped.
+
 Additional Win Condition:

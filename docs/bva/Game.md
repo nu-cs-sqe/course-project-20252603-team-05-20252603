@@ -163,3 +163,20 @@
 | G107 | Current player plays valid `FAVOR` | Target player loses one card and current player receives that card | :y: |
 | G108 | Target player has multiple cards | Transfers the first card from the target player's hand | :y: |
 | G109 | Current player plays valid `FAVOR` | Current player does not change | :y: |
+| G110 | Current player plays `TRADE` without a target player | Throws `IllegalArgumentException` | :y: |
+| G111 | Current player plays untargeted `TRADE` | `TRADE` remains in current player's hand | :y: |
+| G112 | Current player plays untargeted `TRADE` | `TRADE` is not added to discard pile | :y: |
+| G113 | Current player plays `TRADE` with `null` target player | Throws `IllegalArgumentException` | :y: |
+| G114 | Current player plays `TRADE` with a target player not in the game | Throws `IllegalArgumentException` | :y: |
+| G115 | Current player plays `TRADE` targeting themself | Throws `IllegalArgumentException` | :y: |
+| G116 | Current player does not have `TRADE` | Throws `IllegalStateException` | :y: |
+| G117 | Current player has `TRADE` but no remaining card to swap after playing it | Throws `IllegalStateException` | :y: |
+| G118 | Current player plays `TRADE` targeting a player with no cards | Throws `IllegalStateException` | :y: |
+| G119 | Invalid targeted `TRADE` play | `TRADE` remains in current player's hand and is not discarded | :y: |
+| G120 | Current player plays valid `TRADE` | Removes `TRADE` from current player's hand and adds it to discard pile | :y: |
+| G121 | Current player plays valid `TRADE` | Current player and target player each exchange one card | :y: |
+| G122 | Both players have multiple cards during valid `TRADE` | Swaps current player's first remaining card with target player's first card | :y: |
+| G123 | Current player plays valid `TRADE` | Discarded `TRADE` card is not swapped | :y: |
+| G124 | Current player plays valid `TRADE` | Current player does not change | :y: |
+| G125 | Current player plays valid `TRADE` | Deck size does not change | :y: |
+| G126 | Current player plays valid `TRADE` | No player is eliminated | :y: |
