@@ -528,4 +528,21 @@ public class GamePlayCardTest {
 
         assertFalse(player1.isActive());
     }
+
+    // G82
+    @Test
+    public void explodingKittenContinuesGameWithNextActivePlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
 }
