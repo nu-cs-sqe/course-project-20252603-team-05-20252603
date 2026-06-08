@@ -244,6 +244,13 @@ public class Game {
         if (type == CardType.FAVOR) {
             Card transferredCard = targetPlayer.removeCard(targetPlayer.getHand().get(0).getType());
             currentPlayer.addCard(transferredCard);
+        } else if (type == CardType.TRADE) {
+            Card currentPlayerCard = currentPlayer.removeCard(
+                    currentPlayer.getHand().get(0).getType());
+            Card targetPlayerCard = targetPlayer.removeCard(
+                    targetPlayer.getHand().get(0).getType());
+            currentPlayer.addCard(targetPlayerCard);
+            targetPlayer.addCard(currentPlayerCard);
         }
     }
 

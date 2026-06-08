@@ -173,10 +173,10 @@
 | G117 | Current player has `TRADE` but no remaining card to swap after playing it | Throws `IllegalStateException` | :y: |
 | G118 | Current player plays `TRADE` targeting a player with no cards | Throws `IllegalStateException` | :y: |
 | G119 | Invalid targeted `TRADE` play | `TRADE` remains in current player's hand and is not discarded | :y: |
-| G120 | Current player plays valid `TRADE` | Removes `TRADE` from current player's hand and adds it to discard pile | :n: |
-| G121 | Current player plays valid `TRADE` | Current player and target player each exchange one card | :n: |
-| G122 | Both players have multiple cards during valid `TRADE` | Swaps current player's first remaining card with target player's first card | :n: |
-| G123 | Current player plays valid `TRADE` | Discarded `TRADE` card is not swapped | :n: |
-| G124 | Current player plays valid `TRADE` | Current player does not change | :n: |
-| G125 | Current player plays valid `TRADE` | Deck size does not change | :n: |
-| G126 | Current player plays valid `TRADE` | No player is eliminated | :n: |
+| G120 | Current player plays valid `TRADE` | Removes `TRADE` from current player's hand and adds it to discard pile | :y: |
+| G121 | Current player plays valid `TRADE` | Current player and target player each exchange one card | :y: |
+| G122 | Both players have multiple cards during valid `TRADE` | Swaps current player's first remaining card with target player's first card | :y: |
+| G123 | Current player plays valid `TRADE` | Discarded `TRADE` card is not swapped | :y: |
+| G124 | Current player plays valid `TRADE` | Current player does not change | :y: |
+| G125 | Current player plays valid `TRADE` | Deck size does not change | :y: |
+| G126 | Current player plays valid `TRADE` | No player is eliminated | :y: |

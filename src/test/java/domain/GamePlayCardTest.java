@@ -1057,4 +1057,146 @@ public class GamePlayCardTest {
         assertTrue(player1.getHand().contains(trade));
         assertFalse(game.getDiscardPile().contains(trade));
     }
+
+    // G120
+    @Test
+    public void validTradeRemovesAndDiscardsTrade() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card trade = new Card(CardType.TRADE);
+
+        player1.addCard(trade);
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        game.playCard(CardType.TRADE, player2);
+
+        assertFalse(player1.getHand().contains(trade));
+        assertTrue(game.getDiscardPile().contains(trade));
+    }
+
+    // G121
+    @Test
+    public void validTradeSwapsOneCardBetweenCurrentPlayerAndTargetPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card currentPlayerCard = new Card(CardType.SHUFFLE);
+        Card targetPlayerCard = new Card(CardType.ATTACK);
+
+        while (!player1.getHand().isEmpty()) {
+            player1.removeCard(player1.getHand().get(0).getType());
+        }
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.TRADE));
+        player1.addCard(currentPlayerCard);
+        player2.addCard(targetPlayerCard);
+
+        game.playCard(CardType.TRADE, player2);
+
+        assertTrue(player1.getHand().contains(targetPlayerCard));
+        assertTrue(player2.getHand().contains(currentPlayerCard));
+        assertFalse(player1.getHand().contains(currentPlayerCard));
+        assertFalse(player2.getHand().contains(targetPlayerCard));
+    }
+
+    // G122
+    @Test
+    public void validTradeSwapsFirstRemainingCurrentCardWithFirstTargetCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstCurrentCard = new Card(CardType.SHUFFLE);
+        Card secondCurrentCard = new Card(CardType.SKIP);
+        Card firstTargetCard = new Card(CardType.ATTACK);
+        Card secondTargetCard = new Card(CardType.NOPE);
+
+        while (!player1.getHand().isEmpty()) {
+            player1.removeCard(player1.getHand().get(0).getType());
+        }
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.TRADE));
+        player1.addCard(firstCurrentCard);
+        player1.addCard(secondCurrentCard);
+        player2.addCard(firstTargetCard);
+        player2.addCard(secondTargetCard);
+
+        game.playCard(CardType.TRADE, player2);
+
+        assertTrue(player1.getHand().contains(firstTargetCard));
+        assertTrue(player1.getHand().contains(secondCurrentCard));
+        assertFalse(player1.getHand().contains(firstCurrentCard));
+        assertTrue(player2.getHand().contains(firstCurrentCard));
+        assertTrue(player2.getHand().contains(secondTargetCard));
+        assertFalse(player2.getHand().contains(firstTargetCard));
+    }
+
+    // G123
+    @Test
+    public void validTradeDoesNotSwapPlayedTradeCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card trade = new Card(CardType.TRADE);
+
+        player1.addCard(trade);
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        game.playCard(CardType.TRADE, player2);
+
+        assertTrue(game.getDiscardPile().contains(trade));
+        assertFalse(player1.getHand().contains(trade));
+        assertFalse(player2.getHand().contains(trade));
+    }
+
+    // G124
+    @Test
+    public void validTradeDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TRADE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        game.playCard(CardType.TRADE, player2);
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    // G125
+    @Test
+    public void validTradeDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TRADE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+        int deckSizeBeforeTrade = game.getDeck().size();
+
+        game.playCard(CardType.TRADE, player2);
+
+        assertEquals(deckSizeBeforeTrade, game.getDeck().size());
+    }
+
+    // G126
+    @Test
+    public void validTradeDoesNotEliminatePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TRADE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        game.playCard(CardType.TRADE, player2);
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
 }
