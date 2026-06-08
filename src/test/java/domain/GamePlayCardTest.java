@@ -1752,4 +1752,21 @@ public class GamePlayCardTest {
 
         assertTrue(game.getDiscardPile().contains(shield));
     }
+
+    // G164
+    @Test
+    public void usingShieldEndsTurnAndAdvancesToNextPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.SHIELD));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
 }
