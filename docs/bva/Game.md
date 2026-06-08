@@ -180,3 +180,16 @@
 | G124 | Current player plays valid `TRADE` | Current player does not change | :y: |
 | G125 | Current player plays valid `TRADE` | Deck size does not change | :y: |
 | G126 | Current player plays valid `TRADE` | No player is eliminated | :y: |
+| G127 | Current player plays `MARK` with `null` target player | Throws `IllegalArgumentException` | :n: |
+| G128 | Current player plays `MARK` with a target player not in the game | Throws `IllegalArgumentException` | :n: |
+| G129 | Current player plays `MARK` targeting themself | Throws `IllegalArgumentException` | :n: |
+| G130 | Current player does not have `MARK` | Throws `IllegalStateException` | :n: |
+| G131 | Current player plays `MARK` targeting a player with no cards | Throws `IllegalStateException` | :n: |
+| G132 | Invalid `MARK` play | `MARK` remains in current player's hand and is not discarded | :n: |
+| G133 | Current player plays valid `MARK` | Removes `MARK` from current player's hand | :n: |
+| G134 | Current player plays valid `MARK` | Adds `MARK` to the discard pile | :n: |
+| G135 | Current player plays valid `MARK` | Reveals the first card from the target player's hand | :n: |
+| G136 | Current player plays valid `MARK` | Revealed card remains in the target player's hand | :n: |
+| G137 | Current player plays valid `MARK` | Current player does not change | :n: |
+| G138 | Current player plays valid `MARK` | Deck size does not change | :n: |
+| G139 | Current player plays valid `MARK` | No player is eliminated | :n: |
