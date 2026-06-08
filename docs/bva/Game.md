@@ -150,3 +150,16 @@
 | G94 | Current player plays Skip while the next player is active | Current player advances to the next player | :y: |
 | G95 | Current player plays Skip while the next player is eliminated | Turn advances to the next active player | :y: |
 | G96 | Last player in the list plays Skip | Turn order wraps around to the first active player | :y: |
+| G97 | Current player plays `FAVOR` without a target player | Throws `IllegalArgumentException` | :n: |
+| G98 | Current player plays untargeted `FAVOR` | `FAVOR` remains in current player's hand | :n: |
+| G99 | Current player plays untargeted `FAVOR` | `FAVOR` is not added to discard pile | :n: |
+| G100 | Current player plays `FAVOR` with `null` target player | Throws `IllegalArgumentException` | :n: |
+| G101 | Current player plays `FAVOR` with a target player not in the game | Throws `IllegalArgumentException` | :n: |
+| G102 | Current player plays `FAVOR` targeting themself | Throws `IllegalArgumentException` | :n: |
+| G103 | Current player plays `FAVOR` targeting a player with no cards | Throws `IllegalStateException` | :n: |
+| G104 | Current player does not have `FAVOR` | Throws `IllegalStateException` | :n: |
+| G105 | Invalid targeted `FAVOR` play | `FAVOR` remains in current player's hand and is not discarded | :n: |
+| G106 | Current player plays valid `FAVOR` | Removes `FAVOR` from current player's hand and adds it to discard pile | :n: |
+| G107 | Current player plays valid `FAVOR` | Target player loses one card and current player receives that card | :n: |
+| G108 | Target player has multiple cards | Transfers the first card from the target player's hand | :n: |
+| G109 | Current player plays valid `FAVOR` | Current player does not change | :n: |

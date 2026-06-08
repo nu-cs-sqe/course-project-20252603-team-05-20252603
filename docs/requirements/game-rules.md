@@ -20,6 +20,7 @@ Based on the Grab & Game Edition rules.
 | Defuse | 5 |
 | Attack | 3 |
 | Skip | 3 |
+| Favor | 4 |
 | Shuffle | 4 |
 | See the Future | 4 |
 | Nope | 4 |
@@ -28,7 +29,7 @@ Based on the Grab & Game Edition rules.
 | Rainbow Ralphing Cat | 4 |
 | Hairy Potato Cat | 4 |
 
-Total cards: **42** 
+Total cards: **46** 
 
 ---
 
@@ -134,6 +135,14 @@ Example:
 Attack (2 turns)
 Play Skip → 1 turn remains
 Play another Skip → all turns cleared.
+
+---
+
+## Favor (4)
+
+Effect:
+- Choose another player.
+- That player gives one card from their hand to the player who played Favor.
 
 ---
 
