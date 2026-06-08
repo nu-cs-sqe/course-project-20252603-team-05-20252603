@@ -377,4 +377,22 @@ public class GamePlayCardTest {
 
         assertEquals(player1, game.getCurrentPlayer());
     }
+
+    // G76
+    @Test
+    public void playCardWithAttackSkipsEliminatedPlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+        player2.eliminate();
+        player1.addCard(new Card(CardType.ATTACK));
+
+        game.playCard(CardType.ATTACK);
+
+        assertEquals(player3, game.getCurrentPlayer());
+    }
 }
