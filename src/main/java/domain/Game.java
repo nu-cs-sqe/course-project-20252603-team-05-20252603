@@ -208,7 +208,7 @@ public class Game {
         discardPile.add(playedCard);
 
         if (type == CardType.ATTACK) {
-            pendingTurnsForCurrentPlayer = 2;
+            pendingTurnsForCurrentPlayer += 2;
             moveToNextActivePlayer();
         }
     }

@@ -429,4 +429,37 @@ public class GamePlayCardTest {
         assertTrue(player1.isActive());
         assertTrue(player2.isActive());
     }
+
+    // G79
+    @Test
+    public void attackStacksToFourTurnsWhenAttackedPlayerAttacksBeforeDrawing() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.ATTACK));
+        player2.addCard(new Card(CardType.ATTACK));
+
+        game.playCard(CardType.ATTACK);
+        game.playCard(CardType.ATTACK);
+
+        deck.insertBottom(new Card(CardType.SKIP));
+        game.drawCard();
+        assertEquals(player3, game.getCurrentPlayer());
+
+        deck.insertBottom(new Card(CardType.SHUFFLE));
+        game.drawCard();
+        assertEquals(player3, game.getCurrentPlayer());
+
+        deck.insertBottom(new Card(CardType.NOPE));
+        game.drawCard();
+        assertEquals(player3, game.getCurrentPlayer());
+
+        deck.insertBottom(new Card(CardType.TACO_CAT));
+        game.drawCard();
+        assertEquals(player1, game.getCurrentPlayer());
+    }
 }
