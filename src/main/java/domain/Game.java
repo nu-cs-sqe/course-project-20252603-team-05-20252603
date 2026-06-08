@@ -236,6 +236,9 @@ public class Game {
 
         Card playedCard = currentPlayer.removeCard(type);
         discardPile.add(playedCard);
+
+        Card transferredCard = targetPlayer.removeCard(targetPlayer.getHand().get(0).getType());
+        currentPlayer.addCard(transferredCard);
     }
 
     private void validateGameCanPlayCard() {

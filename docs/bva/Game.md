@@ -159,7 +159,7 @@
 | G103 | Current player plays `FAVOR` targeting a player with no cards | Throws `IllegalStateException` | :y: |
 | G104 | Current player does not have `FAVOR` | Throws `IllegalStateException` | :y: |
 | G105 | Invalid targeted `FAVOR` play | `FAVOR` remains in current player's hand and is not discarded | :y: |
-| G106 | Current player plays valid `FAVOR` | Removes `FAVOR` from current player's hand and adds it to discard pile | :n: |
-| G107 | Current player plays valid `FAVOR` | Target player loses one card and current player receives that card | :n: |
-| G108 | Target player has multiple cards | Transfers the first card from the target player's hand | :n: |
-| G109 | Current player plays valid `FAVOR` | Current player does not change | :n: |
+| G106 | Current player plays valid `FAVOR` | Removes `FAVOR` from current player's hand and adds it to discard pile | :y: |
+| G107 | Current player plays valid `FAVOR` | Target player loses one card and current player receives that card | :y: |
+| G108 | Target player has multiple cards | Transfers the first card from the target player's hand | :y: |
+| G109 | Current player plays valid `FAVOR` | Current player does not change | :y: |
