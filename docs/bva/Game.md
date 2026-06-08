@@ -125,3 +125,10 @@
 | G69 | Current player plays a Cat Card | Current player does not change | :y: |
 | G70 | Current player plays a Cat Card | Deck size does not change | :y: |
 | G71 | Current player plays a Cat Card | No player is eliminated | :y: |
+| G72 | Current player plays `ATTACK` | Removes `ATTACK` from hand and adds it to discard pile | :x: |
+| G73 | Current player plays `ATTACK` with 2 active players | Current player changes to the next player | :x: |
+| G74 | Attacked player draws the first card of the attack | Current player remains the attacked player | :x: |
+| G75 | Attacked player draws the second card of the attack | Current player advances to the next active player | :x: |
+| G76 | Current player plays `ATTACK` and next player in order is eliminated | Current player changes to the next active player | :x: |
+| G77 | Current player plays `ATTACK` | Deck size does not change | :x: |
+| G78 | Current player plays `ATTACK` | No player is eliminated | :x: |
