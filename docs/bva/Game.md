@@ -138,3 +138,8 @@
 | G82 | Current player draws an Exploding Kitten with no protection while 3 players are active | Game continues with the next active player | :y: |
 | G83 | Current player draws an Exploding Kitten with no protection while exactly 2 players are active | Current player is eliminated and the other player wins | :y: |
 | G84 | Current player draws an Exploding Kitten with no protection | Exploding Kitten is not added to the player's hand | :y: |
+| G85 | Current player has 0 Defuse cards and draws an Exploding Kitten | Player is eliminated | :y: |
+| G86 | Current player has exactly 1 Defuse card and draws an Exploding Kitten | Exactly 1 Defuse is removed and the player remains active | :y: |
+| G87 | Current player has 2 Defuse cards and draws an Exploding Kitten | Exactly 1 Defuse is removed and 1 Defuse remains | :y: |
+| G88 | A Defuse is used against an Exploding Kitten | Used Defuse is added to the discard pile | :y: |
+| G89 | A Defuse is used against an Exploding Kitten | Current player's turn ends and advances to the next active player | :y: |

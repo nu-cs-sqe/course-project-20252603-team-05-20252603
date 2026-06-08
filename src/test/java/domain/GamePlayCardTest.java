@@ -580,4 +580,90 @@ public class GamePlayCardTest {
 
         assertEquals(0, player1.countCardsOfType(CardType.EXPLODING_KITTEN));
     }
+
+    // G85
+    @Test
+    public void zeroDefusesCannotPreventExplodingKittenElimination() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertFalse(player1.isActive());
+    }
+
+    // G86
+    @Test
+    public void oneDefuseIsRemovedAndPreventsExplodingKittenElimination() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.DEFUSE));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(0, player1.countCardsOfType(CardType.DEFUSE));
+        assertTrue(player1.isActive());
+    }
+
+    // G87
+    @Test
+    public void oneDefuseRemainsAfterExplodingKittenWhenPlayerHasTwo() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.DEFUSE));
+        player1.addCard(new Card(CardType.DEFUSE));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(1, player1.countCardsOfType(CardType.DEFUSE));
+    }
+
+    // G88
+    @Test
+    public void usedDefuseIsAddedToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        Card defuse = new Card(CardType.DEFUSE);
+        player1.addCard(defuse);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertTrue(game.getDiscardPile().contains(defuse));
+    }
+
+    // G89
+    @Test
+    public void usingDefuseEndsTurnAndAdvancesToNextPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
 }
