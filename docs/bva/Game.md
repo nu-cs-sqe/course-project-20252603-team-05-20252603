@@ -130,5 +130,5 @@
 | G74 | Attacked player draws the first card of the attack | Current player remains the attacked player | :y: |
 | G75 | Attacked player draws the second card of the attack | Current player advances to the next active player | :y: |
 | G76 | Current player plays `ATTACK` and next player in order is eliminated | Current player changes to the next active player | :y: |
-| G77 | Current player plays `ATTACK` | Deck size does not change | :x: |
+| G77 | Current player plays `ATTACK` | Deck size does not change | :y: |
 | G78 | Current player plays `ATTACK` | No player is eliminated | :x: |

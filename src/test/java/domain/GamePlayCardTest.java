@@ -395,4 +395,21 @@ public class GamePlayCardTest {
 
         assertEquals(player3, game.getCurrentPlayer());
     }
+
+    // G77
+    @Test
+    public void playCardWithAttackDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.ATTACK));
+        int deckSizeBeforePlay = deck.size();
+
+        game.playCard(CardType.ATTACK);
+
+        assertEquals(deckSizeBeforePlay, deck.size());
+    }
 }
