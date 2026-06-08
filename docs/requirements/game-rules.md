@@ -192,6 +192,12 @@ Each has 4 copies.
 
 Cat cards have no individual effect.
 
+Implemented pair combo:
+- Play two matching Cat Cards.
+- Choose another player.
+- Discard both Cat Cards.
+- Take one card from the chosen player's hand.
+
 ---
 
 # Special Combos
