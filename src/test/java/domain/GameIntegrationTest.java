@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameIntegrationTest {
@@ -117,6 +116,41 @@ public class GameIntegrationTest {
         assertTrue(player1.getHand().contains(requestedCard));
         assertFalse(player2.getHand().contains(requestedCard));
         assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void attackCreatesPendingTurnsAndRequiresAttackedPlayerToDrawTwice() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+        Deck deck = game.getDeck();
+        Card attack = new Card(CardType.ATTACK);
+        Card firstDrawnCard = new Card(CardType.SHUFFLE);
+        Card secondDrawnCard = new Card(CardType.SKIP);
+
+        removeAll(player1, CardType.ATTACK);
+        player1.addCard(attack);
+
+        game.playCard(CardType.ATTACK);
+
+        assertFalse(player1.getHand().contains(attack));
+        assertTrue(game.getDiscardPile().contains(attack));
+        assertEquals(player2, game.getCurrentPlayer());
+
+        emptyDeck(deck);
+        deck.insertBottom(secondDrawnCard);
+        deck.insertBottom(firstDrawnCard);
+
+        game.drawCard();
+
+        assertTrue(player2.getHand().contains(firstDrawnCard));
+        assertEquals(player2, game.getCurrentPlayer());
+
+        game.drawCard();
+
+        assertTrue(player2.getHand().contains(secondDrawnCard));
+        assertEquals(player3, game.getCurrentPlayer());
     }
 
     @Test
