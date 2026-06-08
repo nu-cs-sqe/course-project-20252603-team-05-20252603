@@ -193,3 +193,23 @@
 | G137 | Current player plays valid `MARK` | Current player does not change | :y: |
 | G138 | Current player plays valid `MARK` | Deck size does not change | :y: |
 | G139 | Current player plays valid `MARK` | No player is eliminated | :y: |
+| G140 | Cat pair combo has `null` card type | Throws `IllegalArgumentException` | :y: |
+| G141 | Cat pair combo card type is not a Cat Card | Throws `IllegalArgumentException` | :y: |
+| G142 | Cat pair combo target player is `null` | Throws `IllegalArgumentException` | :y: |
+| G143 | Cat pair combo target player is not in the game | Throws `IllegalArgumentException` | :y: |
+| G144 | Cat pair combo targets the current player | Throws `IllegalArgumentException` | :y: |
+| G145 | Current player has fewer than two matching Cat Cards | Throws `IllegalStateException` | :y: |
+| G146 | Cat pair combo target player has no cards | Throws `IllegalStateException` | :y: |
+| G147 | Invalid Cat pair combo attempt | Matching Cat Cards remain in current player's hand and are not discarded | :y: |
+| G148 | Current player plays a valid Cat pair combo | Removes exactly two matching Cat Cards from current player's hand | :y: |
+| G149 | Current player plays a valid Cat pair combo | Adds both played Cat Cards to the discard pile | :y: |
+| G150 | Current player plays two matching `TACO_CAT` cards | Cat pair combo succeeds | :y: |
+| G151 | Current player plays two matching `BEARD_CAT` cards | Cat pair combo succeeds | :y: |
+| G152 | Current player plays two matching `RAINBOW_RALPHING_CAT` cards | Cat pair combo succeeds | :y: |
+| G153 | Current player plays two matching `HAIRY_POTATO_CAT` cards | Cat pair combo succeeds | :y: |
+| G154 | Current player plays a valid Cat pair combo | Transfers the first card from target player's hand | :y: |
+| G155 | Current player plays a valid Cat pair combo | Target player loses the transferred card | :y: |
+| G156 | Current player plays a valid Cat pair combo | Current player gains the transferred card | :y: |
+| G157 | Current player plays a valid Cat pair combo | Current player does not change | :y: |
+| G158 | Current player plays a valid Cat pair combo | Deck size does not change | :y: |
+| G159 | Current player plays a valid Cat pair combo | No player is eliminated | :y: |

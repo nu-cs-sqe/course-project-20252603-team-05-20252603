@@ -270,6 +270,33 @@ public class Game {
         return targetPlayer.getHand().get(0);
     }
 
+    public void playCatPairCombo(CardType catType, Player targetPlayer) {
+        if (catType == null) {
+            throw new IllegalArgumentException("Cat card type cannot be null");
+        }
+
+        if (!isCatCard(catType)) {
+            throw new IllegalArgumentException("Card type must be a Cat Card");
+        }
+
+        validateGameCanPlayCard();
+
+        Player currentPlayer = getCurrentPlayer();
+        validateTargetPlayer(targetPlayer, currentPlayer);
+
+        if (currentPlayer.countCardsOfType(catType) < 2) {
+            throw new IllegalStateException("Current player needs two matching Cat Cards");
+        }
+
+        Card firstCat = currentPlayer.removeCard(catType);
+        Card secondCat = currentPlayer.removeCard(catType);
+        discardPile.add(firstCat);
+        discardPile.add(secondCat);
+
+        Card transferredCard = targetPlayer.removeCard(targetPlayer.getHand().get(0).getType());
+        currentPlayer.addCard(transferredCard);
+    }
+
     private void validateGameCanPlayCard() {
         if (!setupComplete) {
             throw new IllegalStateException("Game setup has not been completed");
@@ -296,6 +323,13 @@ public class Game {
         if (targetPlayer.getHand().isEmpty()) {
             throw new IllegalStateException("Target player has no cards");
         }
+    }
+
+    private boolean isCatCard(CardType type) {
+        return type == CardType.TACO_CAT
+                || type == CardType.BEARD_CAT
+                || type == CardType.RAINBOW_RALPHING_CAT
+                || type == CardType.HAIRY_POTATO_CAT;
     }
 
     private void validateTradeCards(Player currentPlayer, Player targetPlayer) {
