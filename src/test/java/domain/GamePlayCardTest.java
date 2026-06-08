@@ -943,4 +943,118 @@ public class GamePlayCardTest {
 
         assertEquals(player1, game.getCurrentPlayer());
     }
+
+    // G110, G111, G112
+    @Test
+    public void playingTradeWithoutTargetThrowsExceptionAndDoesNotConsumeTrade() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card trade = new Card(CardType.TRADE);
+
+        player1.addCard(trade);
+
+        assertThrows(IllegalArgumentException.class, () -> game.playCard(CardType.TRADE));
+        assertTrue(player1.getHand().contains(trade));
+        assertFalse(game.getDiscardPile().contains(trade));
+    }
+
+    // G113
+    @Test
+    public void playingTradeWithNullTargetThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TRADE));
+
+        assertThrows(IllegalArgumentException.class, () -> game.playCard(CardType.TRADE, null));
+    }
+
+    // G114
+    @Test
+    public void playingTradeWithTargetNotInGameThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TRADE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+        player3.addCard(new Card(CardType.SKIP));
+
+        assertThrows(IllegalArgumentException.class, () -> game.playCard(CardType.TRADE, player3));
+    }
+
+    // G115
+    @Test
+    public void playingTradeTargetingCurrentPlayerThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.TRADE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        assertThrows(IllegalArgumentException.class, () -> game.playCard(CardType.TRADE, player1));
+    }
+
+    // G116
+    @Test
+    public void playingTradeWithoutTradeThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.TRADE);
+
+        assertThrows(IllegalStateException.class, () -> game.playCard(CardType.TRADE, player2));
+    }
+
+    // G117
+    @Test
+    public void playingTradeWithNoRemainingCardToSwapThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        while (!player1.getHand().isEmpty()) {
+            player1.removeCard(player1.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.TRADE));
+
+        assertThrows(IllegalStateException.class, () -> game.playCard(CardType.TRADE, player2));
+    }
+
+    // G118
+    @Test
+    public void playingTradeTargetingPlayerWithNoCardsThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.TRADE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        assertThrows(IllegalStateException.class, () -> game.playCard(CardType.TRADE, player2));
+    }
+
+    // G119
+    @Test
+    public void invalidTargetedTradeDoesNotDiscardTrade() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card trade = new Card(CardType.TRADE);
+
+        player1.addCard(trade);
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        assertThrows(IllegalArgumentException.class, () -> game.playCard(CardType.TRADE, player1));
+        assertTrue(player1.getHand().contains(trade));
+        assertFalse(game.getDiscardPile().contains(trade));
+    }
 }
