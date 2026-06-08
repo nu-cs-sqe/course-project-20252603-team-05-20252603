@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -1278,5 +1279,120 @@ public class GamePlayCardTest {
         assertThrows(IllegalArgumentException.class, () -> game.playMark(player1));
         assertTrue(player1.getHand().contains(mark));
         assertFalse(game.getDiscardPile().contains(mark));
+    }
+
+    // G133
+    @Test
+    public void validMarkRemovesMarkFromCurrentPlayersHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card mark = new Card(CardType.MARK);
+
+        player1.addCard(mark);
+
+        game.playMark(player2);
+
+        assertFalse(player1.getHand().contains(mark));
+    }
+
+    // G134
+    @Test
+    public void validMarkAddsMarkToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card mark = new Card(CardType.MARK);
+
+        player1.addCard(mark);
+
+        game.playMark(player2);
+
+        assertTrue(game.getDiscardPile().contains(mark));
+    }
+
+    // G135
+    @Test
+    public void validMarkReturnsFirstCardFromTargetPlayersHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstCard = new Card(CardType.SHUFFLE);
+        Card secondCard = new Card(CardType.ATTACK);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.MARK));
+        player2.addCard(firstCard);
+        player2.addCard(secondCard);
+
+        Card revealedCard = game.playMark(player2);
+
+        assertSame(firstCard, revealedCard);
+    }
+
+    // G136
+    @Test
+    public void validMarkLeavesRevealedCardInTargetPlayersHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstCard = new Card(CardType.SHUFFLE);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.MARK));
+        player2.addCard(firstCard);
+
+        Card revealedCard = game.playMark(player2);
+
+        assertTrue(player2.getHand().contains(revealedCard));
+        assertEquals(1, player2.getHand().size());
+    }
+
+    // G137
+    @Test
+    public void validMarkDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.MARK));
+
+        game.playMark(player2);
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    // G138
+    @Test
+    public void validMarkDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.MARK));
+        int deckSizeBeforeMark = game.getDeck().size();
+
+        game.playMark(player2);
+
+        assertEquals(deckSizeBeforeMark, game.getDeck().size());
+    }
+
+    // G139
+    @Test
+    public void validMarkDoesNotEliminatePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.MARK));
+
+        game.playMark(player2);
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
     }
 }

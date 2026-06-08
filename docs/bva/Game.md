@@ -186,10 +186,10 @@
 | G130 | Current player does not have `MARK` | Throws `IllegalStateException` | :y: |
 | G131 | Current player plays `MARK` targeting a player with no cards | Throws `IllegalStateException` | :y: |
 | G132 | Invalid `MARK` play | `MARK` remains in current player's hand and is not discarded | :y: |
-| G133 | Current player plays valid `MARK` | Removes `MARK` from current player's hand | :n: |
-| G134 | Current player plays valid `MARK` | Adds `MARK` to the discard pile | :n: |
-| G135 | Current player plays valid `MARK` | Reveals the first card from the target player's hand | :n: |
-| G136 | Current player plays valid `MARK` | Revealed card remains in the target player's hand | :n: |
-| G137 | Current player plays valid `MARK` | Current player does not change | :n: |
-| G138 | Current player plays valid `MARK` | Deck size does not change | :n: |
-| G139 | Current player plays valid `MARK` | No player is eliminated | :n: |
+| G133 | Current player plays valid `MARK` | Removes `MARK` from current player's hand | :y: |
+| G134 | Current player plays valid `MARK` | Adds `MARK` to the discard pile | :y: |
+| G135 | Current player plays valid `MARK` | Reveals the first card from the target player's hand | :y: |
+| G136 | Current player plays valid `MARK` | Revealed card remains in the target player's hand | :y: |
+| G137 | Current player plays valid `MARK` | Current player does not change | :y: |
+| G138 | Current player plays valid `MARK` | Deck size does not change | :y: |
+| G139 | Current player plays valid `MARK` | No player is eliminated | :y: |
