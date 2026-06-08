@@ -302,4 +302,25 @@ public class GamePlayCardTest {
         assertTrue(player1.isActive());
         assertTrue(player2.isActive());
     }
+
+    // G72
+    @Test
+    public void playCardWithAttackMovesCardFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+        Card card = new Card(CardType.ATTACK);
+
+        game.setupGame();
+        while (player1.hasCard(CardType.ATTACK)) {
+            player1.removeCard(CardType.ATTACK);
+        }
+        player1.addCard(card);
+
+        game.playCard(CardType.ATTACK);
+
+        assertFalse(player1.getHand().contains(card));
+        assertTrue(game.getDiscardPile().contains(card));
+    }
 }
