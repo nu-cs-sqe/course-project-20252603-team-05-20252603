@@ -180,9 +180,9 @@ public class GamePlayCardTest {
         Game game = new Game(List.of(player1, player2), deck);
 
         game.setupGame();
-        player1.addCard(new Card(CardType.SKIP));
+        player1.addCard(new Card(CardType.SHUFFLE));
 
-        game.playCard(CardType.SKIP);
+        game.playCard(CardType.SHUFFLE);
 
         assertEquals(player1, game.getCurrentPlayer());
     }
@@ -665,5 +665,113 @@ public class GamePlayCardTest {
         game.drawCard();
 
         assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G90
+    @Test
+    public void playingSkipWithoutSkipThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.SKIP);
+
+        assertThrows(IllegalStateException.class, () -> game.playCard(CardType.SKIP));
+    }
+
+    // G91
+    @Test
+    public void playingOneSkipRemovesAndDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.SKIP);
+        Card skip = new Card(CardType.SKIP);
+        player1.addCard(skip);
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(0, player1.countCardsOfType(CardType.SKIP));
+        assertTrue(game.getDiscardPile().contains(skip));
+    }
+
+    // G92
+    @Test
+    public void playingSkipLeavesSecondSkipInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.SKIP);
+        player1.addCard(new Card(CardType.SKIP));
+        player1.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(1, player1.countCardsOfType(CardType.SKIP));
+    }
+
+    // G93
+    @Test
+    public void playingSkipEndsTurnWithoutDrawing() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.SKIP));
+        int deckSize = game.getDeck().size();
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(deckSize, game.getDeck().size());
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G94
+    @Test
+    public void playingSkipAdvancesToNextActivePlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G95
+    @Test
+    public void playingSkipBypassesEliminatedNextPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        player1.addCard(new Card(CardType.SKIP));
+        player2.eliminate();
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(player3, game.getCurrentPlayer());
+    }
+
+    // G96
+    @Test
+    public void playingSkipFromLastPlayerWrapsToFirstPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        game.endTurn();
+        game.endTurn();
+        player3.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.SKIP);
+
+        assertEquals(player1, game.getCurrentPlayer());
     }
 }
