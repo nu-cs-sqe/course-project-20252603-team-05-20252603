@@ -1199,4 +1199,84 @@ public class GamePlayCardTest {
         assertTrue(player1.isActive());
         assertTrue(player2.isActive());
     }
+
+    // G127
+    @Test
+    public void playingMarkWithNullTargetThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.MARK));
+
+        assertThrows(IllegalArgumentException.class, () -> game.playMark(null));
+    }
+
+    // G128
+    @Test
+    public void playingMarkWithTargetNotInGameThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.MARK));
+        player3.addCard(new Card(CardType.SKIP));
+
+        assertThrows(IllegalArgumentException.class, () -> game.playMark(player3));
+    }
+
+    // G129
+    @Test
+    public void playingMarkTargetingCurrentPlayerThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.MARK));
+
+        assertThrows(IllegalArgumentException.class, () -> game.playMark(player1));
+    }
+
+    // G130
+    @Test
+    public void playingMarkWithoutMarkThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.MARK);
+
+        assertThrows(IllegalStateException.class, () -> game.playMark(player2));
+    }
+
+    // G131
+    @Test
+    public void playingMarkTargetingPlayerWithNoCardsThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.MARK));
+
+        assertThrows(IllegalStateException.class, () -> game.playMark(player2));
+    }
+
+    // G132
+    @Test
+    public void invalidMarkDoesNotDiscardMark() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card mark = new Card(CardType.MARK);
+
+        player1.addCard(mark);
+
+        assertThrows(IllegalArgumentException.class, () -> game.playMark(player1));
+        assertTrue(player1.getHand().contains(mark));
+        assertFalse(game.getDiscardPile().contains(mark));
+    }
 }
