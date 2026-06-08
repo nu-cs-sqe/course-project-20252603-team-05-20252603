@@ -252,4 +252,54 @@ public class GamePlayCardTest {
         assertFalse(player1.getHand().contains(card));
         assertTrue(game.getDiscardPile().contains(card));
     }
+
+    // G69
+    @Test
+    public void playCardWithCatCardDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        game.playCard(CardType.TACO_CAT);
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    // G70
+    @Test
+    public void playCardWithCatCardDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.TACO_CAT));
+        int deckSizeBeforePlay = deck.size();
+
+        game.playCard(CardType.TACO_CAT);
+
+        assertEquals(deckSizeBeforePlay, deck.size());
+    }
+
+    // G71
+    @Test
+    public void playCardWithCatCardDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.TACO_CAT));
+
+        game.playCard(CardType.TACO_CAT);
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
 }

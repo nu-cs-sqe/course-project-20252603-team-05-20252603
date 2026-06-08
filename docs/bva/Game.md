@@ -122,6 +122,6 @@
 | G66 | Current player plays `BEARD_CAT` | Removes `BEARD_CAT` from hand and adds it to discard pile | :y: |
 | G67 | Current player plays `RAINBOW_RALPHING_CAT` | Removes `RAINBOW_RALPHING_CAT` from hand and adds it to discard pile | :y: |
 | G68 | Current player plays `HAIRY_POTATO_CAT` | Removes `HAIRY_POTATO_CAT` from hand and adds it to discard pile | :y: |
-| G69 | Current player plays a Cat Card | Current player does not change | :n: |
-| G70 | Current player plays a Cat Card | Deck size does not change | :n: |
-| G71 | Current player plays a Cat Card | No player is eliminated | :n: |
+| G69 | Current player plays a Cat Card | Current player does not change | :y: |
+| G70 | Current player plays a Cat Card | Deck size does not change | :y: |
+| G71 | Current player plays a Cat Card | No player is eliminated | :y: |
