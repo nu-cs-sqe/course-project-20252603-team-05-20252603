@@ -195,6 +195,10 @@ public class Game {
             throw new IllegalArgumentException("Card type cannot be null");
         }
 
+        if (type == CardType.FAVOR) {
+            throw new IllegalArgumentException("Favor requires a target player");
+        }
+
         if (!setupComplete) {
             throw new IllegalStateException("Game setup has not been completed");
         }
@@ -212,6 +216,56 @@ public class Game {
             moveToNextActivePlayer();
         } else if (type == CardType.SKIP) {
             endTurn();
+        }
+    }
+
+    public void playCard(CardType type, Player targetPlayer) {
+        if (type == null) {
+            throw new IllegalArgumentException("Card type cannot be null");
+        }
+
+        if (type != CardType.FAVOR) {
+            playCard(type);
+            return;
+        }
+
+        validateGameCanPlayCard();
+
+        Player currentPlayer = getCurrentPlayer();
+        validateFavorTarget(targetPlayer, currentPlayer);
+
+        Card playedCard = currentPlayer.removeCard(type);
+        discardPile.add(playedCard);
+
+        Card transferredCard = targetPlayer.removeCard(targetPlayer.getHand().get(0).getType());
+        currentPlayer.addCard(transferredCard);
+    }
+
+    private void validateGameCanPlayCard() {
+        if (!setupComplete) {
+            throw new IllegalStateException("Game setup has not been completed");
+        }
+
+        if (getActivePlayerCount() <= 1) {
+            throw new IllegalStateException("Game is over");
+        }
+    }
+
+    private void validateFavorTarget(Player targetPlayer, Player currentPlayer) {
+        if (targetPlayer == null) {
+            throw new IllegalArgumentException("Target player cannot be null");
+        }
+
+        if (!players.contains(targetPlayer)) {
+            throw new IllegalArgumentException("Target player must be in the game");
+        }
+
+        if (targetPlayer == currentPlayer) {
+            throw new IllegalArgumentException("Target player must be different");
+        }
+
+        if (targetPlayer.getHand().isEmpty()) {
+            throw new IllegalStateException("Target player has no cards");
         }
     }
 
