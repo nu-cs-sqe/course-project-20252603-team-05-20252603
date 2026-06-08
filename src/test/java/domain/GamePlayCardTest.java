@@ -9,6 +9,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GamePlayCardTest {
+    private Game createStartedGame(Player... players) {
+        Game game = new Game(List.of(players), new Deck(new Random()));
+        game.setupGame();
+        return game;
+    }
+
+    private void emptyDeck(Deck deck) {
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+    }
+
+    private void removeAll(Player player, CardType type) {
+        while (player.hasCard(type)) {
+            player.removeCard(type);
+        }
+    }
+
     // G55
     @Test
     public void getDiscardPileReturnsEmptyListForNewGame() {
@@ -492,5 +510,74 @@ public class GamePlayCardTest {
         deck.insertBottom(new Card(CardType.TACO_CAT));
         game.drawCard();
         assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    // G81
+    @Test
+    public void explodingKittenEliminatesUnprotectedPlayerWithThreeActivePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertFalse(player1.isActive());
+    }
+
+    // G82
+    @Test
+    public void explodingKittenContinuesGameWithNextActivePlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G83
+    @Test
+    public void explodingKittenEndsTwoPlayerGameWithOtherPlayerAsWinner() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertFalse(player1.isActive());
+        assertTrue(game.isGameOver());
+        assertEquals(player2, game.getWinner());
+    }
+
+    // G84
+    @Test
+    public void explodingKittenIsNotAddedToUnprotectedPlayersHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+
+        game.drawCard();
+
+        assertEquals(0, player1.countCardsOfType(CardType.EXPLODING_KITTEN));
     }
 }
