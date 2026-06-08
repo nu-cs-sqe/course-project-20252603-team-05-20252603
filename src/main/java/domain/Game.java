@@ -321,6 +321,18 @@ public class Game {
         if (currentPlayer.countCardsOfType(catType) < 3) {
             throw new IllegalStateException("Current player needs three matching Cat Cards");
         }
+
+        Card firstCat = currentPlayer.removeCard(catType);
+        Card secondCat = currentPlayer.removeCard(catType);
+        Card thirdCat = currentPlayer.removeCard(catType);
+        discardPile.add(firstCat);
+        discardPile.add(secondCat);
+        discardPile.add(thirdCat);
+
+        if (targetPlayer.hasCard(requestedType)) {
+            Card transferredCard = targetPlayer.removeCard(requestedType);
+            currentPlayer.addCard(transferredCard);
+        }
     }
 
     private void validateGameCanPlayCard() {
