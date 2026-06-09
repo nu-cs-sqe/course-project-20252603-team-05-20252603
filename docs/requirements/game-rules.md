@@ -20,6 +20,7 @@ Based on the Grab & Game Edition rules.
 | Defuse | 5 |
 | Attack | 3 |
 | Skip | 3 |
+| Favor | 4 |
 | Shuffle | 4 |
 | See the Future | 4 |
 | Nope | 4 |
@@ -28,7 +29,7 @@ Based on the Grab & Game Edition rules.
 | Rainbow Ralphing Cat | 4 |
 | Hairy Potato Cat | 4 |
 
-Total cards: **42** 
+Total cards: **46** 
 
 ---
 
@@ -137,6 +138,14 @@ Play another Skip → all turns cleared.
 
 ---
 
+## Favor (4)
+
+Effect:
+- Choose another player.
+- That player gives one card from their hand to the player who played Favor.
+
+---
+
 ## Shuffle (4)
 
 Effect:
@@ -182,6 +191,20 @@ Types:
 Each has 4 copies.
 
 Cat cards have no individual effect.
+
+Implemented pair combo:
+- Play two matching Cat Cards.
+- Choose another player.
+- Discard both Cat Cards.
+- Take one card from the chosen player's hand.
+
+Implemented three-of-a-kind combo:
+- Play three matching Cat Cards.
+- Choose another player.
+- Request a specific card type.
+- Discard all three Cat Cards.
+- If the chosen player has the requested card type, take one matching card.
+- If the chosen player does not have the requested card type, take no card.
 
 ---
 
@@ -238,5 +261,25 @@ That player wins.
 
 
 Additional Cards:
+
+## Trade
+
+Trade is Anthony's invented card.
+
+Effect:
+- Choose another player.
+- Discard the Trade card.
+- The player who played Trade swaps one card with the chosen player.
+- The discarded Trade card cannot be swapped.
+
+## Mark
+
+Mark is an implemented additional card.
+
+Effect:
+- Choose another player.
+- Discard the Mark card.
+- Reveal one card from the chosen player's hand.
+- The revealed card stays in the chosen player's hand.
 
 Additional Win Condition:
