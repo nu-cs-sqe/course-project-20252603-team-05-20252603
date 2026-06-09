@@ -240,3 +240,12 @@
 | G184 | Current player plays a valid Cat three combo | Current player does not change | :y: |
 | G185 | Current player plays a valid Cat three combo | Deck size does not change | :y: |
 | G186 | Current player plays a valid Cat three combo | No player is eliminated | :y: |
+| G187 | Current player has 0 Shuffle cards and attempts to play Shuffle | Throws `IllegalStateException` | :n: |
+| G188 | Current player has exactly 1 Shuffle card and plays it | Exactly 1 Shuffle is removed from current player's hand | :n: |
+| G189 | Current player has exactly 1 Shuffle card and plays it | Shuffle card is added to the discard pile | :n: |
+| G190 | Current player has 2 Shuffle cards and plays one | Exactly 1 Shuffle is removed and 1 Shuffle remains | :n: |
+| G191 | Current player plays Shuffle | Deck size does not change | :n: |
+| G192 | Current player plays Shuffle | Card amounts in the deck do not change | :n: |
+| G193 | Current player plays Shuffle | Draw pile order changes | :n: |
+| G194 | Current player plays Shuffle | Current player does not change | :n: |
+| G195 | Current player plays Shuffle | No player is eliminated | :n: |
