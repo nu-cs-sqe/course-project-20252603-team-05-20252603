@@ -166,19 +166,19 @@ Input Value: None
 Output Value: Card or IllegalStateException  
 Output State: Deck
 
-- **TC27: drawBottom_fromEmptyDeck** (:todo:)
+- **TC27: drawBottom_fromEmptyDeck** (:done:)
   - **State of the system**: Deck contains 0 cards
   - **Expected output**: IllegalStateException with meaningful message
 
-- **TC28: drawBottom_fromOneCardDeck** (:todo:)
+- **TC28: drawBottom_fromOneCardDeck** (:done:)
   - **State of the system**: Deck contains exactly 1 card
   - **Expected output**: One card is returned and `size()` returns 0
 
-- **TC29: drawBottom_fromTwoCardDeck_checksBottomCard** (:todo:)
+- **TC29: drawBottom_fromTwoCardDeck_checksBottomCard** (:done:)
   - **State of the system**: Deck contains 2 different cards in known order
   - **Expected output**: The bottom card is returned and `size()` returns 1
 
-- **TC30: drawBottom_updatesAmtCardType** (:todo:)
+- **TC30: drawBottom_updatesAmtCardType** (:done:)
   - **State of the system**: Deck contains exactly 1 DEFUSE card at the bottom
   - **Expected output**: `amtCardType(DEFUSE)` decreases by 1 after drawing from bottom
 
@@ -189,22 +189,22 @@ Input Value: None
 Output Value: Deck or IllegalStateException  
 Output State: Deck
 
-- **TC31: swapTopTwo_emptyDeck** (:todo:)
+- **TC31: swapTopTwo_emptyDeck** (:done:)
   - **State of the system**: Deck contains 0 cards
   - **Expected output**: IllegalStateException with meaningful message
 
-- **TC32: swapTopTwo_oneCardDeck** (:todo:)
+- **TC32: swapTopTwo_oneCardDeck** (:done:)
   - **State of the system**: Deck contains exactly 1 card
   - **Expected output**: IllegalStateException with meaningful message
 
-- **TC33: swapTopTwo_twoCardDeck_swapsOrder** (:todo:)
+- **TC33: swapTopTwo_twoCardDeck_swapsOrder** (:done:)
   - **State of the system**: Deck contains 2 different cards in known order
   - **Expected output**: The top two cards are swapped and `size()` is unchanged
 
-- **TC34: swapTopTwo_threeCardDeck_onlySwapsTopTwo** (:todo:)
+- **TC34: swapTopTwo_threeCardDeck_onlySwapsTopTwo** (:done:)
   - **State of the system**: Deck contains 3 different cards in known order
   - **Expected output**: Only the top two cards are swapped; bottom card remains in the same position
 
-- **TC35: swapTopTwo_duplicateCards_sizeUnchanged** (:todo:)
+- **TC35: swapTopTwo_duplicateCards_sizeUnchanged** (:done:)
   - **State of the system**: Deck contains duplicate card types in the top two positions
   - **Expected output**: `size()` is unchanged and card amounts are unchanged
