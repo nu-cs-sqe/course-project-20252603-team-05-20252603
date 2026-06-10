@@ -314,13 +314,13 @@
 | G206 | Current player has 2 Draw from Bottom cards and plays one | Exactly 1 Draw from Bottom is removed and 1 Draw from Bottom remains | :y: |
 | G207 | Current player plays Draw from Bottom | Draws the bottom card of the deck into current player's hand | :y: |
 | G208 | Current player plays Draw from Bottom | Deck size decreases by 1 | :y: |
-| G209 | Current player plays Draw from Bottom and draws an Exploding Kitten with no Defuse or Shield | Current player is eliminated | :n: |
-| G210 | Current player plays Draw from Bottom and draws an Exploding Kitten with Defuse | Defuse is used and player remains active | :n: |
+| G209 | Current player plays Draw from Bottom and draws an Exploding Kitten with no Defuse or Shield | Current player is eliminated | :y: |
+| G210 | Current player plays Draw from Bottom and draws an Exploding Kitten with Defuse | Defuse is used and player remains active | :y: |
 | G211 | Current player plays Draw from Bottom | Current player's turn ends after drawing from bottom | :n: |
 | G212 | Current player plays Draw from Bottom | No other player is eliminated | :y: |
 | G213 | Current player plays Draw from Bottom when the deck is empty | Throws `IllegalStateException` with meaningful message | :n: |
 | G214 | Current player plays Draw from Bottom when the deck contains exactly 1 card | That card is drawn and the deck becomes empty | :n: |
-| G215 | Current player plays Draw from Bottom and draws an Exploding Kitten with Shield but no Defuse | Shield is used and player remains active | :n: |
+| G215 | Current player plays Draw from Bottom and draws an Exploding Kitten with Shield but no Defuse | Shield is used and player remains active | :y: |
 | G216 | Current player plays Draw from Bottom and has both Defuse and Shield | Defuse is consumed and Shield remains in the player's hand | :n: |
 | G217 | Current player plays Draw from Bottom and is eliminated while exactly 2 players remain | Game ends and the other player wins | :n: |
 | G218 | Current player plays Draw from Bottom and is eliminated while 3 or more players remain | Game continues with the next active player | :n: |

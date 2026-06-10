@@ -2415,4 +2415,64 @@ public class GamePlayCardTest {
         assertEquals(0, game.getDeck().size());
     }
 
+    @Test
+    public void playingDrawFromBottomWithExplodingKittenAndNoProtectionEliminatesPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertFalse(player1.isActive());
+    }
+
+    @Test
+    public void playingDrawFromBottomWithExplodingKittenAndDefuseUsesDefuse() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DEFUSE));
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertTrue(player1.isActive());
+        assertEquals(0, player1.countCardsOfType(CardType.DEFUSE));
+    }
+
+    @Test
+    public void playingDrawFromBottomWithExplodingKittenAndShieldUsesShield() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.SHIELD));
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertTrue(player1.isActive());
+        assertEquals(0, player1.countCardsOfType(CardType.SHIELD));
+    }
+
 }
