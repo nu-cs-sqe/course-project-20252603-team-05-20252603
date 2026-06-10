@@ -344,3 +344,6 @@
 | G233 | Current player plays Peek Swap | Current player does not change | :n: |
 | G234 | Current player plays Peek Swap | No player is eliminated | :n: |
 | G235 | Current player plays Peek Swap when deck has fewer than 2 cards | Throws `IllegalStateException` with meaningful message and does not consume Peek Swap | :n: |
+| G236 | Player tries to play another card while Peek Swap decision is unresolved | Throws `IllegalStateException` with meaningful message | :n: |
+| G237 | Player chooses to swap after Peek Swap, then plays another card | Other card can be played normally | :n: |
+| G238 | Player chooses not to swap after Peek Swap, then plays another card | Other card can be played normally | :n: |
