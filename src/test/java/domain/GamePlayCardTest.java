@@ -2145,9 +2145,14 @@ public class GamePlayCardTest {
 
     @Test
     public void G191_PlayShuffle_DeckSizeDoesNotChange() {
-        // int sizeBefore = game.getDeck().size();
-        // game.playCard(CardType.SHUFFLE);
-        // assertEquals(sizeBefore, game.getDeck().size());
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        int deckSizeBeforeShuffle = game.getDeck().size();
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(deckSizeBeforeShuffle, game.getDeck().size());
     }
 
     @Test
