@@ -2380,4 +2380,23 @@ public class GamePlayCardTest {
         assertTrue(player2.isActive());
     }
 
+    @Test
+    public void playingDrawFromBottomDrawsBottomCardIntoCurrentPlayersHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        emptyDeck(game.getDeck());
+
+        Card bottomCard = new Card(CardType.NOPE);
+        Card topCard = new Card(CardType.SKIP);
+
+        game.getDeck().insertBottom(bottomCard);
+        game.getDeck().insertBottom(topCard);
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertTrue(player1.getHand().contains(bottomCard));
+        assertFalse(player1.getHand().contains(topCard));
+    }
+
 }
