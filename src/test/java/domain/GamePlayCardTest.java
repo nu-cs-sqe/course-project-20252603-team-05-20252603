@@ -2470,6 +2470,372 @@ public class GamePlayCardTest {
     }
 
     @Test
+    public void playingAlterTheFutureWithoutAlterTheFutureThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playAlterTheFuture();
+        });
+
+        assertEquals(
+                "Player does not have card of type ALTER_THE_FUTURE",
+                exception.getMessage());
+    }
+
+    @Test
+    public void playingOneAlterTheFutureRemovesIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        game.playAlterTheFuture();
+
+        assertEquals(0, player1.countCardsOfType(CardType.ALTER_THE_FUTURE));
+    }
+
+    @Test
+    public void playingOneAlterTheFutureDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card alterTheFuture = new Card(CardType.ALTER_THE_FUTURE);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(alterTheFuture);
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        game.playAlterTheFuture();
+
+        assertTrue(game.getDiscardPile().contains(alterTheFuture));
+    }
+
+    @Test
+    public void playingAlterTheFutureLeavesSecondAlterTheFutureInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        game.playAlterTheFuture();
+
+        assertEquals(1, player1.countCardsOfType(CardType.ALTER_THE_FUTURE));
+    }
+
+    @Test
+    public void playingAlterTheFutureReturnsTopThreeCardsInOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        List<Card> alteredCards = game.playAlterTheFuture();
+
+        assertEquals(3, alteredCards.size());
+        assertEquals(CardType.NOPE, alteredCards.get(0).getType());
+        assertEquals(CardType.ATTACK, alteredCards.get(1).getType());
+        assertEquals(CardType.SKIP, alteredCards.get(2).getType());
+    }
+
+    @Test
+    public void playingAlterTheFutureDoesNotChangeDeckOrderImmediately() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        game.playAlterTheFuture();
+        List<Card> peekedCards = game.getDeck().peek(3);
+
+        assertEquals(CardType.NOPE, peekedCards.get(0).getType());
+        assertEquals(CardType.ATTACK, peekedCards.get(1).getType());
+        assertEquals(CardType.SKIP, peekedCards.get(2).getType());
+    }
+
+    @Test
+    public void resolvingAlterTheFutureReordersTopThreeCards() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        emptyDeck(game.getDeck());
+        Card bottomCard = new Card(CardType.SKIP);
+        Card middleCard = new Card(CardType.ATTACK);
+        Card topCard = new Card(CardType.NOPE);
+        game.getDeck().insertBottom(bottomCard);
+        game.getDeck().insertBottom(middleCard);
+        game.getDeck().insertBottom(topCard);
+
+        game.playAlterTheFuture();
+        game.reorderAlteredFuture(List.of(middleCard, bottomCard, topCard));
+        List<Card> peekedCards = game.getDeck().peek(3);
+
+        assertSame(middleCard, peekedCards.get(0));
+        assertSame(bottomCard, peekedCards.get(1));
+        assertSame(topCard, peekedCards.get(2));
+    }
+
+    @Test
+    public void resolvingAlterTheFutureCanKeepTopThreeCardsInSameOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        emptyDeck(game.getDeck());
+        Card bottomCard = new Card(CardType.SKIP);
+        Card middleCard = new Card(CardType.ATTACK);
+        Card topCard = new Card(CardType.NOPE);
+        game.getDeck().insertBottom(bottomCard);
+        game.getDeck().insertBottom(middleCard);
+        game.getDeck().insertBottom(topCard);
+
+        List<Card> alteredCards = game.playAlterTheFuture();
+        game.reorderAlteredFuture(alteredCards);
+        List<Card> peekedCards = game.getDeck().peek(3);
+
+        assertSame(topCard, peekedCards.get(0));
+        assertSame(middleCard, peekedCards.get(1));
+        assertSame(bottomCard, peekedCards.get(2));
+    }
+
+    @Test
+    public void resolvingAlterTheFutureWithoutActiveAlterTheFutureThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.reorderAlteredFuture(List.of(
+                    new Card(CardType.SKIP),
+                    new Card(CardType.ATTACK),
+                    new Card(CardType.NOPE)));
+        });
+
+        assertEquals("No Alter the Future action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void playingAlterTheFutureDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        int deckSizeBeforePlay = game.getDeck().size();
+
+        game.playAlterTheFuture();
+
+        assertEquals(deckSizeBeforePlay, game.getDeck().size());
+    }
+
+    @Test
+    public void playingAlterTheFutureDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+
+        game.playAlterTheFuture();
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingAlterTheFutureDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+
+        game.playAlterTheFuture();
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
+    @Test
+    public void playingAlterTheFutureWithFewerThanThreeCardsThrowsExceptionAndDoesNotConsumeCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card alterTheFuture = new Card(CardType.ALTER_THE_FUTURE);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(alterTheFuture);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playAlterTheFuture();
+        });
+
+        assertEquals(
+                "Cannot play Alter the Future when deck has fewer than 3 cards",
+                exception.getMessage());
+        assertTrue(player1.getHand().contains(alterTheFuture));
+        assertFalse(game.getDiscardPile().contains(alterTheFuture));
+    }
+
+    @Test
+    public void playingAnotherCardWhileAlterTheFutureUnresolvedThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        game.playAlterTheFuture();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.SHUFFLE);
+        });
+
+        assertEquals(
+                "Must resolve Alter the Future before playing another card",
+                exception.getMessage());
+    }
+
+    @Test
+    public void afterResolvingAlterTheFuturePlayerCanPlayAnotherCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        List<Card> alteredCards = game.playAlterTheFuture();
+        game.reorderAlteredFuture(alteredCards);
+        game.playCard(CardType.SHUFFLE);
+
+        assertEquals(0, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void resolvingAlterTheFutureWithNullOrderThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        game.playAlterTheFuture();
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.reorderAlteredFuture(null);
+        });
+
+        assertEquals("Alter the Future order cannot be null", exception.getMessage());
+    }
+
+    @Test
+    public void resolvingAlterTheFutureWithFewerThanThreeCardsThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        List<Card> alteredCards = game.playAlterTheFuture();
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.reorderAlteredFuture(List.of(alteredCards.get(0), alteredCards.get(1)));
+        });
+
+        assertEquals("Alter the Future order must contain exactly 3 cards", exception.getMessage());
+    }
+
+    @Test
+    public void resolvingAlterTheFutureWithUnpeekedCardThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        List<Card> alteredCards = game.playAlterTheFuture();
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.reorderAlteredFuture(List.of(
+                    alteredCards.get(0),
+                    alteredCards.get(1),
+                    new Card(CardType.SKIP)));
+        });
+
+        assertEquals(
+                "Alter the Future order must contain the same peeked cards",
+                exception.getMessage());
+    }
+
+    @Test
+    public void resolvingAlterTheFutureTwiceThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        List<Card> alteredCards = game.playAlterTheFuture();
+        game.reorderAlteredFuture(alteredCards);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.reorderAlteredFuture(alteredCards);
+        });
+
+        assertEquals("No Alter the Future action is currently active", exception.getMessage());
+    }
+
+    @Test
     public void playingDrawFromBottomWithoutDrawFromBottomThrowsException() {
         Player player1 = new Player("Player 1");
         Player player2 = new Player("Player 2");
