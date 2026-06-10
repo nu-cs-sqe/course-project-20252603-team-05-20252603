@@ -307,8 +307,8 @@
 
 #### Draw from Bottom
 | Test Case | State of the System | Expected Output | Implemented? |
-|-----------|---|---|--------------|
-| G203 | Current player has 0 Draw from Bottom cards and attempts to play Draw from Bottom | Throws `IllegalStateException` | :n: |
+|-----------|---|---|-----|
+| G203 | Current player has 0 Draw from Bottom cards and attempts to play Draw from Bottom | Throws `IllegalStateException` | :y: |
 | G204 | Current player has exactly 1 Draw from Bottom card and plays it | Exactly 1 Draw from Bottom is removed from current player's hand | :n: |
 | G205 | Current player has exactly 1 Draw from Bottom card and plays it | Draw from Bottom card is added to the discard pile | :n: |
 | G206 | Current player has 2 Draw from Bottom cards and plays one | Exactly 1 Draw from Bottom is removed and 1 Draw from Bottom remains | :n: |

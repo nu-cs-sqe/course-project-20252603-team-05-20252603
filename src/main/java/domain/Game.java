@@ -217,7 +217,8 @@ public class Game {
         if (type == CardType.ATTACK) {
             pendingTurnsForCurrentPlayer += 2;
             moveToNextActivePlayer();
-        } else if (type == CardType.SKIP) {
+        }
+        else if (type == CardType.SKIP) {
             endTurn();
         }
         else if (type == CardType.SHUFFLE) {
