@@ -21,6 +21,7 @@ public class Deck {
         addCards(CardType.SHUFFLE, 4);
         addCards(CardType.SKIP, 3);
         addCards(CardType.SEE_THE_FUTURE, 4);
+        addCards(CardType.STEAL, 4);
         addCards(CardType.NOPE, 4);
         addCards(CardType.TACO_CAT, 4);
         addCards(CardType.BEARD_CAT, 4);

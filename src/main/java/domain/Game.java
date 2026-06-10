@@ -199,7 +199,7 @@ public class Game {
             throw new IllegalArgumentException("Card type cannot be null");
         }
 
-        if (type == CardType.FAVOR || type == CardType.TRADE) {
+        if (type == CardType.FAVOR || type == CardType.TRADE || type == CardType.STEAL) {
             throw new IllegalArgumentException(type + " requires a target player");
         }
 

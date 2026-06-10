@@ -1378,6 +1378,23 @@ public class GamePlayCardTest {
         assertTrue(player2.isActive());
     }
 
+    // G126S1
+    @Test
+    public void playingStealWithoutTargetThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card steal = new Card(CardType.STEAL);
+
+        player1.addCard(steal);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL);
+        });
+
+        assertEquals("STEAL requires a target player", exception.getMessage());
+    }
+
     // G127
     @Test
     public void playingMarkWithNullTargetThrowsException() {
