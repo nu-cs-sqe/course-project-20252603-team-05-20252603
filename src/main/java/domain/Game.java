@@ -266,7 +266,8 @@ public class Game {
             targetPlayer.addCard(currentPlayerCard);
         } else if (type == CardType.STEAL) {
             int cardIndex = random.nextInt(targetPlayer.getHand().size());
-            Card stolenCard = targetPlayer.removeCard(targetPlayer.getHand().get(cardIndex).getType());
+            Card stolenCard = targetPlayer.removeCard(
+                    targetPlayer.getHand().get(cardIndex).getType());
             currentPlayer.addCard(stolenCard);
         }
     }
