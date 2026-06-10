@@ -318,7 +318,7 @@
 | G210 | Current player plays Draw from Bottom and draws an Exploding Kitten with Defuse | Defuse is used and player remains active | :y: |
 | G211 | Current player plays Draw from Bottom | Current player's turn ends after drawing from bottom | :y: |
 | G212 | Current player plays Draw from Bottom | No other player is eliminated | :y: |
-| G213 | Current player plays Draw from Bottom when the deck is empty | Throws `IllegalStateException` with meaningful message | :n: |
+| G213 | Current player plays Draw from Bottom when the deck is empty | Throws `IllegalStateException` with meaningful message | :y: |
 | G214 | Current player plays Draw from Bottom when the deck contains exactly 1 card | That card is drawn and the deck becomes empty | :n: |
 | G215 | Current player plays Draw from Bottom and draws an Exploding Kitten with Shield but no Defuse | Shield is used and player remains active | :y: |
 | G216 | Current player plays Draw from Bottom and is eliminated while exactly 2 players remain | Game ends and the other player wins | :n: |

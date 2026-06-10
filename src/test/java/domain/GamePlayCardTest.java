@@ -2114,9 +2114,12 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
         removeAll(player1, CardType.SHUFFLE);
 
-        assertThrows(IllegalStateException.class, () -> {
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
             game.playCard(CardType.SHUFFLE);
         });
+        assertEquals(
+                "Player does not have card of type SHUFFLE",
+                exception.getMessage());
     }
 
     @Test
@@ -2230,7 +2233,12 @@ public class GamePlayCardTest {
 
         removeAll(player1, CardType.SEE_THE_FUTURE);
 
-        assertThrows(IllegalStateException.class, () -> {game.playSeeTheFuture();});
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            game.playSeeTheFuture();
+        });
+        assertEquals(
+                "Player does not have card of type SEE_THE_FUTURE",
+                exception.getMessage());
     }
 
     @Test
@@ -2326,9 +2334,12 @@ public class GamePlayCardTest {
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
         removeAll(player1, CardType.DRAW_FROM_BOTTOM);
-        assertThrows(IllegalStateException.class, () -> {
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
             game.playCard(CardType.DRAW_FROM_BOTTOM);
         });
+        assertEquals(
+                "Player does not have card of type DRAW_FROM_BOTTOM",
+                exception.getMessage());
     }
 
     @Test
@@ -2487,6 +2498,26 @@ public class GamePlayCardTest {
         game.getDeck().insertBottom(new Card(CardType.NOPE));
         game.playCard(CardType.DRAW_FROM_BOTTOM);
         assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingDrawFromBottomWithEmptyDeckThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.DRAW_FROM_BOTTOM);
+        });
+
+        assertEquals(
+                "Cannot draw from empty deck",
+                exception.getMessage());
     }
 
 }
