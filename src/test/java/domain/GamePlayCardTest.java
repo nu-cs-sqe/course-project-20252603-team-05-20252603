@@ -2194,5 +2194,17 @@ public class GamePlayCardTest {
         assertEquals(kittenBefore, game.getDeck().amtCardType(CardType.EXPLODING_KITTEN));
     }
 
+    @Test
+    public void playingShuffleDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        game.playCard(CardType.SHUFFLE);
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
 
 }
