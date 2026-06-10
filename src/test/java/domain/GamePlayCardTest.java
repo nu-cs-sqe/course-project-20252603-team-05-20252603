@@ -2206,5 +2206,4 @@ public class GamePlayCardTest {
         assertTrue(player2.isActive());
     }
 
-
 }
