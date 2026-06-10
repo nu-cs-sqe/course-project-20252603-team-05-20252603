@@ -2245,4 +2245,15 @@ public class GamePlayCardTest {
         assertEquals(0, player1.countCardsOfType(CardType.SEE_THE_FUTURE));
     }
 
+    @Test
+    public void playingOneSeeTheFutureDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card seeTheFuture = new Card(CardType.SEE_THE_FUTURE);
+        player1.addCard(seeTheFuture);
+        game.playSeeTheFuture();
+        assertTrue(game.getDiscardPile().contains(seeTheFuture));
+    }
+
 }
