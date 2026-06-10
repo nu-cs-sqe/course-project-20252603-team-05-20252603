@@ -2331,4 +2331,53 @@ public class GamePlayCardTest {
         });
     }
 
+    @Test
+    public void playingOneDrawFromBottomRemovesIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        Card drawFromBottom = new Card(CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(drawFromBottom);
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertEquals(0, player1.countCardsOfType(CardType.DRAW_FROM_BOTTOM));
+    }
+
+    @Test
+    public void playingOneDrawFromBottomDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        Card drawFromBottom = new Card(CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(drawFromBottom);
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertTrue(game.getDiscardPile().contains(drawFromBottom));
+    }
+
+    @Test
+    public void playingDrawFromBottomLeavesSecondDrawFromBottomInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertEquals(1, player1.countCardsOfType(CardType.DRAW_FROM_BOTTOM));
+    }
+
+    @Test
+    public void playingDrawFromBottomSafeDoesNotEliminateOtherPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertTrue(player2.isActive());
+    }
+
 }
