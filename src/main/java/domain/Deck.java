@@ -85,7 +85,7 @@ public class Deck {
             peekedCards.add(cards.get(i));
         }
 
-        return peekedCards;
+        return Collections.unmodifiableList(peekedCards);
     }
 
 }

@@ -338,6 +338,14 @@ public class Game {
         }
     }
 
+    public List<Card> playSeeTheFuture() {
+        validateGameCanPlayCard();
+        Player currentPlayer = getCurrentPlayer();
+        Card playedCard = currentPlayer.removeCard(CardType.SEE_THE_FUTURE);
+        discardPile.add(playedCard);
+        return deck.peek(3);
+    }
+
     private void validateGameCanPlayCard() {
         if (!setupComplete) {
             throw new IllegalStateException("Game setup has not been completed");

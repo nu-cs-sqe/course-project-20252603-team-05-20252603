@@ -2222,4 +2222,102 @@ public class GamePlayCardTest {
         assertTrue(player2.isActive());
     }
 
+    @Test
+    public void playingSeeTheFutureWithoutSeeTheFutureThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+
+        assertThrows(IllegalStateException.class, () -> {game.playSeeTheFuture();});
+    }
+
+    @Test
+    public void playingOneSeeTheFutureRemovesFromHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        Card seeTheFuture = new Card(CardType.SEE_THE_FUTURE);
+        player1.addCard(seeTheFuture);
+        game.playSeeTheFuture();
+        assertEquals(0, player1.countCardsOfType(CardType.SEE_THE_FUTURE));
+    }
+
+    @Test
+    public void playingOneSeeTheFutureDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card seeTheFuture = new Card(CardType.SEE_THE_FUTURE);
+        player1.addCard(seeTheFuture);
+        game.playSeeTheFuture();
+        assertTrue(game.getDiscardPile().contains(seeTheFuture));
+    }
+
+    @Test
+    public void playingSeeTheFutureLeavesSecondSeeTheFutureInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        game.playSeeTheFuture();
+        assertEquals(1, player1.countCardsOfType(CardType.SEE_THE_FUTURE));
+    }
+
+    @Test
+    public void playingSeeTheFutureReturnsTopThreeCardsInOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.DEFUSE));
+        List<Card> seenCards = game.playSeeTheFuture();
+        assertEquals(3, seenCards.size());
+        assertEquals(CardType.DEFUSE, seenCards.get(0).getType());
+        assertEquals(CardType.ATTACK, seenCards.get(1).getType());
+        assertEquals(CardType.SKIP, seenCards.get(2).getType());
+    }
+
+    @Test
+    public void playingSeeTheFutureDoesNotRemoveCardsFromDeck() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        int deckSizeBeforePlay = game.getDeck().size();
+        game.playSeeTheFuture();
+        assertEquals(deckSizeBeforePlay, game.getDeck().size());
+    }
+
+    @Test
+    public void playingSeeTheFutureDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        game.playSeeTheFuture();
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingSeeTheFutureDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        game.playSeeTheFuture();
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
 }
