@@ -2179,19 +2179,35 @@ public class GamePlayCardTest {
     }
 
     @Test
-    public void playingShuffleDoesNotChangeDeckCardAmounts() {
+    public void PlayShuffle_DeckCardCountsDoNotChange() {
         Player player1 = new Player("Player 1");
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
-        removeAll(player1, CardType.SHUFFLE);
         player1.addCard(new Card(CardType.SHUFFLE));
-        int attackBefore = game.getDeck().amtCardType(CardType.ATTACK);
-        int skipBefore = game.getDeck().amtCardType(CardType.SKIP);
-        int kittenBefore = game.getDeck().amtCardType(CardType.EXPLODING_KITTEN);
+        int attackCount = game.getDeck().amtCardType(CardType.ATTACK);
+        int shuffleCount = game.getDeck().amtCardType(CardType.SHUFFLE);
+        int skipCount = game.getDeck().amtCardType(CardType.SKIP);
+        int seeTheFutureCount = game.getDeck().amtCardType(CardType.SEE_THE_FUTURE);
+        int nopeCount = game.getDeck().amtCardType(CardType.NOPE);
+        int tacoCatCount = game.getDeck().amtCardType(CardType.TACO_CAT);
+        int beardCatCount = game.getDeck().amtCardType(CardType.BEARD_CAT);
+        int rainbowCatCount = game.getDeck().amtCardType(CardType.RAINBOW_RALPHING_CAT);
+        int potatoCatCount = game.getDeck().amtCardType(CardType.HAIRY_POTATO_CAT);
+        int explodingKittenCount = game.getDeck().amtCardType(CardType.EXPLODING_KITTEN);
+        int defuseCount = game.getDeck().amtCardType(CardType.DEFUSE);
+
         game.playCard(CardType.SHUFFLE);
-        assertEquals(attackBefore, game.getDeck().amtCardType(CardType.ATTACK));
-        assertEquals(skipBefore, game.getDeck().amtCardType(CardType.SKIP));
-        assertEquals(kittenBefore, game.getDeck().amtCardType(CardType.EXPLODING_KITTEN));
+        assertEquals(attackCount, game.getDeck().amtCardType(CardType.ATTACK));
+        assertEquals(shuffleCount, game.getDeck().amtCardType(CardType.SHUFFLE));
+        assertEquals(skipCount, game.getDeck().amtCardType(CardType.SKIP));
+        assertEquals(seeTheFutureCount, game.getDeck().amtCardType(CardType.SEE_THE_FUTURE));
+        assertEquals(nopeCount, game.getDeck().amtCardType(CardType.NOPE));
+        assertEquals(tacoCatCount, game.getDeck().amtCardType(CardType.TACO_CAT));
+        assertEquals(beardCatCount, game.getDeck().amtCardType(CardType.BEARD_CAT));
+        assertEquals(rainbowCatCount, game.getDeck().amtCardType(CardType.RAINBOW_RALPHING_CAT));
+        assertEquals(potatoCatCount, game.getDeck().amtCardType(CardType.HAIRY_POTATO_CAT));
+        assertEquals(explodingKittenCount, game.getDeck().amtCardType(CardType.EXPLODING_KITTEN));
+        assertEquals(defuseCount, game.getDeck().amtCardType(CardType.DEFUSE));
     }
 
     @Test
