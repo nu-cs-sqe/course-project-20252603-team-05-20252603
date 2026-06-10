@@ -2475,4 +2475,18 @@ public class GamePlayCardTest {
         assertEquals(0, player1.countCardsOfType(CardType.SHIELD));
     }
 
+    @Test
+    public void playingDrawFromBottomEndsTurnAfterDrawing() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
 }
