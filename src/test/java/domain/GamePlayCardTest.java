@@ -2642,6 +2642,58 @@ public class GamePlayCardTest {
         assertEquals("Player does not have card of type PEEK_SWAP", exception.getMessage());
     }
 
+    @Test
+    public void playingOnePeekSwapRemovesIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.PEEK_SWAP);
+        Card peekSwap = new Card(CardType.PEEK_SWAP);
+        player1.addCard(peekSwap);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.playPeekSwap();
+
+        assertEquals(0, player1.countCardsOfType(CardType.PEEK_SWAP));
+    }
+
+    @Test
+    public void playingOnePeekSwapDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        Card peekSwap = new Card(CardType.PEEK_SWAP);
+        player1.addCard(peekSwap);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.playPeekSwap();
+
+        assertTrue(game.getDiscardPile().contains(peekSwap));
+    }
+
+    @Test
+    public void playingPeekSwapLeavesSecondPeekSwapInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+
+        assertEquals(1, player1.countCardsOfType(CardType.PEEK_SWAP));
+    }
+
 
 
 }
