@@ -1574,6 +1574,22 @@ public class GamePlayCardTest {
         assertEquals(player1, game.getCurrentPlayer());
     }
 
+    // G126S12
+    @Test
+    public void validStealDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(new Card(CardType.SKIP));
+        int deckSizeBeforeSteal = game.getDeck().size();
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertEquals(deckSizeBeforeSteal, game.getDeck().size());
+    }
+
     // G127
     @Test
     public void playingMarkWithNullTargetThrowsException() {
