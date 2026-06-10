@@ -298,8 +298,8 @@
 |-----------|---|---|-----|
 | G195 | Current player has 0 See the Future cards and attempts to play See the Future | Throws `IllegalStateException` | :y: |
 | G196 | Current player has exactly 1 See the Future card and plays it | Exactly 1 See the Future is removed from current player's hand | :y: |
-| G197 | Current player has exactly 1 See the Future card and plays it | See the Future card is added to the discard pile | :n: |
-| G198 | Current player has 2 See the Future cards and plays one | Exactly 1 See the Future is removed and 1 See the Future remains | :n: |
+| G197 | Current player has exactly 1 See the Future card and plays it | See the Future card is added to the discard pile | :y: |
+| G198 | Current player has 2 See the Future cards and plays one | Exactly 1 See the Future is removed and 1 See the Future remains | :y: |
 | G199 | Current player plays See the Future | Returns the top 3 cards of the deck in correct order | :n: |
 | G200 | Current player plays See the Future | Does not remove any cards from the deck | :n: |
 | G201 | Current player plays See the Future | Current player does not change | :n: |

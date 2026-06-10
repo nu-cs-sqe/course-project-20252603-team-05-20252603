@@ -2256,4 +2256,17 @@ public class GamePlayCardTest {
         assertTrue(game.getDiscardPile().contains(seeTheFuture));
     }
 
+    @Test
+    public void playingSeeTheFutureLeavesSecondSeeTheFutureInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        game.playSeeTheFuture();
+        assertEquals(1, player1.countCardsOfType(CardType.SEE_THE_FUTURE));
+    }
+
+
 }
