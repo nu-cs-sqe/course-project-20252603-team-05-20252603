@@ -2694,6 +2694,24 @@ public class GamePlayCardTest {
         assertEquals(1, player1.countCardsOfType(CardType.PEEK_SWAP));
     }
 
+    @Test
+    public void playingPeekSwapReturnsTopTwoCardsInOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
 
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        List<Card> peekedCards = game.playPeekSwap();
+
+        assertEquals(2, peekedCards.size());
+        assertEquals(CardType.ATTACK, peekedCards.get(0).getType());
+        assertEquals(CardType.SKIP, peekedCards.get(1).getType());
+    }
 
 }
