@@ -319,6 +319,29 @@
 | G201 | Current player plays See the Future | Current player does not change | :y: |
 | G202 | Current player plays See the Future | No player is eliminated | :y: |
 
+#### Alter the Future
+| Test Case | State of the System | Expected Output | Implemented? |
+|-----------|---|---|-----|
+| G202A1 | Current player has 0 Alter the Future cards and attempts to play Alter the Future | Throws `IllegalStateException` with meaningful message | :x: |
+| G202A2 | Current player has exactly 1 Alter the Future card and plays it | Exactly 1 Alter the Future is removed from current player's hand | :x: |
+| G202A3 | Current player has exactly 1 Alter the Future card and plays it | Alter the Future card is added to the discard pile | :x: |
+| G202A4 | Current player has 2 Alter the Future cards and plays one | Exactly 1 Alter the Future is removed and 1 Alter the Future remains | :x: |
+| G202A5 | Current player plays Alter the Future | Returns the top 3 cards in correct order | :x: |
+| G202A6 | Current player plays Alter the Future | Does not change deck order immediately | :x: |
+| G202A7 | Player resolves Alter the Future with the same three cards in a new order | Top 3 cards in the deck are rearranged to that order | :x: |
+| G202A8 | Player resolves Alter the Future with the same order | Top 3 cards in the deck stay in the same order | :x: |
+| G202A9 | Player tries to resolve Alter the Future without first playing it | Throws `IllegalStateException` with meaningful message | :x: |
+| G202A10 | Current player plays Alter the Future | Deck size does not change | :x: |
+| G202A11 | Current player plays Alter the Future | Current player does not change | :x: |
+| G202A12 | Current player plays Alter the Future | No player is eliminated | :x: |
+| G202A13 | Current player plays Alter the Future when deck has fewer than 3 cards | Throws `IllegalStateException` with meaningful message and does not consume Alter the Future | :x: |
+| G202A14 | Player tries to play another card while Alter the Future decision is unresolved | Throws `IllegalStateException` with meaningful message | :x: |
+| G202A15 | Player resolves Alter the Future, then plays another card | Other card can be played normally | :x: |
+| G202A16 | Player resolves Alter the Future with `null` order | Throws `IllegalArgumentException` with meaningful message | :x: |
+| G202A17 | Player resolves Alter the Future with fewer than 3 cards | Throws `IllegalArgumentException` with meaningful message | :x: |
+| G202A18 | Player resolves Alter the Future with a card that was not peeked | Throws `IllegalArgumentException` with meaningful message | :x: |
+| G202A19 | Player resolves Alter the Future and then attempts to resolve it again | Throws `IllegalStateException` with meaningful message | :x: |
+
 #### Draw from Bottom
 | Test Case | State of the System | Expected Output | Implemented? |
 |------|---|---|-----|
