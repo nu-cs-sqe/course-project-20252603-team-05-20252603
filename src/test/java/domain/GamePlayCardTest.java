@@ -2233,4 +2233,16 @@ public class GamePlayCardTest {
         assertThrows(IllegalStateException.class, () -> {game.playSeeTheFuture();});
     }
 
+    @Test
+    public void playingOneSeeTheFutureRemovesFromHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        Card seeTheFuture = new Card(CardType.SEE_THE_FUTURE);
+        player1.addCard(seeTheFuture);
+        game.playSeeTheFuture();
+        assertEquals(0, player1.countCardsOfType(CardType.SEE_THE_FUTURE));
+    }
+
 }
