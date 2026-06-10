@@ -2106,4 +2106,120 @@ public class GamePlayCardTest {
         assertTrue(player1.isActive());
         assertTrue(player2.isActive());
     }
+
+    @Test
+    public void playingShuffleWithoutShuffleThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+
+        assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.SHUFFLE);
+        });
+    }
+
+    @Test
+    public void PlayShuffle_RemovesOneShuffleFromHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        // give current player one SHUFFLE
+        player1.addCard(new Card(CardType.SHUFFLE));
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(0, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void PlayShuffle_AddsShuffleToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        // give current player one SHUFFLE
+        Card shuffle = new Card(CardType.SHUFFLE);
+        player1.addCard(shuffle);
+        game.playCard(CardType.SHUFFLE);
+        assertTrue(game.getDiscardPile().contains(shuffle));
+    }
+
+    @Test
+    public void PlayShuffle_DeckSizeDoesNotChange() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        int deckSizeBeforeShuffle = game.getDeck().size();
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(deckSizeBeforeShuffle, game.getDeck().size());
+    }
+
+    @Test
+    public void PlayShuffle_CurrentPlayerDoesNotChange() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingShuffleLeavesSecondShuffleInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(1, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void PlayShuffle_DeckCardCountsDoNotChange() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        int attackCount = game.getDeck().amtCardType(CardType.ATTACK);
+        int shuffleCount = game.getDeck().amtCardType(CardType.SHUFFLE);
+        int skipCount = game.getDeck().amtCardType(CardType.SKIP);
+        int seeTheFutureCount = game.getDeck().amtCardType(CardType.SEE_THE_FUTURE);
+        int nopeCount = game.getDeck().amtCardType(CardType.NOPE);
+        int tacoCatCount = game.getDeck().amtCardType(CardType.TACO_CAT);
+        int beardCatCount = game.getDeck().amtCardType(CardType.BEARD_CAT);
+        int rainbowCatCount = game.getDeck().amtCardType(CardType.RAINBOW_RALPHING_CAT);
+        int potatoCatCount = game.getDeck().amtCardType(CardType.HAIRY_POTATO_CAT);
+        int explodingKittenCount = game.getDeck().amtCardType(CardType.EXPLODING_KITTEN);
+        int defuseCount = game.getDeck().amtCardType(CardType.DEFUSE);
+
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(attackCount, game.getDeck().amtCardType(CardType.ATTACK));
+        assertEquals(shuffleCount, game.getDeck().amtCardType(CardType.SHUFFLE));
+        assertEquals(skipCount, game.getDeck().amtCardType(CardType.SKIP));
+        assertEquals(seeTheFutureCount, game.getDeck().amtCardType(CardType.SEE_THE_FUTURE));
+        assertEquals(nopeCount, game.getDeck().amtCardType(CardType.NOPE));
+        assertEquals(tacoCatCount, game.getDeck().amtCardType(CardType.TACO_CAT));
+        assertEquals(beardCatCount, game.getDeck().amtCardType(CardType.BEARD_CAT));
+        assertEquals(rainbowCatCount, game.getDeck().amtCardType(CardType.RAINBOW_RALPHING_CAT));
+        assertEquals(potatoCatCount, game.getDeck().amtCardType(CardType.HAIRY_POTATO_CAT));
+        assertEquals(explodingKittenCount, game.getDeck().amtCardType(CardType.EXPLODING_KITTEN));
+        assertEquals(defuseCount, game.getDeck().amtCardType(CardType.DEFUSE));
+    }
+
+    @Test
+    public void playingShuffleDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        game.playCard(CardType.SHUFFLE);
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
 }
