@@ -347,3 +347,5 @@
 | G236 | Player tries to play another card while Peek Swap decision is unresolved | Throws `IllegalStateException` with meaningful message | :n: |
 | G237 | Player chooses to swap after Peek Swap, then plays another card | Other card can be played normally | :n: |
 | G238 | Player chooses not to swap after Peek Swap, then plays another card | Other card can be played normally | :n: |
+| G239 | Player other than the one who played Peek Swap attempts to swap | Throws `IllegalStateException` with meaningful message | :n: |
+| G240 | Player other than the one who played Peek Swap attempts to decline | Throws `IllegalStateException` with meaningful message | :n: |
