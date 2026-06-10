@@ -229,7 +229,7 @@
 | G126S5 | Current player plays `STEAL` targeting a player with no cards | Throws `IllegalStateException` with meaningful message | :y: |
 | G126S6 | Current player does not have `STEAL` | Throws `IllegalStateException` with meaningful message | :y: |
 | G126S7 | Invalid `STEAL` play | `STEAL` remains in current player's hand and is not discarded | :y: |
-| G126S8 | Current player plays valid `STEAL` | Removes `STEAL` from current player's hand and adds it to discard pile | :x: |
+| G126S8 | Current player plays valid `STEAL` | Removes `STEAL` from current player's hand and adds it to discard pile | :y: |
 | G126S9 | Current player plays valid `STEAL` | Transfers one card from target player to current player | :x: |
 | G126S10 | Target player has multiple cards during valid `STEAL` | Transfers exactly one target card | :x: |
 | G126S11 | Current player plays valid `STEAL` | Current player does not change | :x: |

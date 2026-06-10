@@ -1499,6 +1499,23 @@ public class GamePlayCardTest {
         assertFalse(game.getDiscardPile().contains(steal));
     }
 
+    // G126S8
+    @Test
+    public void validStealMovesStealFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card steal = new Card(CardType.STEAL);
+
+        player1.addCard(steal);
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertFalse(player1.getHand().contains(steal));
+        assertTrue(game.getDiscardPile().contains(steal));
+    }
+
     // G127
     @Test
     public void playingMarkWithNullTargetThrowsException() {
