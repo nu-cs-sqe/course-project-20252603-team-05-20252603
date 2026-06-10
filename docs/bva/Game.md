@@ -234,7 +234,7 @@
 | G126S10 | Target player has multiple cards during valid `STEAL` | Transfers exactly one target card | :y: |
 | G126S11 | Current player plays valid `STEAL` | Current player does not change | :y: |
 | G126S12 | Current player plays valid `STEAL` | Deck size does not change | :y: |
-| G126S13 | Current player plays valid `STEAL` | No player is eliminated | :x: |
+| G126S13 | Current player plays valid `STEAL` | No player is eliminated | :y: |
 
 #### Mark
 | Test Case | State of the System | Expected Output | Implemented? |
