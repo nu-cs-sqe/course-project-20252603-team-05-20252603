@@ -2108,20 +2108,27 @@ public class GamePlayCardTest {
     }
 
     @Test
-    public void G187_PlayShuffle_PlayerDoesNotHaveShuffle_ThrowsException() {
+    public void playingShuffleWithoutShuffleThrowsException() {
         Player player1 = new Player("Player 1");
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
-        // current player has no SHUFFLE
-         assertThrows(IllegalStateException.class, () -> game.playCard(CardType.SHUFFLE));
+        removeAll(player1, CardType.SHUFFLE);
+
+        assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.SHUFFLE);
+        });
     }
 
-    @Test
-    public void G188_PlayShuffle_RemovesOneShuffleFromHand() {
-        // give current player one SHUFFLE
-        // game.playCard(CardType.SHUFFLE)
-        // assertEquals(0, currentPlayer.countCardsOfType(CardType.SHUFFLE));
-    }
+//    @Test
+//    public void G188_PlayShuffle_RemovesOneShuffleFromHand() {
+//        Player player1 = new Player("Player 1");
+//        Player player2 = new Player("Player 2");
+//        Game game = createStartedGame(player1, player2);
+//        // give current player one SHUFFLE
+//        player1.addCard(new Card(CardType.SHUFFLE));
+//        game.playCard(CardType.SHUFFLE);
+//        assertEquals(0, currentPlayer.countCardsOfType(CardType.SHUFFLE));
+//    }
 
     @Test
     public void G189_PlayShuffle_AddsShuffleToDiscardPile() {
