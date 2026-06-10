@@ -2399,4 +2399,20 @@ public class GamePlayCardTest {
         assertFalse(player1.getHand().contains(topCard));
     }
 
+    @Test
+    public void playingDrawFromBottomReducesDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        Card card = new Card(CardType.NOPE);
+        game.getDeck().insertBottom(card);
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertEquals(0, game.getDeck().size());
+    }
+
 }

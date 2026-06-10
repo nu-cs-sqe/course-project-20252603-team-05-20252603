@@ -312,8 +312,8 @@
 | G204 | Current player has exactly 1 Draw from Bottom card and plays it | Exactly 1 Draw from Bottom is removed from current player's hand | :y: |
 | G205 | Current player has exactly 1 Draw from Bottom card and plays it | Draw from Bottom card is added to the discard pile | :y: |
 | G206 | Current player has 2 Draw from Bottom cards and plays one | Exactly 1 Draw from Bottom is removed and 1 Draw from Bottom remains | :y: |
-| G207 | Current player plays Draw from Bottom | Draws the bottom card of the deck into current player's hand | :n: |
-| G208 | Current player plays Draw from Bottom | Deck size decreases by 1 | :n: |
+| G207 | Current player plays Draw from Bottom | Draws the bottom card of the deck into current player's hand | :y: |
+| G208 | Current player plays Draw from Bottom | Deck size decreases by 1 | :y: |
 | G209 | Current player plays Draw from Bottom and draws an Exploding Kitten with no Defuse or Shield | Current player is eliminated | :n: |
 | G210 | Current player plays Draw from Bottom and draws an Exploding Kitten with Defuse | Defuse is used and player remains active | :n: |
 | G211 | Current player plays Draw from Bottom | Current player's turn ends after drawing from bottom | :n: |
