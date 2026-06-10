@@ -325,3 +325,19 @@
 | G217 | Current player plays Draw from Bottom and is eliminated while 3 or more players remain | Game continues with the next active player | :y: |
 | G218 | Attacked player plays Draw from Bottom for the first required attack draw | Current player remains the attacked player | :y: |
 | G219 | Attacked player plays Draw from Bottom for the second required attack draw | Current player advances to the next active player | :y: |
+
+#### Peek Swap
+| Test Case | State of the System | Expected Output | Implemented? |
+|------|---|---|-----|
+| G221 | Current player has 0 Peek Swap cards and attempts to play Peek Swap | Throws `IllegalStateException` with meaningful message | :n: |
+| G222 | Current player has exactly 1 Peek Swap card and plays it | Exactly 1 Peek Swap is removed from current player's hand | :n: |
+| G223 | Current player has exactly 1 Peek Swap card and plays it | Peek Swap card is added to the discard pile | :n: |
+| G224 | Current player has 2 Peek Swap cards and plays one | Exactly 1 Peek Swap is removed and 1 Peek Swap remains | :n: |
+| G225 | Current player plays Peek Swap and chooses not to swap | Returns the top 2 cards in correct order | :n: |
+| G226 | Current player plays Peek Swap and chooses not to swap | Deck order stays the same | :n: |
+| G227 | Current player plays Peek Swap and chooses to swap | Returns the top 2 cards in original correct order, rest of deck keeps order | :n: |
+| G228 | Current player plays Peek Swap and chooses to swap | Top 2 cards in the deck are swapped | :n: |
+| G229 | Current player plays Peek Swap | Deck size does not change | :n: |
+| G230 | Current player plays Peek Swap | Current player does not change | :n: |
+| G231 | Current player plays Peek Swap | No player is eliminated | :n: |
+| G232 | Current player plays Peek Swap when deck has fewer than 2 cards | Throws `IllegalStateException` with meaningful message and does not consume Peek Swap | :n: |
