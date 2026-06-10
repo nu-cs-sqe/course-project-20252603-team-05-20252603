@@ -16,7 +16,7 @@ public class Game {
     private int currentPlayerIndex;
     private int pendingTurnsForCurrentPlayer;
 
-    private Player pendingPeekSwapPlayer;
+    private boolean activePeekSwap;
 
     public Game(List<Player> players, Deck deck) {
         if (players == null) {
@@ -47,7 +47,7 @@ public class Game {
         this.setupComplete = false;
         this.currentPlayerIndex = 0;
         this.pendingTurnsForCurrentPlayer = 0;
-        this.pendingPeekSwapPlayer = null;
+        this.activePeekSwap = false;
     }
 
     public void setupGame() {
@@ -351,29 +351,23 @@ public class Game {
         Card playedCard = currentPlayer.removeCard(CardType.PEEK_SWAP);
         discardPile.add(playedCard);
 
-        pendingPeekSwapPlayer = currentPlayer;
+        activePeekSwap = true;
         return deck.peek(2);
     }
 
     public void swapPeekedCards() {
-        if (pendingPeekSwapPlayer == null) {
+        if (!activePeekSwap) {
             throw new IllegalStateException("No Peek Swap action is currently active");
         }
-        if (getCurrentPlayer() != pendingPeekSwapPlayer) {
-            throw new IllegalStateException("Only the player who played Peek Swap may resolve it");
-        }
         deck.swapTopTwo();
-        pendingPeekSwapPlayer = null;
+        activePeekSwap = false;
     }
 
     public void declinePeekSwap() {
-        if (pendingPeekSwapPlayer == null) {
+        if (!activePeekSwap) {
             throw new IllegalStateException("No Peek Swap action is currently active");
         }
-        if (getCurrentPlayer() != pendingPeekSwapPlayer) {
-            throw new IllegalStateException("Only the player who played Peek Swap may resolve it");
-        }
-        pendingPeekSwapPlayer = null;
+        activePeekSwap = false;
     }
 
     private void validateGameCanPlayCard() {
@@ -385,7 +379,7 @@ public class Game {
             throw new IllegalStateException("Game is over");
         }
 
-        if (pendingPeekSwapPlayer != null) {
+        if (activePeekSwap) {
             throw new IllegalStateException("Must resolve Peek Swap before playing another card");
         }
     }
