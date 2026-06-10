@@ -1411,6 +1411,24 @@ public class GamePlayCardTest {
         assertEquals("Target player cannot be null", exception.getMessage());
     }
 
+    // G126S3
+    @Test
+    public void playingStealWithTargetNotInGameThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player3.addCard(new Card(CardType.SKIP));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL, player3);
+        });
+
+        assertEquals("Target player must be in the game", exception.getMessage());
+    }
+
     // G127
     @Test
     public void playingMarkWithNullTargetThrowsException() {
