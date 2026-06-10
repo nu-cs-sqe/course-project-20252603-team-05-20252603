@@ -329,15 +329,18 @@
 #### Peek Swap
 | Test Case | State of the System | Expected Output | Implemented? |
 |------|---|---|-----|
-| G221 | Current player has 0 Peek Swap cards and attempts to play Peek Swap | Throws `IllegalStateException` with meaningful message | :n: |
-| G222 | Current player has exactly 1 Peek Swap card and plays it | Exactly 1 Peek Swap is removed from current player's hand | :n: |
-| G223 | Current player has exactly 1 Peek Swap card and plays it | Peek Swap card is added to the discard pile | :n: |
-| G224 | Current player has 2 Peek Swap cards and plays one | Exactly 1 Peek Swap is removed and 1 Peek Swap remains | :n: |
-| G225 | Current player plays Peek Swap and chooses not to swap | Returns the top 2 cards in correct order | :n: |
-| G226 | Current player plays Peek Swap and chooses not to swap | Deck order stays the same | :n: |
-| G227 | Current player plays Peek Swap and chooses to swap | Returns the top 2 cards in original correct order, rest of deck keeps order | :n: |
-| G228 | Current player plays Peek Swap and chooses to swap | Top 2 cards in the deck are swapped | :n: |
-| G229 | Current player plays Peek Swap | Deck size does not change | :n: |
-| G230 | Current player plays Peek Swap | Current player does not change | :n: |
-| G231 | Current player plays Peek Swap | No player is eliminated | :n: |
-| G232 | Current player plays Peek Swap when deck has fewer than 2 cards | Throws `IllegalStateException` with meaningful message and does not consume Peek Swap | :n: |
+| G221 | Current player has 0 Peek Swap cards and attempts to play Peek Swap | Throws `IllegalStateException` with meaningful message | :y: |
+| G222 | Current player has exactly 1 Peek Swap card and plays it | Exactly 1 Peek Swap is removed from current player's hand | :y: |
+| G223 | Current player has exactly 1 Peek Swap card and plays it | Peek Swap card is added to the discard pile | :y: |
+| G224 | Current player has 2 Peek Swap cards and plays one | Exactly 1 Peek Swap is removed and 1 Peek Swap remains | :y: |
+| G225 | Current player plays Peek Swap | Returns the top 2 cards in correct order | :y: |
+| G226 | Current player plays Peek Swap | Does not change deck order immediately | :n: |
+| G227 | Current player plays Peek Swap | Allows the player to choose whether to swap afterward | :n: |
+| G228 | Player chooses to swap after playing Peek Swap | Top 2 cards in the deck are swapped | :n: |
+| G229 | Player chooses not to swap after playing Peek Swap | Top 2 cards in the deck stay in the same order | :n: |
+| G230 | Player tries to swap without first playing Peek Swap | Throws `IllegalStateException` with meaningful message | :n: |
+| G231 | Player tries to decline swap without first playing Peek Swap | Throws `IllegalStateException` with meaningful message | :n: |
+| G232 | Current player plays Peek Swap | Deck size does not change | :n: |
+| G233 | Current player plays Peek Swap | Current player does not change | :n: |
+| G234 | Current player plays Peek Swap | No player is eliminated | :n: |
+| G235 | Current player plays Peek Swap when deck has fewer than 2 cards | Throws `IllegalStateException` with meaningful message and does not consume Peek Swap | :n: |
