@@ -303,4 +303,4 @@
 | G199 | Current player plays See the Future | Returns the top 3 cards of the deck in correct order | :y: |
 | G200 | Current player plays See the Future | Does not remove any cards from the deck | :y: |
 | G201 | Current player plays See the Future | Current player does not change | :y: |
-| G202 | Current player plays See the Future | No player is eliminated | :n: |
+| G202 | Current player plays See the Future | No player is eliminated | :y: |

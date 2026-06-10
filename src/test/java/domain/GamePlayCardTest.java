@@ -2308,4 +2308,16 @@ public class GamePlayCardTest {
         assertEquals(player1, game.getCurrentPlayer());
     }
 
+    @Test
+    public void playingSeeTheFutureDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        game.playSeeTheFuture();
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
 }
