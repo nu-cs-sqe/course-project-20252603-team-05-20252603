@@ -2297,4 +2297,15 @@ public class GamePlayCardTest {
         assertEquals(deckSizeBeforePlay, game.getDeck().size());
     }
 
+    @Test
+    public void playingSeeTheFutureDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        game.playSeeTheFuture();
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
 }
