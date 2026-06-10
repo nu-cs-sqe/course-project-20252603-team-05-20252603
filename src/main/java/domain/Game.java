@@ -16,6 +16,8 @@ public class Game {
     private int currentPlayerIndex;
     private int pendingTurnsForCurrentPlayer;
 
+    private boolean activePeekSwap;
+
     public Game(List<Player> players, Deck deck) {
         if (players == null) {
             throw new IllegalArgumentException("Players list cannot be null");
@@ -45,6 +47,7 @@ public class Game {
         this.setupComplete = false;
         this.currentPlayerIndex = 0;
         this.pendingTurnsForCurrentPlayer = 0;
+        this.activePeekSwap = false;
     }
 
     public void setupGame() {
@@ -339,6 +342,35 @@ public class Game {
         return deck.peek(3);
     }
 
+    public List<Card> playPeekSwap() {
+        validateGameCanPlayCard();
+        if (deck.size() < 2) {
+            throw new IllegalStateException(
+                "Cannot play Peek Swap when deck has fewer than 2 cards");
+        }
+        Player currentPlayer = getCurrentPlayer();
+        Card playedCard = currentPlayer.removeCard(CardType.PEEK_SWAP);
+        discardPile.add(playedCard);
+
+        activePeekSwap = true;
+        return deck.peek(2);
+    }
+
+    public void swapPeekedCards() {
+        if (!activePeekSwap) {
+            throw new IllegalStateException("No Peek Swap action is currently active");
+        }
+        deck.swapTopTwo();
+        activePeekSwap = false;
+    }
+
+    public void declinePeekSwap() {
+        if (!activePeekSwap) {
+            throw new IllegalStateException("No Peek Swap action is currently active");
+        }
+        activePeekSwap = false;
+    }
+
     private void validateGameCanPlayCard() {
         if (!setupComplete) {
             throw new IllegalStateException("Game setup has not been completed");
@@ -346,6 +378,10 @@ public class Game {
 
         if (getActivePlayerCount() <= 1) {
             throw new IllegalStateException("Game is over");
+        }
+
+        if (activePeekSwap) {
+            throw new IllegalStateException("Must resolve Peek Swap before playing another card");
         }
     }
 

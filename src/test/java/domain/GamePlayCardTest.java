@@ -2627,4 +2627,402 @@ public class GamePlayCardTest {
         assertEquals(player1, game.getCurrentPlayer());
     }
 
+    @Test
+    public void playingPeekSwapWithoutPeekSwapThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playPeekSwap();
+        });
+
+        assertEquals("Player does not have card of type PEEK_SWAP", exception.getMessage());
+    }
+
+    @Test
+    public void playingOnePeekSwapRemovesIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.PEEK_SWAP);
+        Card peekSwap = new Card(CardType.PEEK_SWAP);
+        player1.addCard(peekSwap);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.playPeekSwap();
+
+        assertEquals(0, player1.countCardsOfType(CardType.PEEK_SWAP));
+    }
+
+    @Test
+    public void playingOnePeekSwapDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        Card peekSwap = new Card(CardType.PEEK_SWAP);
+        player1.addCard(peekSwap);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.playPeekSwap();
+
+        assertTrue(game.getDiscardPile().contains(peekSwap));
+    }
+
+    @Test
+    public void playingPeekSwapLeavesSecondPeekSwapInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+
+        assertEquals(1, player1.countCardsOfType(CardType.PEEK_SWAP));
+    }
+
+    @Test
+    public void playingPeekSwapReturnsTopTwoCardsInOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        List<Card> peekedCards = game.playPeekSwap();
+
+        assertEquals(2, peekedCards.size());
+        assertEquals(CardType.ATTACK, peekedCards.get(0).getType());
+        assertEquals(CardType.SKIP, peekedCards.get(1).getType());
+    }
+
+    @Test
+    public void playingPeekSwapDoesNotChangeDeckOrderImmediately() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+
+        List<Card> peekedCards = game.getDeck().peek(2);
+
+        assertEquals(CardType.ATTACK, peekedCards.get(0).getType());
+        assertEquals(CardType.SKIP, peekedCards.get(1).getType());
+    }
+
+    @Test
+    public void playingPeekSwapAllowsPlayerToSwapAfterward() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.swapPeekedCards();
+
+        List<Card> peekedCards = game.getDeck().peek(2);
+
+        assertEquals(CardType.SKIP, peekedCards.get(0).getType());
+        assertEquals(CardType.ATTACK, peekedCards.get(1).getType());
+    }
+
+    @Test
+    public void swappingAfterPeekSwapSwapsTopTwoCards() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.swapPeekedCards();
+
+        List<Card> peekedCards = game.getDeck().peek(2);
+
+        assertEquals(CardType.SKIP, peekedCards.get(0).getType());
+        assertEquals(CardType.ATTACK, peekedCards.get(1).getType());
+    }
+
+    @Test
+    public void decliningAfterPeekSwapKeepsTopTwoCardsInSameOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.declinePeekSwap();
+
+        List<Card> peekedCards = game.getDeck().peek(2);
+
+        assertEquals(CardType.ATTACK, peekedCards.get(0).getType());
+        assertEquals(CardType.SKIP, peekedCards.get(1).getType());
+    }
+
+    @Test
+    public void swappingWithoutActivePeekSwapThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.swapPeekedCards();
+        });
+
+        assertEquals("No Peek Swap action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void decliningWithoutActivePeekSwapThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.declinePeekSwap();
+        });
+
+        assertEquals("No Peek Swap action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void playingPeekSwapDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        int deckSizeBeforePlay = game.getDeck().size();
+
+        game.playPeekSwap();
+
+        assertEquals(deckSizeBeforePlay, game.getDeck().size());
+    }
+
+    @Test
+    public void playingPeekSwapDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        game.playPeekSwap();
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingPeekSwapDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        game.playPeekSwap();
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
+    @Test
+    public void playingPeekSwapWithFewerThanTwoCardsThrowsExceptionAndDoesNotConsumeCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        Card peekSwap = new Card(CardType.PEEK_SWAP);
+        player1.addCard(peekSwap);
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playPeekSwap();
+        });
+
+        assertEquals("Cannot play Peek Swap when deck has fewer than 2 cards", 
+                     exception.getMessage());
+        assertTrue(player1.getHand().contains(peekSwap));
+        assertFalse(game.getDiscardPile().contains(peekSwap));
+    }
+
+    @Test
+    public void playingAnotherCardWhilePeekSwapUnresolvedThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.SHUFFLE);
+        });
+
+        assertEquals("Must resolve Peek Swap before playing another card", exception.getMessage());
+    }
+
+    @Test
+    public void afterSwappingPeekSwapPlayerCanPlayAnotherCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.swapPeekedCards();
+        game.playCard(CardType.SHUFFLE);
+
+        assertEquals(0, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void afterDecliningPeekSwapPlayerCanPlayAnotherCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.declinePeekSwap();
+        game.playCard(CardType.SHUFFLE);
+
+        assertEquals(0, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void swappingAfterAlreadySwappingThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.swapPeekedCards();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.swapPeekedCards();
+        });
+
+        assertEquals("No Peek Swap action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void decliningAfterAlreadyDecliningThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.declinePeekSwap();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.declinePeekSwap();
+        });
+
+        assertEquals("No Peek Swap action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void swappingWithoutEverPlayingPeekSwapThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                game::swapPeekedCards
+        );
+
+        assertEquals(
+                "No Peek Swap action is currently active",
+                exception.getMessage()
+        );
+    }
+
 }

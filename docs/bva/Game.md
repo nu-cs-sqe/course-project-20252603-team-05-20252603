@@ -325,3 +325,28 @@
 | G217 | Current player plays Draw from Bottom and is eliminated while 3 or more players remain | Game continues with the next active player | :y: |
 | G218 | Attacked player plays Draw from Bottom for the first required attack draw | Current player remains the attacked player | :y: |
 | G219 | Attacked player plays Draw from Bottom for the second required attack draw | Current player advances to the next active player | :y: |
+
+#### Peek Swap
+| Test Case | State of the System | Expected Output | Implemented? |
+|------|---|---|-----|
+| G221 | Current player has 0 Peek Swap cards and attempts to play Peek Swap | Throws `IllegalStateException` with meaningful message | :y: |
+| G222 | Current player has exactly 1 Peek Swap card and plays it | Exactly 1 Peek Swap is removed from current player's hand | :y: |
+| G223 | Current player has exactly 1 Peek Swap card and plays it | Peek Swap card is added to the discard pile | :y: |
+| G224 | Current player has 2 Peek Swap cards and plays one | Exactly 1 Peek Swap is removed and 1 Peek Swap remains | :y: |
+| G225 | Current player plays Peek Swap | Returns the top 2 cards in correct order | :y: |
+| G226 | Current player plays Peek Swap | Does not change deck order immediately | :y: |
+| G227 | Current player plays Peek Swap | Allows the player to choose whether to swap afterward | :y: |
+| G228 | Player chooses to swap after playing Peek Swap | Top 2 cards in the deck are swapped | :y: |
+| G229 | Player chooses not to swap after playing Peek Swap | Top 2 cards in the deck stay in the same order | :y: |
+| G230 | Player tries to swap without first playing Peek Swap | Throws `IllegalStateException` with meaningful message | :y: |
+| G231 | Player tries to decline swap without first playing Peek Swap | Throws `IllegalStateException` with meaningful message | :y: |
+| G232 | Current player plays Peek Swap | Deck size does not change | :y: |
+| G233 | Current player plays Peek Swap | Current player does not change | :y: |
+| G234 | Current player plays Peek Swap | No player is eliminated | :y: |
+| G235 | Current player plays Peek Swap when deck has fewer than 2 cards | Throws `IllegalStateException` with meaningful message and does not consume Peek Swap | :y: |
+| G236 | Player tries to play another card while Peek Swap decision is unresolved | Throws `IllegalStateException` with meaningful message | :y: |
+| G237 | Player chooses to swap after Peek Swap, then plays another card | Other card can be played normally | :y: |
+| G238 | Player chooses not to swap after Peek Swap, then plays another card | Other card can be played normally | :y: |
+| G239 | Player swaps after Peek Swap and then attempts to swap again | Throws IllegalStateException with meaningful message | :y: |
+| G240 | Player declines after Peek Swap and then attempts to decline again | Throws IllegalStateException with meaningful message | :y: |
+| G241 | Game starts with no pending Peek Swap action | Attempting to swap before any Peek Swap has been played throws `IllegalStateException` with meaningful message | :y: |

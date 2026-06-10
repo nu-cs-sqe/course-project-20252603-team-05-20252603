@@ -16,5 +16,6 @@ public enum CardType {
     BEARD_CAT,
     RAINBOW_RALPHING_CAT,
     HAIRY_POTATO_CAT,
-    DRAW_FROM_BOTTOM
+    DRAW_FROM_BOTTOM,
+    PEEK_SWAP
 }
