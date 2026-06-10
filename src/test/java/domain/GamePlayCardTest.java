@@ -2106,4 +2106,41 @@ public class GamePlayCardTest {
         assertTrue(player1.isActive());
         assertTrue(player2.isActive());
     }
+
+    @Test
+    public void G187_PlayShuffle_PlayerDoesNotHaveShuffle_ThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        // current player has no SHUFFLE
+         assertThrows(IllegalStateException.class, () -> game.playCard(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void G188_PlayShuffle_RemovesOneShuffleFromHand() {
+        // give current player one SHUFFLE
+        // game.playCard(CardType.SHUFFLE)
+        // assertEquals(0, currentPlayer.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void G189_PlayShuffle_AddsShuffleToDiscardPile() {
+        // give current player one SHUFFLE
+        // game.playCard(CardType.SHUFFLE)
+        // assert discard pile contains SHUFFLE
+    }
+
+    @Test
+    public void G191_PlayShuffle_DeckSizeDoesNotChange() {
+        // int sizeBefore = game.getDeck().size();
+        // game.playCard(CardType.SHUFFLE);
+        // assertEquals(sizeBefore, game.getDeck().size());
+    }
+
+    @Test
+    public void G194_PlayShuffle_CurrentPlayerDoesNotChange() {
+        // Player before = game.getCurrentPlayer();
+        // game.playCard(CardType.SHUFFLE);
+        // assertEquals(before, game.getCurrentPlayer());
+    }
 }

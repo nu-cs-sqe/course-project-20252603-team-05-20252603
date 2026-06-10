@@ -220,6 +220,9 @@ public class Game {
         } else if (type == CardType.SKIP) {
             endTurn();
         }
+        else if (type == CardType.SHUFFLE) {
+            deck.shuffle();
+        }
     }
 
     public void playCard(CardType type, Player targetPlayer) {
