@@ -159,3 +159,52 @@ Output State: Deck is unchanged
   - **State of the system**: Deck contains exactly 2 cards
   - **Input Value**: 3
   - **Expected output**: IllegalArgumentException
+
+### Method under test: `drawBottom()`
+Input State: Deck  
+Input Value: None  
+Output Value: Card or IllegalStateException  
+Output State: Deck
+
+- **TC27: drawBottom_fromEmptyDeck** (:todo:)
+  - **State of the system**: Deck contains 0 cards
+  - **Expected output**: IllegalStateException with meaningful message
+
+- **TC28: drawBottom_fromOneCardDeck** (:todo:)
+  - **State of the system**: Deck contains exactly 1 card
+  - **Expected output**: One card is returned and `size()` returns 0
+
+- **TC29: drawBottom_fromTwoCardDeck_checksBottomCard** (:todo:)
+  - **State of the system**: Deck contains 2 different cards in known order
+  - **Expected output**: The bottom card is returned and `size()` returns 1
+
+- **TC30: drawBottom_updatesAmtCardType** (:todo:)
+  - **State of the system**: Deck contains exactly 1 DEFUSE card at the bottom
+  - **Expected output**: `amtCardType(DEFUSE)` decreases by 1 after drawing from bottom
+
+
+### Method under test: `swapTopTwo()`
+Input State: Deck  
+Input Value: None  
+Output Value: Deck or IllegalStateException  
+Output State: Deck
+
+- **TC31: swapTopTwo_emptyDeck** (:todo:)
+  - **State of the system**: Deck contains 0 cards
+  - **Expected output**: IllegalStateException with meaningful message
+
+- **TC32: swapTopTwo_oneCardDeck** (:todo:)
+  - **State of the system**: Deck contains exactly 1 card
+  - **Expected output**: IllegalStateException with meaningful message
+
+- **TC33: swapTopTwo_twoCardDeck_swapsOrder** (:todo:)
+  - **State of the system**: Deck contains 2 different cards in known order
+  - **Expected output**: The top two cards are swapped and `size()` is unchanged
+
+- **TC34: swapTopTwo_threeCardDeck_onlySwapsTopTwo** (:todo:)
+  - **State of the system**: Deck contains 3 different cards in known order
+  - **Expected output**: Only the top two cards are swapped; bottom card remains in the same position
+
+- **TC35: swapTopTwo_duplicateCards_sizeUnchanged** (:todo:)
+  - **State of the system**: Deck contains duplicate card types in the top two positions
+  - **Expected output**: `size()` is unchanged and card amounts are unchanged
