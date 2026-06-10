@@ -549,6 +549,147 @@ public class GamePlayCardTest {
         assertEquals(player1, game.getCurrentPlayer());
     }
 
+    // G80R1
+    @Test
+    public void playCardWithReverseThrowsMeaningfulExceptionWhenCurrentPlayerDoesNotHaveReverse() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.REVERSE);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.REVERSE);
+        });
+        assertEquals("Player does not have card of type REVERSE", exception.getMessage());
+    }
+
+    // G80R2, G80R3
+    @Test
+    public void playCardWithReverseMovesCardFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card reverse = new Card(CardType.REVERSE);
+
+        removeAll(player1, CardType.REVERSE);
+        player1.addCard(reverse);
+
+        game.playCard(CardType.REVERSE);
+
+        assertFalse(player1.getHand().contains(reverse));
+        assertTrue(game.getDiscardPile().contains(reverse));
+    }
+
+    // G80R4
+    @Test
+    public void playCardWithReverseRemovesOnlyOneReverseWhenPlayerHasTwo() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.REVERSE);
+        player1.addCard(new Card(CardType.REVERSE));
+        player1.addCard(new Card(CardType.REVERSE));
+
+        game.playCard(CardType.REVERSE);
+
+        assertEquals(1, player1.countCardsOfType(CardType.REVERSE));
+    }
+
+    // G80R5
+    @Test
+    public void playCardWithReverseAdvancesToOtherPlayerWithTwoActivePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.REVERSE));
+
+        game.playCard(CardType.REVERSE);
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G80R6
+    @Test
+    public void playCardWithReverseAdvancesToPreviousPlayerWithThreeActivePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        player1.addCard(new Card(CardType.REVERSE));
+
+        game.playCard(CardType.REVERSE);
+
+        assertEquals(player3, game.getCurrentPlayer());
+    }
+
+    // G80R7
+    @Test
+    public void endTurnContinuesInReversedOrderAfterReverseIsPlayed() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        player1.addCard(new Card(CardType.REVERSE));
+        game.playCard(CardType.REVERSE);
+
+        game.endTurn();
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G80R8
+    @Test
+    public void playCardWithReverseSkipsEliminatedPlayersInReversedOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        player3.eliminate();
+        player1.addCard(new Card(CardType.REVERSE));
+
+        game.playCard(CardType.REVERSE);
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G80R9
+    @Test
+    public void playCardWithReverseDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.REVERSE));
+        int deckSizeBeforePlay = deck.size();
+
+        game.playCard(CardType.REVERSE);
+
+        assertEquals(deckSizeBeforePlay, deck.size());
+    }
+
+    // G80R10
+    @Test
+    public void playCardWithReverseDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.REVERSE));
+
+        game.playCard(CardType.REVERSE);
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
     // G81
     @Test
     public void explodingKittenEliminatesUnprotectedPlayerWithThreeActivePlayers() {
