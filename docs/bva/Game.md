@@ -248,3 +248,11 @@
 | G192      | Current player plays Shuffle | Card amounts in the deck do not change | :y:          |
 | G193      | Current player plays Shuffle | Current player does not change | :y:          |
 | G194      | Current player plays Shuffle | No player is eliminated | :y:          |
+| G195      | Current player has 0 See the Future cards and attempts to play See the Future | Throws `IllegalStateException` | :n: |
+| G196      | Current player has exactly 1 See the Future card and plays it | Exactly 1 See the Future is removed from current player's hand | :n: |
+| G197      | Current player has exactly 1 See the Future card and plays it | See the Future card is added to the discard pile | :n: |
+| G198      | Current player has 2 See the Future cards and plays one | Exactly 1 See the Future is removed and 1 See the Future remains | :n: |
+| G199      | Current player plays See the Future | Returns the top cards of the deck in correct order | :n: |
+| G200      | Current player plays See the Future | Does not remove any cards from the deck | :n: |
+| G201      | Current player plays See the Future | Current player does not change | :n: |
+| G202      | Current player plays See the Future | No player is eliminated | :n: |
