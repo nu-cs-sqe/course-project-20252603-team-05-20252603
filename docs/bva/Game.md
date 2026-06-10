@@ -244,8 +244,8 @@
 | G188 | Current player has exactly 1 Shuffle card and plays it | Exactly 1 Shuffle is removed from current player's hand | :y:          |
 | G189 | Current player has exactly 1 Shuffle card and plays it | Shuffle card is added to the discard pile | :y:          |
 | G190 | Current player has 2 Shuffle cards and plays one | Exactly 1 Shuffle is removed and 1 Shuffle remains | :n:          |
-| G191 | Current player plays Shuffle | Deck size does not change | :n:          |
+| G191 | Current player plays Shuffle | Deck size does not change | :y:          |
 | G192 | Current player plays Shuffle | Card amounts in the deck do not change | :n:          |
 | G193 | Current player plays Shuffle | Draw pile order changes | :n:          |
-| G194 | Current player plays Shuffle | Current player does not change | :n:          |
+| G194 | Current player plays Shuffle | Current player does not change | :y:          |
 | G195 | Current player plays Shuffle | No player is eliminated | :n:          |
