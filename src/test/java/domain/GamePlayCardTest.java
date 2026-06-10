@@ -2889,7 +2889,8 @@ public class GamePlayCardTest {
             game.playPeekSwap();
         });
 
-        assertEquals("Cannot play Peek Swap when deck has fewer than 2 cards", exception.getMessage());
+        assertEquals("Cannot play Peek Swap when deck has fewer than 2 cards", 
+                     exception.getMessage());
         assertTrue(player1.getHand().contains(peekSwap));
         assertFalse(game.getDiscardPile().contains(peekSwap));
     }
