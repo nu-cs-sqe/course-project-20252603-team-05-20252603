@@ -1559,6 +1559,21 @@ public class GamePlayCardTest {
         assertEquals(currentPlayerHandSizeBeforeSteal, player1.getHand().size());
     }
 
+    // G126S11
+    @Test
+    public void validStealDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
     // G127
     @Test
     public void playingMarkWithNullTargetThrowsException() {
