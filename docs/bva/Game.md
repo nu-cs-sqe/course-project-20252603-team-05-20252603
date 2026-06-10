@@ -143,6 +143,20 @@
 | G79 | Attacked player plays `ATTACK` before drawing | Next player must take 4 turns | :y: |
 | G80 | Attacked player plays `ATTACK` after one attacked draw | Next player must take 3 turns | :y: |
 
+#### Reverse
+| Test Case | State of the System | Expected Output | Implemented? |
+|-----------|---|---|--------------|
+| G80R1 | Current player has 0 Reverse cards and attempts to play Reverse | Throws `IllegalStateException` with meaningful message | :x: |
+| G80R2 | Current player has exactly 1 Reverse card and plays it | Exactly 1 Reverse is removed from current player's hand | :x: |
+| G80R3 | Current player has exactly 1 Reverse card and plays it | Reverse card is added to the discard pile | :x: |
+| G80R4 | Current player has 2 Reverse cards and plays one | Exactly 1 Reverse is removed and 1 Reverse remains | :x: |
+| G80R5 | Current player plays Reverse with 2 active players | Current player changes to the other player | :x: |
+| G80R6 | Current player plays Reverse with 3 active players | Turn order reverses and current player changes to the previous player | :x: |
+| G80R7 | A player ends their turn after Reverse changed the order | Turn continues in the reversed direction | :x: |
+| G80R8 | Current player plays Reverse and previous player in the new order is eliminated | Current player changes to the next active player in reversed order | :x: |
+| G80R9 | Current player plays Reverse | Deck size does not change | :x: |
+| G80R10 | Current player plays Reverse | No player is eliminated | :x: |
+
 #### Exploding Kitten / Defuse
 | Test Case | State of the System | Expected Output | Implemented? |
 |-----------|---|---|--------------|
