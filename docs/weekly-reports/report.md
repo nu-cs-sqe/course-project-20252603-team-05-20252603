@@ -25,12 +25,12 @@
 
 # Week 9 (5/25/2026-5/31/2026)
 **Planning and Progress Tracking**:
-1. [done] Helena: Completed BVA, TDD for Game Class for Game Setup Phase
-2. [wip]
+1. [done] Helena: Completed BVA, TDD for Game Class for Game Setup Phase and One Turn
+2. [done] Rachel: Completed design doc for Turn 1, installed Checkstyle and Spotbugs, completed BVA/TDD for Deck peek() method for See the Future Card
 
-
-# Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
+# Week 10 (6/1/2026-6/10/2026)
 **Planning and Progress Tracking**:
-1. [done] Person: Task (Links to PR)
-2. [not started] Person: Task (Links to PR)
-3. [80% done] Person: Task (Links to PR)
+1. [done] Rachel: Completed BVA/TDD for Cards: Shuffle, See The Future, Draw From Bottom
+2. [done]
+3. [done]
+4. [done]
