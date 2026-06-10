@@ -2165,4 +2165,18 @@ public class GamePlayCardTest {
         game.playCard(CardType.SHUFFLE);
         assertEquals(player1, game.getCurrentPlayer());
     }
+
+    @Test
+    public void playingShuffleLeavesSecondShuffleInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(1, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+
 }
