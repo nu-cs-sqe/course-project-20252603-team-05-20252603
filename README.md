@@ -12,6 +12,12 @@
 - JDK 11
 - JUnit 5.10
 - Gradle 8.10
+- EasyMock 4.2
+
+## Development Tools
+- JaCoCo (code coverage)
+- SpotBugs (static analysis)
+- Checkstyle (style checking)
 
 ## Acknowledgements
 REFERENCES, SOURCE OF HELP ETC
