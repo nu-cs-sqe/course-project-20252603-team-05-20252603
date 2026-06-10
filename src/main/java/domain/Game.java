@@ -345,7 +345,8 @@ public class Game {
     public List<Card> playPeekSwap() {
         validateGameCanPlayCard();
         if (deck.size() < 2) {
-            throw new IllegalStateException("Cannot play Peek Swap when deck has fewer than 2 cards");
+            throw new IllegalStateException(
+                "Cannot play Peek Swap when deck has fewer than 2 cards");
         }
         Player currentPlayer = getCurrentPlayer();
         Card playedCard = currentPlayer.removeCard(CardType.PEEK_SWAP);
