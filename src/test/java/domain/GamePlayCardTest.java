@@ -2520,4 +2520,111 @@ public class GamePlayCardTest {
                 exception.getMessage());
     }
 
+    @Test
+    public void playingDrawFromBottomWithOneCardDrawsCardAndDeckBecomesEmpty() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        Card onlyCard = new Card(CardType.NOPE);
+        game.getDeck().insertBottom(onlyCard);
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertTrue(player1.getHand().contains(onlyCard));
+        assertEquals(0, game.getDeck().size());
+    }
+
+    @Test
+    public void playingDrawFromBottomEliminationWithTwoPlayersEndsGame() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertFalse(player1.isActive());
+        assertTrue(game.isGameOver());
+        assertEquals(player2, game.getWinner());
+    }
+
+    @Test
+    public void playingDrawFromBottomEliminationWithThreePlayersContinuesGame() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertFalse(player1.isActive());
+        assertFalse(game.isGameOver());
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void attackedPlayerPlayingDrawFromBottomFirstDrawKeepsTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.ATTACK));
+        game.playCard(CardType.ATTACK);
+
+        removeAll(player2, CardType.DRAW_FROM_BOTTOM);
+        player2.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void attackedPlayerPlayingDrawFromBottomSecondDrawAdvancesTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.ATTACK));
+        game.playCard(CardType.ATTACK);
+
+        removeAll(player2, CardType.DRAW_FROM_BOTTOM);
+        player2.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        player2.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
 }
