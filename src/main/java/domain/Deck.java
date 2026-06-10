@@ -16,6 +16,7 @@ public class Deck {
         this.rand = rand;
 
         addCards(CardType.ATTACK, 3);
+        addCards(CardType.REVERSE, 4);
         addCards(CardType.SHUFFLE, 4);
         addCards(CardType.SKIP, 3);
         addCards(CardType.SEE_THE_FUTURE, 4);

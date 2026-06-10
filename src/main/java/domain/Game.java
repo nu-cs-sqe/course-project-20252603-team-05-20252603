@@ -14,6 +14,7 @@ public class Game {
     private boolean setupComplete;
 
     private int currentPlayerIndex;
+    private int turnDirection;
     private int pendingTurnsForCurrentPlayer;
 
     private boolean activePeekSwap;
@@ -46,6 +47,7 @@ public class Game {
         this.discardPile = new ArrayList<>();
         this.setupComplete = false;
         this.currentPlayerIndex = 0;
+        this.turnDirection = 1;
         this.pendingTurnsForCurrentPlayer = 0;
         this.activePeekSwap = false;
     }
@@ -208,6 +210,10 @@ public class Game {
         if (type == CardType.ATTACK) {
             pendingTurnsForCurrentPlayer += 2;
             moveToNextActivePlayer();
+        }
+        else if (type == CardType.REVERSE) {
+            turnDirection *= -1;
+            endTurn();
         }
         else if (type == CardType.SKIP) {
             endTurn();
@@ -440,7 +446,8 @@ public class Game {
 
     private void moveToNextActivePlayer() {
         do {
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+            currentPlayerIndex = (currentPlayerIndex + turnDirection + players.size())
+                    % players.size();
         } while (!players.get(currentPlayerIndex).isActive());
     }
 }

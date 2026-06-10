@@ -4,6 +4,7 @@ public enum CardType {
     EXPLODING_KITTEN,
     DEFUSE,
     ATTACK,
+    REVERSE,
     SKIP,
     SHIELD,
     FAVOR,

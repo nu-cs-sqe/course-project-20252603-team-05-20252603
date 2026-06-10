@@ -20,8 +20,9 @@ public class DeckTests {
     public void TC2_Constructor_ContainsCorrectAmountCardTypes() {
         Random rand = new Random();
         Deck deck = new Deck(rand);
-        assertEquals(34, deck.size());
+        assertEquals(38, deck.size());
         assertEquals(3, deck.amtCardType(CardType.ATTACK));
+        assertEquals(4, deck.amtCardType(CardType.REVERSE));
         assertEquals(4, deck.amtCardType(CardType.SHUFFLE));
         assertEquals(3, deck.amtCardType(CardType.SKIP));
         assertEquals(4, deck.amtCardType(CardType.SEE_THE_FUTURE));
@@ -62,7 +63,7 @@ public class DeckTests {
         Deck deck = new Deck(rand);
         Card card = deck.draw();
         assertNotNull(card);
-        assertEquals(33, deck.size());
+        assertEquals(37, deck.size());
     }
 
     @Test
