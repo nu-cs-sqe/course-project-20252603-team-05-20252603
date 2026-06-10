@@ -2120,7 +2120,7 @@ public class GamePlayCardTest {
     }
 
     @Test
-    public void G188_PlayShuffle_RemovesOneShuffleFromHand() {
+    public void PlayShuffle_RemovesOneShuffleFromHand() {
         Player player1 = new Player("Player 1");
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
@@ -2132,10 +2132,15 @@ public class GamePlayCardTest {
     }
 
     @Test
-    public void G189_PlayShuffle_AddsShuffleToDiscardPile() {
+    public void PlayShuffle_AddsShuffleToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
         // give current player one SHUFFLE
-        // game.playCard(CardType.SHUFFLE)
-        // assert discard pile contains SHUFFLE
+        Card shuffle = new Card(CardType.SHUFFLE);
+        player1.addCard(shuffle);
+        game.playCard(CardType.SHUFFLE);
+        assertTrue(game.getDiscardPile().contains(shuffle));
     }
 
     @Test
