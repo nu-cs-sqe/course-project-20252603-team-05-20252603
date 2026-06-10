@@ -304,3 +304,24 @@
 | G200 | Current player plays See the Future | Does not remove any cards from the deck | :y: |
 | G201 | Current player plays See the Future | Current player does not change | :y: |
 | G202 | Current player plays See the Future | No player is eliminated | :y: |
+
+#### Draw from Bottom
+| Test Case | State of the System | Expected Output | Implemented? |
+|------|---|---|-----|
+| G203 | Current player has 0 Draw from Bottom cards and attempts to play Draw from Bottom | Throws `IllegalStateException` | :y: |
+| G204 | Current player has exactly 1 Draw from Bottom card and plays it | Exactly 1 Draw from Bottom is removed from current player's hand | :y: |
+| G205 | Current player has exactly 1 Draw from Bottom card and plays it | Draw from Bottom card is added to the discard pile | :y: |
+| G206 | Current player has 2 Draw from Bottom cards and plays one | Exactly 1 Draw from Bottom is removed and 1 Draw from Bottom remains | :y: |
+| G207 | Current player plays Draw from Bottom | Draws the bottom card of the deck into current player's hand | :y: |
+| G208 | Current player plays Draw from Bottom | Deck size decreases by 1 | :y: |
+| G209 | Current player plays Draw from Bottom and draws an Exploding Kitten with no Defuse or Shield | Current player is eliminated | :y: |
+| G210 | Current player plays Draw from Bottom and draws an Exploding Kitten with Defuse | Defuse is used and player remains active | :y: |
+| G211 | Current player plays Draw from Bottom | Current player's turn ends after drawing from bottom | :y: |
+| G212 | Current player plays Draw from Bottom | No other player is eliminated | :y: |
+| G213 | Current player plays Draw from Bottom when the deck is empty | Throws `IllegalStateException` with meaningful message | :y: |
+| G214 | Current player plays Draw from Bottom when the deck contains exactly 1 card | That card is drawn and the deck becomes empty | :y: |
+| G215 | Current player plays Draw from Bottom and draws an Exploding Kitten with Shield but no Defuse | Shield is used and player remains active | :y: |
+| G216 | Current player plays Draw from Bottom and is eliminated while exactly 2 players remain | Game ends and the other player wins | :y: |
+| G217 | Current player plays Draw from Bottom and is eliminated while 3 or more players remain | Game continues with the next active player | :y: |
+| G218 | Attacked player plays Draw from Bottom for the first required attack draw | Current player remains the attacked player | :y: |
+| G219 | Attacked player plays Draw from Bottom for the second required attack draw | Current player advances to the next active player | :y: |

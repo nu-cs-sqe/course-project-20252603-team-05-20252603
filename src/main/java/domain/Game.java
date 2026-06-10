@@ -121,17 +121,13 @@ public class Game {
     }
 
     public void drawCard() {
-        if (!setupComplete) {
-            throw new IllegalStateException("Game setup has not been completed");
-        }
-
-        if (getActivePlayerCount() <= 1) {
-            throw new IllegalStateException("Game is over");
-        }
-
-        Player currentPlayer = getCurrentPlayer();
+        validateGameCanPlayCard();
         Card drawnCard = deck.draw();
+        handleDrawnCard(drawnCard);
+    }
 
+    private void handleDrawnCard(Card drawnCard) {
+        Player currentPlayer = getCurrentPlayer();
         if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
             if (currentPlayer.hasCard(CardType.DEFUSE)) {
                 discardPile.add(currentPlayer.removeCard(CardType.DEFUSE));
@@ -147,10 +143,8 @@ public class Game {
                     moveToNextActivePlayer();
                 }
             }
-
             return;
         }
-
         currentPlayer.addCard(drawnCard);
         finishCurrentDrawTurn();
     }
@@ -202,13 +196,7 @@ public class Game {
             throw new IllegalArgumentException(type + " requires a target player");
         }
 
-        if (!setupComplete) {
-            throw new IllegalStateException("Game setup has not been completed");
-        }
-
-        if (getActivePlayerCount() <= 1) {
-            throw new IllegalStateException("Game is over");
-        }
+        validateGameCanPlayCard();
 
         Player currentPlayer = getCurrentPlayer();
         Card playedCard = currentPlayer.removeCard(type);
@@ -217,11 +205,16 @@ public class Game {
         if (type == CardType.ATTACK) {
             pendingTurnsForCurrentPlayer += 2;
             moveToNextActivePlayer();
-        } else if (type == CardType.SKIP) {
+        }
+        else if (type == CardType.SKIP) {
             endTurn();
         }
         else if (type == CardType.SHUFFLE) {
             deck.shuffle();
+        }
+        else if (type == CardType.DRAW_FROM_BOTTOM) {
+            Card drawnCard = deck.drawBottom();
+            handleDrawnCard(drawnCard);
         }
     }
 

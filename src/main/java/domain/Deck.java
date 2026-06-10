@@ -88,4 +88,13 @@ public class Deck {
         return Collections.unmodifiableList(peekedCards);
     }
 
+    public Card drawBottom() {
+        if (cards.isEmpty()) {
+            throw new IllegalStateException("Cannot draw from empty deck");
+        }
+        Card drawn = cards.remove(0);
+        cardAmounts.put(drawn.getType(), cardAmounts.get(drawn.getType()) - 1);
+        return drawn;
+    }
+
 }
