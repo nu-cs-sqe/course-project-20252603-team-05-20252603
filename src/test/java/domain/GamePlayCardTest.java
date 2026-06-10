@@ -2222,4 +2222,15 @@ public class GamePlayCardTest {
         assertTrue(player2.isActive());
     }
 
+    @Test
+    public void playingSeeTheFutureWithoutSeeTheFutureThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+
+        assertThrows(IllegalStateException.class, () -> {game.playSeeTheFuture();});
+    }
+
 }

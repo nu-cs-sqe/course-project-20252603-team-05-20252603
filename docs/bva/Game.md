@@ -295,8 +295,8 @@
 
 #### See the Future
 | Test Case | State of the System | Expected Output | Implemented? |
-|-----------|---|---|--------------|
-| G195 | Current player has 0 See the Future cards and attempts to play See the Future | Throws `IllegalStateException` | :n: |
+|-----------|---|---|-----|
+| G195 | Current player has 0 See the Future cards and attempts to play See the Future | Throws `IllegalStateException` | :y: |
 | G196 | Current player has exactly 1 See the Future card and plays it | Exactly 1 See the Future is removed from current player's hand | :n: |
 | G197 | Current player has exactly 1 See the Future card and plays it | See the Future card is added to the discard pile | :n: |
 | G198 | Current player has 2 See the Future cards and plays one | Exactly 1 See the Future is removed and 1 See the Future remains | :n: |
