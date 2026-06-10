@@ -1464,6 +1464,23 @@ public class GamePlayCardTest {
         assertEquals("Target player has no cards", exception.getMessage());
     }
 
+    // G126S6
+    @Test
+    public void playingStealWithoutStealThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.STEAL);
+        player2.addCard(new Card(CardType.SKIP));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.STEAL, player2);
+        });
+
+        assertEquals("Player does not have card of type STEAL", exception.getMessage());
+    }
+
     // G127
     @Test
     public void playingMarkWithNullTargetThrowsException() {
