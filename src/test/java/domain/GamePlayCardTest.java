@@ -1536,6 +1536,29 @@ public class GamePlayCardTest {
         assertFalse(player2.getHand().contains(stolenCard));
     }
 
+    // G126S10
+    @Test
+    public void validStealFromTargetWithMultipleCardsTransfersExactlyOneCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstTargetCard = new Card(CardType.SKIP);
+        Card secondTargetCard = new Card(CardType.ATTACK);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(firstTargetCard);
+        player2.addCard(secondTargetCard);
+        int currentPlayerHandSizeBeforeSteal = player1.getHand().size();
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertEquals(1, player2.getHand().size());
+        assertEquals(currentPlayerHandSizeBeforeSteal, player1.getHand().size());
+    }
+
     // G127
     @Test
     public void playingMarkWithNullTargetThrowsException() {
