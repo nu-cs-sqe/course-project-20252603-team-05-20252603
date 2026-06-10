@@ -99,7 +99,8 @@ public class Deck {
 
     public void swapTopTwo() {
         if (cards.size() < 2) {
-            throw new IllegalStateException("Cannot swap top two cards when deck has fewer than 2 cards");
+            throw new IllegalStateException(
+                "Cannot swap top two cards when deck has fewer than 2 cards");
         }
 
         int topIndex = cards.size() - 1;
