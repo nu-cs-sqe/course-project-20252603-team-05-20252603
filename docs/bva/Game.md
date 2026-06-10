@@ -243,7 +243,7 @@
 | G187 | Current player has 0 Shuffle cards and attempts to play Shuffle | Throws `IllegalStateException` | :y:          |
 | G188 | Current player has exactly 1 Shuffle card and plays it | Exactly 1 Shuffle is removed from current player's hand | :y:          |
 | G189 | Current player has exactly 1 Shuffle card and plays it | Shuffle card is added to the discard pile | :y:          |
-| G190 | Current player has 2 Shuffle cards and plays one | Exactly 1 Shuffle is removed and 1 Shuffle remains | :n:          |
+| G190 | Current player has 2 Shuffle cards and plays one | Exactly 1 Shuffle is removed and 1 Shuffle remains | :y:          |
 | G191 | Current player plays Shuffle | Deck size does not change | :y:          |
 | G192 | Current player plays Shuffle | Card amounts in the deck do not change | :n:          |
 | G193 | Current player plays Shuffle | Draw pile order changes | :n:          |

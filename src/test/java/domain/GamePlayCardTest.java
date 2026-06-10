@@ -2178,5 +2178,21 @@ public class GamePlayCardTest {
         assertEquals(1, player1.countCardsOfType(CardType.SHUFFLE));
     }
 
+    @Test
+    public void playingShuffleDoesNotChangeDeckCardAmounts() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        int attackBefore = game.getDeck().amtCardType(CardType.ATTACK);
+        int skipBefore = game.getDeck().amtCardType(CardType.SKIP);
+        int kittenBefore = game.getDeck().amtCardType(CardType.EXPLODING_KITTEN);
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(attackBefore, game.getDeck().amtCardType(CardType.ATTACK));
+        assertEquals(skipBefore, game.getDeck().amtCardType(CardType.SKIP));
+        assertEquals(kittenBefore, game.getDeck().amtCardType(CardType.EXPLODING_KITTEN));
+    }
+
 
 }
