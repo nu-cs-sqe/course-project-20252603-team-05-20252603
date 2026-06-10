@@ -223,7 +223,7 @@
 | Test Case | State of the System | Expected Output | Implemented? |
 |-----------|---|---|--------------|
 | G126S1 | Current player plays `STEAL` without a target player | Throws `IllegalArgumentException` with meaningful message | :y: |
-| G126S2 | Current player plays `STEAL` with `null` target player | Throws `IllegalArgumentException` with meaningful message | :x: |
+| G126S2 | Current player plays `STEAL` with `null` target player | Throws `IllegalArgumentException` with meaningful message | :y: |
 | G126S3 | Current player plays `STEAL` with a target player not in the game | Throws `IllegalArgumentException` with meaningful message | :x: |
 | G126S4 | Current player plays `STEAL` targeting themself | Throws `IllegalArgumentException` with meaningful message | :x: |
 | G126S5 | Current player plays `STEAL` targeting a player with no cards | Throws `IllegalStateException` with meaningful message | :x: |

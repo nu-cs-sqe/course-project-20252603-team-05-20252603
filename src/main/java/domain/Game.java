@@ -234,7 +234,7 @@ public class Game {
             throw new IllegalArgumentException("Card type cannot be null");
         }
 
-        if (type != CardType.FAVOR && type != CardType.TRADE) {
+        if (type != CardType.FAVOR && type != CardType.TRADE && type != CardType.STEAL) {
             playCard(type);
             return;
         }
