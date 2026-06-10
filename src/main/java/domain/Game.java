@@ -18,6 +18,7 @@ public class Game {
     private int pendingTurnsForCurrentPlayer;
 
     private boolean activePeekSwap;
+    private List<Card> activeAlterTheFutureCards;
 
     public Game(List<Player> players, Deck deck) {
         if (players == null) {
@@ -50,6 +51,7 @@ public class Game {
         this.turnDirection = 1;
         this.pendingTurnsForCurrentPlayer = 0;
         this.activePeekSwap = false;
+        this.activeAlterTheFutureCards = null;
     }
 
     public void setupGame() {
@@ -377,6 +379,47 @@ public class Game {
         activePeekSwap = false;
     }
 
+    public List<Card> playAlterTheFuture() {
+        validateGameCanPlayCard();
+        if (deck.size() < 3) {
+            throw new IllegalStateException(
+                "Cannot play Alter the Future when deck has fewer than 3 cards");
+        }
+
+        Player currentPlayer = getCurrentPlayer();
+        Card playedCard = currentPlayer.removeCard(CardType.ALTER_THE_FUTURE);
+        discardPile.add(playedCard);
+
+        activeAlterTheFutureCards = new ArrayList<>(deck.peek(3));
+        return Collections.unmodifiableList(activeAlterTheFutureCards);
+    }
+
+    public void reorderAlteredFuture(List<Card> orderedCards) {
+        if (activeAlterTheFutureCards == null) {
+            throw new IllegalStateException("No Alter the Future action is currently active");
+        }
+
+        if (orderedCards == null) {
+            throw new IllegalArgumentException("Alter the Future order cannot be null");
+        }
+
+        if (orderedCards.size() != activeAlterTheFutureCards.size()) {
+            throw new IllegalArgumentException(
+                    "Alter the Future order must contain exactly 3 cards");
+        }
+
+        List<Card> remainingCards = new ArrayList<>(activeAlterTheFutureCards);
+        for (Card card : orderedCards) {
+            if (!remainingCards.remove(card)) {
+                throw new IllegalArgumentException(
+                        "Alter the Future order must contain the same peeked cards");
+            }
+        }
+
+        deck.reorderTopCards(orderedCards);
+        activeAlterTheFutureCards = null;
+    }
+
     private void validateGameCanPlayCard() {
         if (!setupComplete) {
             throw new IllegalStateException("Game setup has not been completed");
@@ -388,6 +431,11 @@ public class Game {
 
         if (activePeekSwap) {
             throw new IllegalStateException("Must resolve Peek Swap before playing another card");
+        }
+
+        if (activeAlterTheFutureCards != null) {
+            throw new IllegalStateException(
+                    "Must resolve Alter the Future before playing another card");
         }
     }
 

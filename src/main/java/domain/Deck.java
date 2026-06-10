@@ -17,6 +17,7 @@ public class Deck {
 
         addCards(CardType.ATTACK, 3);
         addCards(CardType.REVERSE, 4);
+        addCards(CardType.ALTER_THE_FUTURE, 4);
         addCards(CardType.SHUFFLE, 4);
         addCards(CardType.SKIP, 3);
         addCards(CardType.SEE_THE_FUTURE, 4);
@@ -109,5 +110,20 @@ public class Deck {
         Card temp = cards.get(topIndex);
         cards.set(topIndex, cards.get(secondIndex));
         cards.set(secondIndex, temp);
+    }
+
+    public void reorderTopCards(List<Card> orderedCards) {
+        if (orderedCards == null) {
+            throw new IllegalArgumentException("Ordered cards cannot be null");
+        }
+
+        if (orderedCards.size() > cards.size()) {
+            throw new IllegalArgumentException("Cannot reorder more cards than exist in deck");
+        }
+
+        int topIndex = cards.size() - 1;
+        for (int i = 0; i < orderedCards.size(); i++) {
+            cards.set(topIndex - i, orderedCards.get(i));
+        }
     }
 }
