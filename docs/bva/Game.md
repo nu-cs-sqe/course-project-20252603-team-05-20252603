@@ -169,6 +169,9 @@
 | G87 | Current player has 2 Defuse cards and draws an Exploding Kitten | Exactly 1 Defuse is removed and 1 Defuse remains | :y: |
 | G88 | A Defuse is used against an Exploding Kitten | Used Defuse is added to the discard pile | :y: |
 | G89 | A Defuse is used against an Exploding Kitten | Current player's turn ends and advances to the next active player | :y: |
+| G89D1 | Current player has exactly 1 Defuse and attempts to play it without drawing an Exploding Kitten | Throws `IllegalStateException` | :y: |
+| G89D2 | Current player attempts to play a Defuse without drawing an Exploding Kitten | Defuse remains in hand and is not added to the discard pile | :y: |
+| G89D3 | Current player has 2 Defuses and attempts to play one without drawing an Exploding Kitten | Both Defuses remain in hand | :y: |
 
 #### Skip
 | Test Case | State of the System | Expected Output | Implemented? |
