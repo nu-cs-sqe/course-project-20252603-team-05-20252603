@@ -20,7 +20,7 @@ public class DeckTests {
     public void TC2_Constructor_ContainsCorrectAmountCardTypes() {
         Random rand = new Random();
         Deck deck = new Deck(rand);
-        assertEquals(46, deck.size());
+        assertEquals(70, deck.size());
         assertEquals(3, deck.amtCardType(CardType.ATTACK));
         assertEquals(4, deck.amtCardType(CardType.REVERSE));
         assertEquals(4, deck.amtCardType(CardType.ALTER_THE_FUTURE));
@@ -35,6 +35,8 @@ public class DeckTests {
         assertEquals(4, deck.amtCardType(CardType.HAIRY_POTATO_CAT));
         assertEquals(0, deck.amtCardType(CardType.DEFUSE));
         assertEquals(0, deck.amtCardType(CardType.EXPLODING_KITTEN));
+        assertEquals(4, deck.amtCardType(CardType.DRAW_FROM_BOTTOM));
+        assertEquals(4, deck.amtCardType(CardType.PEEK_SWAP));
     }
 
     @Test
@@ -65,7 +67,7 @@ public class DeckTests {
         Deck deck = new Deck(rand);
         Card card = deck.draw();
         assertNotNull(card);
-        assertEquals(45, deck.size());
+        assertEquals(69, deck.size());
     }
 
     @Test
@@ -307,9 +309,9 @@ public class DeckTests {
 
         List<Card> peeked = deck.peek(3);
         assertEquals(3, peeked.size());
-        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(0).getType());
-        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(1).getType());
-        assertEquals(CardType.HAIRY_POTATO_CAT, peeked.get(2).getType());
+        assertEquals(CardType.PEEK_SWAP, peeked.get(0).getType());
+        assertEquals(CardType.PEEK_SWAP, peeked.get(1).getType());
+        assertEquals(CardType.PEEK_SWAP, peeked.get(2).getType());
 
         assertEquals(original_size, deck.size());
     }

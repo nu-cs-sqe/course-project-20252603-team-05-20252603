@@ -8,10 +8,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.util.List;
 import java.util.Arrays;
 
 public class GameDrawCardTest {
+    private void removeAll(Player player, CardType type) {
+        while (player.hasCard(type)) {
+            player.removeCard(type);
+        }
+    }
     // G31
     @Test
     public void drawCardThrowsExceptionWhenGameHasNotStarted() {
@@ -126,6 +132,7 @@ public class GameDrawCardTest {
         game.setupGame();
 
         player1.removeCard(CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
 
         while (deck.size() > 0) {
             deck.draw();
@@ -150,6 +157,7 @@ public class GameDrawCardTest {
         game.setupGame();
 
         player1.removeCard(CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
 
         while (deck.size() > 0) {
             deck.draw();
@@ -174,6 +182,7 @@ public class GameDrawCardTest {
         game.setupGame();
 
         player1.removeCard(CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
 
         while (deck.size() > 0) {
             deck.draw();

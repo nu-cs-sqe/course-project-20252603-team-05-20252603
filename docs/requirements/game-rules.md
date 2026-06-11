@@ -6,30 +6,18 @@ Base Game Ruleset:
 Based on the Grab & Game Edition rules.
 
 ## Game Information
-**Players:** 2–4 players
+**Players:** 2–5 players
 **Deck Size:** 42 cards total
 **Win Condition:** Be the last surviving player. All other players eventually explode and are eliminated.
 
 ---
 
 # Card Distribution
-
-| Card Type | Amount |
-|-----------|--------|
-| Exploding Kitten | 3 |
-| Defuse | 5 |
-| Attack | 3 |
-| Skip | 3 |
-| Favor | 4 |
-| Shuffle | 4 |
-| See the Future | 4 |
-| Nope | 4 |
-| Taco Cat | 4 |
-| Beard Cat | 4 |
-| Rainbow Ralphing Cat | 4 |
-| Hairy Potato Cat | 4 |
-
-Total cards: **46** 
+There are 4 of each type of card, excluding:
+- Attack : 3
+- Skip: 3
+- Defuse: # of players
+- Exploding Kitten: # of players - 1
 
 ---
 
@@ -43,8 +31,7 @@ Total cards: **46**
 5. Each player now starts with **6 cards total**:
     - 5 regular cards
     - 1 Defuse card
-6. Return remaining Defuse cards back into the Draw Pile.
-7. Insert Exploding Kittens back into the deck:
+6. Insert Exploding Kittens back into the deck:
     - Number inserted = **players − 1**
     - Extra Exploding Kittens are removed from the game.
 8. Shuffle the deck.
@@ -90,8 +77,8 @@ Drawing ends the player's turn unless modified by card effects.
 If player draws an Exploding Kitten:
 
 ### Has Defuse
-1. Play Defuse.
-2. Discard Defuse.
+1. Play Defuse/Shield.
+2. Discard Defuse/Shield.
 3. Reinsert Exploding Kitten anywhere into Draw Pile secretly.
 4. Player survives.
 5. Turn ends.
@@ -156,7 +143,7 @@ Shuffle the Draw Pile randomly.
 ## See the Future (4)
 
 Effect:
-Privately inspect top **2 cards** of Draw Pile.
+Privately inspect top **3 cards** of Draw Pile.
 
 Cards return unchanged and in same order.
 
@@ -281,5 +268,93 @@ Effect:
 - Discard the Mark card.
 - Reveal one card from the chosen player's hand.
 - The revealed card stays in the chosen player's hand.
+
+## Defuse
+
+Effect:
+
+* Protects a player from an Exploding Kitten.
+* If a player draws an Exploding Kitten and has a Defuse, the Defuse card is discarded.
+* The player survives.
+* The player's turn ends normally.
+
+---
+
+## Reverse
+
+Reverse is an implemented additional card.
+
+Effect:
+
+* Reverse the direction of play.
+* End the current player's turn.
+* No card is drawn.
+
+---
+
+## Alter the Future
+
+Alter the Future is an implemented additional card.
+
+Effect:
+
+* Privately inspect the top 3 cards of the Draw Pile.
+* Rearrange those cards in any order.
+* Return them to the top of the Draw Pile.
+* The player must finish reordering the cards before performing any other action.
+
+---
+
+## Shield
+
+Shield is an implemented additional card.
+
+Effect:
+
+* Protects a player from an Exploding Kitten.
+* If a player draws an Exploding Kitten and has a Shield but no Defuse, the Shield card is discarded.
+* The player survives.
+* The player's turn ends normally.
+
+---
+
+## Steal
+
+Steal is an implemented additional card.
+
+Effect:
+
+* Choose another player.
+* Discard the Steal card.
+* Take one random card from the chosen player's hand.
+* The chosen player loses that card.
+
+---
+
+## Draw from Bottom
+
+Draw from Bottom is an implemented additional card.
+
+Effect:
+
+* Discard the Draw from Bottom card.
+* Draw the bottom card of the Draw Pile instead of the top card.
+* The drawn card follows all normal draw rules.
+* If the drawn card is an Exploding Kitten, Defuse and Shield rules still apply.
+* Drawing from the bottom ends the player's turn unless Attack effects require additional turns.
+
+---
+
+## Peek Swap
+
+Peek Swap is an implemented additional card.
+
+Effect:
+
+* Privately inspect the top 2 cards of the Draw Pile.
+* Choose whether to swap the order of those cards.
+* If the player chooses to swap, the top 2 cards exchange positions.
+* If the player chooses not to swap, the deck remains unchanged.
+* The player must resolve the swap decision before performing any other action.
 
 Additional Win Condition:

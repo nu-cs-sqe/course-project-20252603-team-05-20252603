@@ -27,6 +27,12 @@ public class Deck {
         addCards(CardType.BEARD_CAT, 4);
         addCards(CardType.RAINBOW_RALPHING_CAT, 4);
         addCards(CardType.HAIRY_POTATO_CAT, 4);
+        addCards(CardType.SHIELD, 4);
+        addCards(CardType.FAVOR, 4);
+        addCards(CardType.TRADE, 4);
+        addCards(CardType.MARK, 4);
+        addCards(CardType.DRAW_FROM_BOTTOM, 4);
+        addCards(CardType.PEEK_SWAP, 4);
     }
 
     private void addCards(CardType type, int amount){
