@@ -1544,9 +1544,12 @@ public class GamePlayCardTest {
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatPairCombo(null, player2);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatPairCombo(null, player2)
+        );
+
+        assertEquals("Cat card type cannot be null", exception.getMessage());
     }
 
     // G141
@@ -1556,9 +1559,12 @@ public class GamePlayCardTest {
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatPairCombo(CardType.ATTACK, player2);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatPairCombo(CardType.ATTACK, player2)
+        );
+
+        assertEquals("Card type must be a Cat Card", exception.getMessage());
     }
 
     // G142
@@ -1571,9 +1577,12 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.TACO_CAT));
         player1.addCard(new Card(CardType.TACO_CAT));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatPairCombo(CardType.TACO_CAT, null);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatPairCombo(CardType.TACO_CAT, null)
+        );
+
+        assertEquals("Target player cannot be null", exception.getMessage());
     }
 
     // G143
@@ -1588,9 +1597,12 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.TACO_CAT));
         player3.addCard(new Card(CardType.SKIP));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatPairCombo(CardType.TACO_CAT, player3);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatPairCombo(CardType.TACO_CAT, player3)
+        );
+
+        assertEquals("Target player must be in the game", exception.getMessage());
     }
 
     // G144
@@ -1603,9 +1615,12 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.TACO_CAT));
         player1.addCard(new Card(CardType.TACO_CAT));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatPairCombo(CardType.TACO_CAT, player1);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatPairCombo(CardType.TACO_CAT, player1)
+        );
+
+        assertEquals("Target player must be different", exception.getMessage());
     }
 
     // G145
@@ -1618,9 +1633,12 @@ public class GamePlayCardTest {
         removeAll(player1, CardType.TACO_CAT);
         player1.addCard(new Card(CardType.TACO_CAT));
 
-        assertThrows(IllegalStateException.class, () -> {
-            game.playCatPairCombo(CardType.TACO_CAT, player2);
-        });
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> game.playCatPairCombo(CardType.TACO_CAT, player2)
+        );
+
+        assertEquals("Current player needs two matching Cat Cards", exception.getMessage());
     }
 
     // G146
@@ -1636,9 +1654,12 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.TACO_CAT));
         player1.addCard(new Card(CardType.TACO_CAT));
 
-        assertThrows(IllegalStateException.class, () -> {
-            game.playCatPairCombo(CardType.TACO_CAT, player2);
-        });
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> game.playCatPairCombo(CardType.TACO_CAT, player2)
+        );
+
+        assertEquals("Target player has no cards", exception.getMessage());
     }
 
     // G147
@@ -1654,9 +1675,12 @@ public class GamePlayCardTest {
         player1.addCard(firstCat);
         player1.addCard(secondCat);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatPairCombo(CardType.TACO_CAT, player1);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatPairCombo(CardType.TACO_CAT, player1)
+        );
+
+        assertEquals("Target player must be different", exception.getMessage());
         assertTrue(player1.getHand().contains(firstCat));
         assertTrue(player1.getHand().contains(secondCat));
         assertFalse(game.getDiscardPile().contains(firstCat));
@@ -1919,9 +1943,12 @@ public class GamePlayCardTest {
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatThreeCombo(null, player2, CardType.SKIP);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatThreeCombo(null, player2, CardType.SKIP)
+        );
+
+        assertEquals("Cat card type cannot be null", exception.getMessage());
     }
 
     // G167
@@ -1931,9 +1958,12 @@ public class GamePlayCardTest {
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatThreeCombo(CardType.ATTACK, player2, CardType.SKIP);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatThreeCombo(CardType.ATTACK, player2, CardType.SKIP)
+        );
+
+        assertEquals("Card type must be a Cat Card", exception.getMessage());
     }
 
     // G168
@@ -1947,9 +1977,12 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.TACO_CAT));
         player1.addCard(new Card(CardType.TACO_CAT));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatThreeCombo(CardType.TACO_CAT, null, CardType.SKIP);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatThreeCombo(CardType.TACO_CAT, null, CardType.SKIP)
+        );
+
+        assertEquals("Target player cannot be null", exception.getMessage());
     }
 
     // G169
@@ -1964,9 +1997,12 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.TACO_CAT));
         player1.addCard(new Card(CardType.TACO_CAT));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatThreeCombo(CardType.TACO_CAT, player3, CardType.SKIP);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatThreeCombo(CardType.TACO_CAT, player3, CardType.SKIP)
+        );
+
+        assertEquals("Target player must be in the game", exception.getMessage());
     }
 
     // G170
@@ -1980,9 +2016,12 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.TACO_CAT));
         player1.addCard(new Card(CardType.TACO_CAT));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatThreeCombo(CardType.TACO_CAT, player1, CardType.SKIP);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatThreeCombo(CardType.TACO_CAT, player1, CardType.SKIP)
+        );
+
+        assertEquals("Target player must be different", exception.getMessage());
     }
 
     // G171
@@ -1996,9 +2035,12 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.TACO_CAT));
         player1.addCard(new Card(CardType.TACO_CAT));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatThreeCombo(CardType.TACO_CAT, player2, null);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatThreeCombo(CardType.TACO_CAT, player2, null)
+        );
+
+        assertEquals("Requested card type cannot be null", exception.getMessage());
     }
 
     // G172
@@ -2012,9 +2054,12 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.TACO_CAT));
         player1.addCard(new Card(CardType.TACO_CAT));
 
-        assertThrows(IllegalStateException.class, () -> {
-            game.playCatThreeCombo(CardType.TACO_CAT, player2, CardType.SKIP);
-        });
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> game.playCatThreeCombo(CardType.TACO_CAT, player2, CardType.SKIP)
+        );
+
+        assertEquals("Current player needs three matching Cat Cards", exception.getMessage());
     }
 
     // G173
@@ -2032,9 +2077,12 @@ public class GamePlayCardTest {
         player1.addCard(secondCat);
         player1.addCard(thirdCat);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            game.playCatThreeCombo(CardType.TACO_CAT, player1, CardType.SKIP);
-        });
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> game.playCatThreeCombo(CardType.TACO_CAT, player1, CardType.SKIP)
+        );
+
+        assertEquals("Target player must be different", exception.getMessage());
         assertTrue(player1.getHand().contains(firstCat));
         assertTrue(player1.getHand().contains(secondCat));
         assertTrue(player1.getHand().contains(thirdCat));
