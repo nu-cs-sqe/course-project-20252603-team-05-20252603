@@ -162,6 +162,7 @@ public class GamePlayCardTest {
         Card card = new Card(CardType.SKIP);
 
         game.setupGame();
+        removeAll(player1, CardType.SKIP);
         player1.addCard(card);
 
         game.playCard(CardType.SKIP);
@@ -700,6 +701,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2, player3);
 
         removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
         emptyDeck(game.getDeck());
         game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
 
@@ -733,6 +735,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
 
         removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
         emptyDeck(game.getDeck());
         game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
 
@@ -1058,6 +1061,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
         Card favor = new Card(CardType.FAVOR);
 
+        removeAll(player1, CardType.FAVOR);
         player1.addCard(favor);
 
         game.playCard(CardType.FAVOR, player2);
@@ -1324,6 +1328,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
         Card trade = new Card(CardType.TRADE);
 
+        removeAll(player1, CardType.TRADE);
         player1.addCard(trade);
         player1.addCard(new Card(CardType.SHUFFLE));
 
@@ -1510,6 +1515,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
         Card steal = new Card(CardType.STEAL);
 
+        removeAll(player1, CardType.STEAL);
         player1.addCard(steal);
         player2.addCard(new Card(CardType.SKIP));
 
@@ -1697,6 +1703,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
         Card mark = new Card(CardType.MARK);
 
+        removeAll(player1, CardType.MARK);
         player1.addCard(mark);
 
         game.playMark(player2);
@@ -2117,6 +2124,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
 
         removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
         player1.addCard(new Card(CardType.SHIELD));
         player1.addCard(new Card(CardType.SHIELD));
         emptyDeck(game.getDeck());
@@ -2171,6 +2179,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
 
         removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
         player1.addCard(new Card(CardType.DEFUSE));
         player1.addCard(new Card(CardType.SHIELD));
         emptyDeck(game.getDeck());
