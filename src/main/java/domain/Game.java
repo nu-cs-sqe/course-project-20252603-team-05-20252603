@@ -143,9 +143,13 @@ public class Game {
         if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
             if (currentPlayer.hasCard(CardType.DEFUSE)) {
                 discardPile.add(currentPlayer.removeCard(CardType.DEFUSE));
+                deck.insertBottom(drawnCard);
+                deck.shuffle();
                 finishCurrentDrawTurn();
             } else if (currentPlayer.hasCard(CardType.SHIELD)) {
                 discardPile.add(currentPlayer.removeCard(CardType.SHIELD));
+                deck.insertBottom(drawnCard);
+                deck.shuffle();
                 finishCurrentDrawTurn();
             } else {
                 currentPlayer.eliminate();

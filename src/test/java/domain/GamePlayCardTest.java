@@ -179,6 +179,7 @@ public class GamePlayCardTest {
         Card card = new Card(CardType.SKIP);
 
         game.setupGame();
+        removeAll(player1, CardType.SKIP);
         player1.addCard(card);
 
         game.playCard(CardType.SKIP);
@@ -768,6 +769,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2, player3);
 
         removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
         emptyDeck(game.getDeck());
         game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
 
@@ -1244,6 +1246,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
         Card trade = new Card(CardType.TRADE);
 
+        removeAll(player1, CardType.TRADE);
         player1.addCard(trade);
         player1.addCard(new Card(CardType.SHUFFLE));
 
@@ -1709,6 +1712,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
         Card mark = new Card(CardType.MARK);
 
+        removeAll(player1, CardType.MARK);
         player1.addCard(mark);
 
         game.playMark(player2);
@@ -2094,6 +2098,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
 
         removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
         player1.addCard(new Card(CardType.SHIELD));
         emptyDeck(game.getDeck());
         game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
@@ -2130,6 +2135,7 @@ public class GamePlayCardTest {
         Game game = createStartedGame(player1, player2);
 
         removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
         Card shield = new Card(CardType.SHIELD);
         player1.addCard(shield);
         emptyDeck(game.getDeck());
@@ -2628,6 +2634,7 @@ public class GamePlayCardTest {
         Player player1 = new Player("Player 1");
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
         Card seeTheFuture = new Card(CardType.SEE_THE_FUTURE);
         player1.addCard(seeTheFuture);
         game.playSeeTheFuture();
@@ -3086,6 +3093,8 @@ public class GamePlayCardTest {
         removeAll(player1, CardType.DRAW_FROM_BOTTOM);
         Card drawFromBottom = new Card(CardType.DRAW_FROM_BOTTOM);
         player1.addCard(drawFromBottom);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
         game.playCard(CardType.DRAW_FROM_BOTTOM);
         assertEquals(0, player1.countCardsOfType(CardType.DRAW_FROM_BOTTOM));
     }

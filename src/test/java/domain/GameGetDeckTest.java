@@ -33,7 +33,7 @@ public class GameGetDeckTest {
 
         game.setupGame();
 
-        assertEquals(37, game.getDeck().size());
+        assertEquals(61, game.getDeck().size());
         assertEquals(1, game.getDeck().amtCardType(CardType.EXPLODING_KITTEN));
     }
 }
