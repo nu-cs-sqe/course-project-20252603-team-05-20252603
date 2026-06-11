@@ -4,6 +4,8 @@ public enum CardType {
     EXPLODING_KITTEN,
     DEFUSE,
     ATTACK,
+    REVERSE,
+    ALTER_THE_FUTURE,
     SKIP,
     SHIELD,
     FAVOR,
@@ -11,9 +13,12 @@ public enum CardType {
     MARK,
     SHUFFLE,
     SEE_THE_FUTURE,
+    STEAL,
     NOPE,
     TACO_CAT,
     BEARD_CAT,
     RAINBOW_RALPHING_CAT,
-    HAIRY_POTATO_CAT
+    HAIRY_POTATO_CAT,
+    DRAW_FROM_BOTTOM,
+    PEEK_SWAP
 }

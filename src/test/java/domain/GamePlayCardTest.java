@@ -549,6 +549,147 @@ public class GamePlayCardTest {
         assertEquals(player1, game.getCurrentPlayer());
     }
 
+    // G80R1
+    @Test
+    public void playCardWithReverseThrowsMeaningfulExceptionWhenCurrentPlayerDoesNotHaveReverse() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.REVERSE);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.REVERSE);
+        });
+        assertEquals("Player does not have card of type REVERSE", exception.getMessage());
+    }
+
+    // G80R2, G80R3
+    @Test
+    public void playCardWithReverseMovesCardFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card reverse = new Card(CardType.REVERSE);
+
+        removeAll(player1, CardType.REVERSE);
+        player1.addCard(reverse);
+
+        game.playCard(CardType.REVERSE);
+
+        assertFalse(player1.getHand().contains(reverse));
+        assertTrue(game.getDiscardPile().contains(reverse));
+    }
+
+    // G80R4
+    @Test
+    public void playCardWithReverseRemovesOnlyOneReverseWhenPlayerHasTwo() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.REVERSE);
+        player1.addCard(new Card(CardType.REVERSE));
+        player1.addCard(new Card(CardType.REVERSE));
+
+        game.playCard(CardType.REVERSE);
+
+        assertEquals(1, player1.countCardsOfType(CardType.REVERSE));
+    }
+
+    // G80R5
+    @Test
+    public void playCardWithReverseAdvancesToOtherPlayerWithTwoActivePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.REVERSE));
+
+        game.playCard(CardType.REVERSE);
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G80R6
+    @Test
+    public void playCardWithReverseAdvancesToPreviousPlayerWithThreeActivePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        player1.addCard(new Card(CardType.REVERSE));
+
+        game.playCard(CardType.REVERSE);
+
+        assertEquals(player3, game.getCurrentPlayer());
+    }
+
+    // G80R7
+    @Test
+    public void endTurnContinuesInReversedOrderAfterReverseIsPlayed() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        player1.addCard(new Card(CardType.REVERSE));
+        game.playCard(CardType.REVERSE);
+
+        game.endTurn();
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G80R8
+    @Test
+    public void playCardWithReverseSkipsEliminatedPlayersInReversedOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        player3.eliminate();
+        player1.addCard(new Card(CardType.REVERSE));
+
+        game.playCard(CardType.REVERSE);
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    // G80R9
+    @Test
+    public void playCardWithReverseDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+        player1.addCard(new Card(CardType.REVERSE));
+        int deckSizeBeforePlay = deck.size();
+
+        game.playCard(CardType.REVERSE);
+
+        assertEquals(deckSizeBeforePlay, deck.size());
+    }
+
+    // G80R10
+    @Test
+    public void playCardWithReverseDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.REVERSE));
+
+        game.playCard(CardType.REVERSE);
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
     // G81
     @Test
     public void explodingKittenEliminatesUnprotectedPlayerWithThreeActivePlayers() {
@@ -1307,6 +1448,234 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.SHUFFLE));
 
         game.playCard(CardType.TRADE, player2);
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
+    // G126S1
+    @Test
+    public void playingStealWithoutTargetThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card steal = new Card(CardType.STEAL);
+
+        player1.addCard(steal);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL);
+        });
+
+        assertEquals("STEAL requires a target player", exception.getMessage());
+    }
+
+    // G126S2
+    @Test
+    public void playingStealWithNullTargetThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL, null);
+        });
+
+        assertEquals("Target player cannot be null", exception.getMessage());
+    }
+
+    // G126S3
+    @Test
+    public void playingStealWithTargetNotInGameThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player3.addCard(new Card(CardType.SKIP));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL, player3);
+        });
+
+        assertEquals("Target player must be in the game", exception.getMessage());
+    }
+
+    // G126S4
+    @Test
+    public void playingStealTargetingCurrentPlayerThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL, player1);
+        });
+
+        assertEquals("Target player must be different", exception.getMessage());
+    }
+
+    // G126S5
+    @Test
+    public void playingStealTargetingPlayerWithNoCardsThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.STEAL));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.STEAL, player2);
+        });
+
+        assertEquals("Target player has no cards", exception.getMessage());
+    }
+
+    // G126S6
+    @Test
+    public void playingStealWithoutStealThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.STEAL);
+        player2.addCard(new Card(CardType.SKIP));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.STEAL, player2);
+        });
+
+        assertEquals("Player does not have card of type STEAL", exception.getMessage());
+    }
+
+    // G126S7
+    @Test
+    public void invalidStealDoesNotDiscardSteal() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card steal = new Card(CardType.STEAL);
+
+        player1.addCard(steal);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL, player1);
+        });
+
+        assertTrue(player1.getHand().contains(steal));
+        assertFalse(game.getDiscardPile().contains(steal));
+    }
+
+    // G126S8
+    @Test
+    public void validStealMovesStealFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card steal = new Card(CardType.STEAL);
+
+        player1.addCard(steal);
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertFalse(player1.getHand().contains(steal));
+        assertTrue(game.getDiscardPile().contains(steal));
+    }
+
+    // G126S9
+    @Test
+    public void validStealTransfersOneCardFromTargetToCurrentPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card stolenCard = new Card(CardType.SKIP);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(stolenCard);
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertTrue(player1.getHand().contains(stolenCard));
+        assertFalse(player2.getHand().contains(stolenCard));
+    }
+
+    // G126S10
+    @Test
+    public void validStealFromTargetWithMultipleCardsTransfersExactlyOneCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstTargetCard = new Card(CardType.SKIP);
+        Card secondTargetCard = new Card(CardType.ATTACK);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(firstTargetCard);
+        player2.addCard(secondTargetCard);
+        int currentPlayerHandSizeBeforeSteal = player1.getHand().size();
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertEquals(1, player2.getHand().size());
+        assertEquals(currentPlayerHandSizeBeforeSteal, player1.getHand().size());
+    }
+
+    // G126S11
+    @Test
+    public void validStealDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    // G126S12
+    @Test
+    public void validStealDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(new Card(CardType.SKIP));
+        int deckSizeBeforeSteal = game.getDeck().size();
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertEquals(deckSizeBeforeSteal, game.getDeck().size());
+    }
+
+    // G126S13
+    @Test
+    public void validStealDoesNotEliminatePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.STEAL, player2);
 
         assertTrue(player1.isActive());
         assertTrue(player2.isActive());
@@ -2259,4 +2628,1289 @@ public class GamePlayCardTest {
         assertTrue(player1.isActive());
         assertTrue(player2.isActive());
     }
+
+    @Test
+    public void playingShuffleWithoutShuffleThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.SHUFFLE);
+        });
+        assertEquals(
+                "Player does not have card of type SHUFFLE",
+                exception.getMessage());
+    }
+
+    @Test
+    public void PlayShuffle_RemovesOneShuffleFromHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        // give current player one SHUFFLE
+        player1.addCard(new Card(CardType.SHUFFLE));
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(0, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void PlayShuffle_AddsShuffleToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        // give current player one SHUFFLE
+        Card shuffle = new Card(CardType.SHUFFLE);
+        player1.addCard(shuffle);
+        game.playCard(CardType.SHUFFLE);
+        assertTrue(game.getDiscardPile().contains(shuffle));
+    }
+
+    @Test
+    public void PlayShuffle_DeckSizeDoesNotChange() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        int deckSizeBeforeShuffle = game.getDeck().size();
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(deckSizeBeforeShuffle, game.getDeck().size());
+    }
+
+    @Test
+    public void PlayShuffle_CurrentPlayerDoesNotChange() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingShuffleLeavesSecondShuffleInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(1, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void PlayShuffle_DeckCardCountsDoNotChange() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        int attackCount = game.getDeck().amtCardType(CardType.ATTACK);
+        int shuffleCount = game.getDeck().amtCardType(CardType.SHUFFLE);
+        int skipCount = game.getDeck().amtCardType(CardType.SKIP);
+        int seeTheFutureCount = game.getDeck().amtCardType(CardType.SEE_THE_FUTURE);
+        int nopeCount = game.getDeck().amtCardType(CardType.NOPE);
+        int tacoCatCount = game.getDeck().amtCardType(CardType.TACO_CAT);
+        int beardCatCount = game.getDeck().amtCardType(CardType.BEARD_CAT);
+        int rainbowCatCount = game.getDeck().amtCardType(CardType.RAINBOW_RALPHING_CAT);
+        int potatoCatCount = game.getDeck().amtCardType(CardType.HAIRY_POTATO_CAT);
+        int explodingKittenCount = game.getDeck().amtCardType(CardType.EXPLODING_KITTEN);
+        int defuseCount = game.getDeck().amtCardType(CardType.DEFUSE);
+
+        game.playCard(CardType.SHUFFLE);
+        assertEquals(attackCount, game.getDeck().amtCardType(CardType.ATTACK));
+        assertEquals(shuffleCount, game.getDeck().amtCardType(CardType.SHUFFLE));
+        assertEquals(skipCount, game.getDeck().amtCardType(CardType.SKIP));
+        assertEquals(seeTheFutureCount, game.getDeck().amtCardType(CardType.SEE_THE_FUTURE));
+        assertEquals(nopeCount, game.getDeck().amtCardType(CardType.NOPE));
+        assertEquals(tacoCatCount, game.getDeck().amtCardType(CardType.TACO_CAT));
+        assertEquals(beardCatCount, game.getDeck().amtCardType(CardType.BEARD_CAT));
+        assertEquals(rainbowCatCount, game.getDeck().amtCardType(CardType.RAINBOW_RALPHING_CAT));
+        assertEquals(potatoCatCount, game.getDeck().amtCardType(CardType.HAIRY_POTATO_CAT));
+        assertEquals(explodingKittenCount, game.getDeck().amtCardType(CardType.EXPLODING_KITTEN));
+        assertEquals(defuseCount, game.getDeck().amtCardType(CardType.DEFUSE));
+    }
+
+    @Test
+    public void playingShuffleDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.SHUFFLE));
+        game.playCard(CardType.SHUFFLE);
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
+    @Test
+    public void playingSeeTheFutureWithoutSeeTheFutureThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            game.playSeeTheFuture();
+        });
+        assertEquals(
+                "Player does not have card of type SEE_THE_FUTURE",
+                exception.getMessage());
+    }
+
+    @Test
+    public void playingOneSeeTheFutureRemovesFromHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        Card seeTheFuture = new Card(CardType.SEE_THE_FUTURE);
+        player1.addCard(seeTheFuture);
+        game.playSeeTheFuture();
+        assertEquals(0, player1.countCardsOfType(CardType.SEE_THE_FUTURE));
+    }
+
+    @Test
+    public void playingOneSeeTheFutureDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card seeTheFuture = new Card(CardType.SEE_THE_FUTURE);
+        player1.addCard(seeTheFuture);
+        game.playSeeTheFuture();
+        assertTrue(game.getDiscardPile().contains(seeTheFuture));
+    }
+
+    @Test
+    public void playingSeeTheFutureLeavesSecondSeeTheFutureInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        game.playSeeTheFuture();
+        assertEquals(1, player1.countCardsOfType(CardType.SEE_THE_FUTURE));
+    }
+
+    @Test
+    public void playingSeeTheFutureReturnsTopThreeCardsInOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.DEFUSE));
+        List<Card> seenCards = game.playSeeTheFuture();
+        assertEquals(3, seenCards.size());
+        assertEquals(CardType.DEFUSE, seenCards.get(0).getType());
+        assertEquals(CardType.ATTACK, seenCards.get(1).getType());
+        assertEquals(CardType.SKIP, seenCards.get(2).getType());
+    }
+
+    @Test
+    public void playingSeeTheFutureDoesNotRemoveCardsFromDeck() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        int deckSizeBeforePlay = game.getDeck().size();
+        game.playSeeTheFuture();
+        assertEquals(deckSizeBeforePlay, game.getDeck().size());
+    }
+
+    @Test
+    public void playingSeeTheFutureDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        game.playSeeTheFuture();
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingSeeTheFutureDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.SEE_THE_FUTURE);
+        player1.addCard(new Card(CardType.SEE_THE_FUTURE));
+        game.playSeeTheFuture();
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
+    @Test
+    public void playingAlterTheFutureWithoutAlterTheFutureThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playAlterTheFuture();
+        });
+
+        assertEquals(
+                "Player does not have card of type ALTER_THE_FUTURE",
+                exception.getMessage());
+    }
+
+    @Test
+    public void playingOneAlterTheFutureRemovesIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        game.playAlterTheFuture();
+
+        assertEquals(0, player1.countCardsOfType(CardType.ALTER_THE_FUTURE));
+    }
+
+    @Test
+    public void playingOneAlterTheFutureDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card alterTheFuture = new Card(CardType.ALTER_THE_FUTURE);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(alterTheFuture);
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        game.playAlterTheFuture();
+
+        assertTrue(game.getDiscardPile().contains(alterTheFuture));
+    }
+
+    @Test
+    public void playingAlterTheFutureLeavesSecondAlterTheFutureInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        game.playAlterTheFuture();
+
+        assertEquals(1, player1.countCardsOfType(CardType.ALTER_THE_FUTURE));
+    }
+
+    @Test
+    public void playingAlterTheFutureReturnsTopThreeCardsInOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        List<Card> alteredCards = game.playAlterTheFuture();
+
+        assertEquals(3, alteredCards.size());
+        assertEquals(CardType.NOPE, alteredCards.get(0).getType());
+        assertEquals(CardType.ATTACK, alteredCards.get(1).getType());
+        assertEquals(CardType.SKIP, alteredCards.get(2).getType());
+    }
+
+    @Test
+    public void playingAlterTheFutureDoesNotChangeDeckOrderImmediately() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        game.playAlterTheFuture();
+        List<Card> peekedCards = game.getDeck().peek(3);
+
+        assertEquals(CardType.NOPE, peekedCards.get(0).getType());
+        assertEquals(CardType.ATTACK, peekedCards.get(1).getType());
+        assertEquals(CardType.SKIP, peekedCards.get(2).getType());
+    }
+
+    @Test
+    public void resolvingAlterTheFutureReordersTopThreeCards() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        emptyDeck(game.getDeck());
+        Card bottomCard = new Card(CardType.SKIP);
+        Card middleCard = new Card(CardType.ATTACK);
+        Card topCard = new Card(CardType.NOPE);
+        game.getDeck().insertBottom(bottomCard);
+        game.getDeck().insertBottom(middleCard);
+        game.getDeck().insertBottom(topCard);
+
+        game.playAlterTheFuture();
+        game.reorderAlteredFuture(List.of(middleCard, bottomCard, topCard));
+        List<Card> peekedCards = game.getDeck().peek(3);
+
+        assertSame(middleCard, peekedCards.get(0));
+        assertSame(bottomCard, peekedCards.get(1));
+        assertSame(topCard, peekedCards.get(2));
+    }
+
+    @Test
+    public void resolvingAlterTheFutureCanKeepTopThreeCardsInSameOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        emptyDeck(game.getDeck());
+        Card bottomCard = new Card(CardType.SKIP);
+        Card middleCard = new Card(CardType.ATTACK);
+        Card topCard = new Card(CardType.NOPE);
+        game.getDeck().insertBottom(bottomCard);
+        game.getDeck().insertBottom(middleCard);
+        game.getDeck().insertBottom(topCard);
+
+        List<Card> alteredCards = game.playAlterTheFuture();
+        game.reorderAlteredFuture(alteredCards);
+        List<Card> peekedCards = game.getDeck().peek(3);
+
+        assertSame(topCard, peekedCards.get(0));
+        assertSame(middleCard, peekedCards.get(1));
+        assertSame(bottomCard, peekedCards.get(2));
+    }
+
+    @Test
+    public void resolvingAlterTheFutureWithoutActiveAlterTheFutureThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.reorderAlteredFuture(List.of(
+                    new Card(CardType.SKIP),
+                    new Card(CardType.ATTACK),
+                    new Card(CardType.NOPE)));
+        });
+
+        assertEquals("No Alter the Future action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void playingAlterTheFutureDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        int deckSizeBeforePlay = game.getDeck().size();
+
+        game.playAlterTheFuture();
+
+        assertEquals(deckSizeBeforePlay, game.getDeck().size());
+    }
+
+    @Test
+    public void playingAlterTheFutureDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+
+        game.playAlterTheFuture();
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingAlterTheFutureDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+
+        game.playAlterTheFuture();
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
+    @Test
+    public void playingAlterTheFutureWithFewerThanThreeCardsThrowsExceptionAndDoesNotConsumeCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card alterTheFuture = new Card(CardType.ALTER_THE_FUTURE);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(alterTheFuture);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playAlterTheFuture();
+        });
+
+        assertEquals(
+                "Cannot play Alter the Future when deck has fewer than 3 cards",
+                exception.getMessage());
+        assertTrue(player1.getHand().contains(alterTheFuture));
+        assertFalse(game.getDiscardPile().contains(alterTheFuture));
+    }
+
+    @Test
+    public void playingAnotherCardWhileAlterTheFutureUnresolvedThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        game.playAlterTheFuture();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.SHUFFLE);
+        });
+
+        assertEquals(
+                "Must resolve Alter the Future before playing another card",
+                exception.getMessage());
+    }
+
+    @Test
+    public void afterResolvingAlterTheFuturePlayerCanPlayAnotherCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        List<Card> alteredCards = game.playAlterTheFuture();
+        game.reorderAlteredFuture(alteredCards);
+        game.playCard(CardType.SHUFFLE);
+
+        assertEquals(0, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void resolvingAlterTheFutureWithNullOrderThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        game.playAlterTheFuture();
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.reorderAlteredFuture(null);
+        });
+
+        assertEquals("Alter the Future order cannot be null", exception.getMessage());
+    }
+
+    @Test
+    public void resolvingAlterTheFutureWithFewerThanThreeCardsThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        List<Card> alteredCards = game.playAlterTheFuture();
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.reorderAlteredFuture(List.of(alteredCards.get(0), alteredCards.get(1)));
+        });
+
+        assertEquals("Alter the Future order must contain exactly 3 cards", exception.getMessage());
+    }
+
+    @Test
+    public void resolvingAlterTheFutureWithUnpeekedCardThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        List<Card> alteredCards = game.playAlterTheFuture();
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.reorderAlteredFuture(List.of(
+                    alteredCards.get(0),
+                    alteredCards.get(1),
+                    new Card(CardType.SKIP)));
+        });
+
+        assertEquals(
+                "Alter the Future order must contain the same peeked cards",
+                exception.getMessage());
+    }
+
+    @Test
+    public void resolvingAlterTheFutureTwiceThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.ALTER_THE_FUTURE);
+        player1.addCard(new Card(CardType.ALTER_THE_FUTURE));
+        List<Card> alteredCards = game.playAlterTheFuture();
+        game.reorderAlteredFuture(alteredCards);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.reorderAlteredFuture(alteredCards);
+        });
+
+        assertEquals("No Alter the Future action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void playingDrawFromBottomWithoutDrawFromBottomThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.DRAW_FROM_BOTTOM);
+        });
+        assertEquals(
+                "Player does not have card of type DRAW_FROM_BOTTOM",
+                exception.getMessage());
+    }
+
+    @Test
+    public void playingOneDrawFromBottomRemovesIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        Card drawFromBottom = new Card(CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(drawFromBottom);
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertEquals(0, player1.countCardsOfType(CardType.DRAW_FROM_BOTTOM));
+    }
+
+    @Test
+    public void playingOneDrawFromBottomDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        Card drawFromBottom = new Card(CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(drawFromBottom);
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertTrue(game.getDiscardPile().contains(drawFromBottom));
+    }
+
+    @Test
+    public void playingDrawFromBottomLeavesSecondDrawFromBottomInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertEquals(1, player1.countCardsOfType(CardType.DRAW_FROM_BOTTOM));
+    }
+
+    @Test
+    public void playingDrawFromBottomSafeDoesNotEliminateOtherPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertTrue(player2.isActive());
+    }
+
+    @Test
+    public void playingDrawFromBottomDrawsBottomCardIntoCurrentPlayersHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        emptyDeck(game.getDeck());
+
+        Card bottomCard = new Card(CardType.NOPE);
+        Card topCard = new Card(CardType.SKIP);
+
+        game.getDeck().insertBottom(bottomCard);
+        game.getDeck().insertBottom(topCard);
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertTrue(player1.getHand().contains(bottomCard));
+        assertFalse(player1.getHand().contains(topCard));
+    }
+
+    @Test
+    public void playingDrawFromBottomReducesDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        Card card = new Card(CardType.NOPE);
+        game.getDeck().insertBottom(card);
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertEquals(0, game.getDeck().size());
+    }
+
+    @Test
+    public void playingDrawFromBottomWithExplodingKittenAndNoProtectionEliminatesPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertFalse(player1.isActive());
+    }
+
+    @Test
+    public void playingDrawFromBottomWithExplodingKittenAndDefuseUsesDefuse() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DEFUSE));
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertTrue(player1.isActive());
+        assertEquals(0, player1.countCardsOfType(CardType.DEFUSE));
+    }
+
+    @Test
+    public void playingDrawFromBottomWithExplodingKittenAndShieldUsesShield() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.SHIELD));
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertTrue(player1.isActive());
+        assertEquals(0, player1.countCardsOfType(CardType.SHIELD));
+    }
+
+    @Test
+    public void playingDrawFromBottomEndsTurnAfterDrawing() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingDrawFromBottomWithEmptyDeckThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.DRAW_FROM_BOTTOM);
+        });
+
+        assertEquals(
+                "Cannot draw from empty deck",
+                exception.getMessage());
+    }
+
+    @Test
+    public void playingDrawFromBottomWithOneCardDrawsCardAndDeckBecomesEmpty() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        Card onlyCard = new Card(CardType.NOPE);
+        game.getDeck().insertBottom(onlyCard);
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertTrue(player1.getHand().contains(onlyCard));
+        assertEquals(0, game.getDeck().size());
+    }
+
+    @Test
+    public void playingDrawFromBottomEliminationWithTwoPlayersEndsGame() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertFalse(player1.isActive());
+        assertTrue(game.isGameOver());
+        assertEquals(player2, game.getWinner());
+    }
+
+    @Test
+    public void playingDrawFromBottomEliminationWithThreePlayersContinuesGame() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2, player3);
+
+        removeAll(player1, CardType.DEFUSE);
+        removeAll(player1, CardType.SHIELD);
+        removeAll(player1, CardType.DRAW_FROM_BOTTOM);
+        player1.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.EXPLODING_KITTEN));
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertFalse(player1.isActive());
+        assertFalse(game.isGameOver());
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void attackedPlayerPlayingDrawFromBottomFirstDrawKeepsTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.ATTACK));
+        game.playCard(CardType.ATTACK);
+
+        removeAll(player2, CardType.DRAW_FROM_BOTTOM);
+        player2.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void attackedPlayerPlayingDrawFromBottomSecondDrawAdvancesTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.ATTACK));
+        game.playCard(CardType.ATTACK);
+
+        removeAll(player2, CardType.DRAW_FROM_BOTTOM);
+        player2.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+        player2.addCard(new Card(CardType.DRAW_FROM_BOTTOM));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.NOPE));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.playCard(CardType.DRAW_FROM_BOTTOM);
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingPeekSwapWithoutPeekSwapThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playPeekSwap();
+        });
+
+        assertEquals("Player does not have card of type PEEK_SWAP", exception.getMessage());
+    }
+
+    @Test
+    public void playingOnePeekSwapRemovesIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        removeAll(player1, CardType.PEEK_SWAP);
+        Card peekSwap = new Card(CardType.PEEK_SWAP);
+        player1.addCard(peekSwap);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.playPeekSwap();
+
+        assertEquals(0, player1.countCardsOfType(CardType.PEEK_SWAP));
+    }
+
+    @Test
+    public void playingOnePeekSwapDiscardsIt() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        Card peekSwap = new Card(CardType.PEEK_SWAP);
+        player1.addCard(peekSwap);
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+        game.playPeekSwap();
+
+        assertTrue(game.getDiscardPile().contains(peekSwap));
+    }
+
+    @Test
+    public void playingPeekSwapLeavesSecondPeekSwapInHand() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+
+        assertEquals(1, player1.countCardsOfType(CardType.PEEK_SWAP));
+    }
+
+    @Test
+    public void playingPeekSwapReturnsTopTwoCardsInOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        List<Card> peekedCards = game.playPeekSwap();
+
+        assertEquals(2, peekedCards.size());
+        assertEquals(CardType.ATTACK, peekedCards.get(0).getType());
+        assertEquals(CardType.SKIP, peekedCards.get(1).getType());
+    }
+
+    @Test
+    public void playingPeekSwapDoesNotChangeDeckOrderImmediately() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+
+        List<Card> peekedCards = game.getDeck().peek(2);
+
+        assertEquals(CardType.ATTACK, peekedCards.get(0).getType());
+        assertEquals(CardType.SKIP, peekedCards.get(1).getType());
+    }
+
+    @Test
+    public void playingPeekSwapAllowsPlayerToSwapAfterward() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.swapPeekedCards();
+
+        List<Card> peekedCards = game.getDeck().peek(2);
+
+        assertEquals(CardType.SKIP, peekedCards.get(0).getType());
+        assertEquals(CardType.ATTACK, peekedCards.get(1).getType());
+    }
+
+    @Test
+    public void swappingAfterPeekSwapSwapsTopTwoCards() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.swapPeekedCards();
+
+        List<Card> peekedCards = game.getDeck().peek(2);
+
+        assertEquals(CardType.SKIP, peekedCards.get(0).getType());
+        assertEquals(CardType.ATTACK, peekedCards.get(1).getType());
+    }
+
+    @Test
+    public void decliningAfterPeekSwapKeepsTopTwoCardsInSameOrder() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.declinePeekSwap();
+
+        List<Card> peekedCards = game.getDeck().peek(2);
+
+        assertEquals(CardType.ATTACK, peekedCards.get(0).getType());
+        assertEquals(CardType.SKIP, peekedCards.get(1).getType());
+    }
+
+    @Test
+    public void swappingWithoutActivePeekSwapThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.swapPeekedCards();
+        });
+
+        assertEquals("No Peek Swap action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void decliningWithoutActivePeekSwapThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.declinePeekSwap();
+        });
+
+        assertEquals("No Peek Swap action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void playingPeekSwapDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        int deckSizeBeforePlay = game.getDeck().size();
+
+        game.playPeekSwap();
+
+        assertEquals(deckSizeBeforePlay, game.getDeck().size());
+    }
+
+    @Test
+    public void playingPeekSwapDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        game.playPeekSwap();
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    @Test
+    public void playingPeekSwapDoesNotEliminateAnyPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        game.playPeekSwap();
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
+    @Test
+    public void playingPeekSwapWithFewerThanTwoCardsThrowsExceptionAndDoesNotConsumeCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        Card peekSwap = new Card(CardType.PEEK_SWAP);
+        player1.addCard(peekSwap);
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playPeekSwap();
+        });
+
+        assertEquals("Cannot play Peek Swap when deck has fewer than 2 cards", 
+                     exception.getMessage());
+        assertTrue(player1.getHand().contains(peekSwap));
+        assertFalse(game.getDiscardPile().contains(peekSwap));
+    }
+
+    @Test
+    public void playingAnotherCardWhilePeekSwapUnresolvedThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.SHUFFLE);
+        });
+
+        assertEquals("Must resolve Peek Swap before playing another card", exception.getMessage());
+    }
+
+    @Test
+    public void afterSwappingPeekSwapPlayerCanPlayAnotherCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.swapPeekedCards();
+        game.playCard(CardType.SHUFFLE);
+
+        assertEquals(0, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void afterDecliningPeekSwapPlayerCanPlayAnotherCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        removeAll(player1, CardType.SHUFFLE);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+        player1.addCard(new Card(CardType.SHUFFLE));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.declinePeekSwap();
+        game.playCard(CardType.SHUFFLE);
+
+        assertEquals(0, player1.countCardsOfType(CardType.SHUFFLE));
+    }
+
+    @Test
+    public void swappingAfterAlreadySwappingThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.swapPeekedCards();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.swapPeekedCards();
+        });
+
+        assertEquals("No Peek Swap action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void decliningAfterAlreadyDecliningThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.PEEK_SWAP);
+        player1.addCard(new Card(CardType.PEEK_SWAP));
+
+        emptyDeck(game.getDeck());
+        game.getDeck().insertBottom(new Card(CardType.SKIP));
+        game.getDeck().insertBottom(new Card(CardType.ATTACK));
+
+        game.playPeekSwap();
+        game.declinePeekSwap();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.declinePeekSwap();
+        });
+
+        assertEquals("No Peek Swap action is currently active", exception.getMessage());
+    }
+
+    @Test
+    public void swappingWithoutEverPlayingPeekSwapThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                game::swapPeekedCards
+        );
+
+        assertEquals(
+                "No Peek Swap action is currently active",
+                exception.getMessage()
+        );
+    }
+
 }

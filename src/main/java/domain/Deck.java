@@ -16,9 +16,12 @@ public class Deck {
         this.rand = rand;
 
         addCards(CardType.ATTACK, 3);
+        addCards(CardType.REVERSE, 4);
+        addCards(CardType.ALTER_THE_FUTURE, 4);
         addCards(CardType.SHUFFLE, 4);
         addCards(CardType.SKIP, 3);
         addCards(CardType.SEE_THE_FUTURE, 4);
+        addCards(CardType.STEAL, 4);
         addCards(CardType.NOPE, 4);
         addCards(CardType.TACO_CAT, 4);
         addCards(CardType.BEARD_CAT, 4);
@@ -85,7 +88,43 @@ public class Deck {
             peekedCards.add(cards.get(i));
         }
 
-        return peekedCards;
+        return Collections.unmodifiableList(peekedCards);
     }
 
+    public Card drawBottom() {
+        if (cards.isEmpty()) {
+            throw new IllegalStateException("Cannot draw from empty deck");
+        }
+        Card drawn = cards.remove(0);
+        cardAmounts.put(drawn.getType(), cardAmounts.get(drawn.getType()) - 1);
+        return drawn;
+    }
+
+    public void swapTopTwo() {
+        if (cards.size() < 2) {
+            throw new IllegalStateException(
+                "Cannot swap top two cards when deck has fewer than 2 cards");
+        }
+
+        int topIndex = cards.size() - 1;
+        int secondIndex = cards.size() - 2;
+        Card temp = cards.get(topIndex);
+        cards.set(topIndex, cards.get(secondIndex));
+        cards.set(secondIndex, temp);
+    }
+
+    public void reorderTopCards(List<Card> orderedCards) {
+        if (orderedCards == null) {
+            throw new IllegalArgumentException("Ordered cards cannot be null");
+        }
+
+        if (orderedCards.size() > cards.size()) {
+            throw new IllegalArgumentException("Cannot reorder more cards than exist in deck");
+        }
+
+        int topIndex = cards.size() - 1;
+        for (int i = 0; i < orderedCards.size(); i++) {
+            cards.set(topIndex - i, orderedCards.get(i));
+        }
+    }
 }

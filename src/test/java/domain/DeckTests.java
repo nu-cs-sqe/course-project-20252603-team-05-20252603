@@ -20,11 +20,14 @@ public class DeckTests {
     public void TC2_Constructor_ContainsCorrectAmountCardTypes() {
         Random rand = new Random();
         Deck deck = new Deck(rand);
-        assertEquals(34, deck.size());
+        assertEquals(46, deck.size());
         assertEquals(3, deck.amtCardType(CardType.ATTACK));
+        assertEquals(4, deck.amtCardType(CardType.REVERSE));
+        assertEquals(4, deck.amtCardType(CardType.ALTER_THE_FUTURE));
         assertEquals(4, deck.amtCardType(CardType.SHUFFLE));
         assertEquals(3, deck.amtCardType(CardType.SKIP));
         assertEquals(4, deck.amtCardType(CardType.SEE_THE_FUTURE));
+        assertEquals(4, deck.amtCardType(CardType.STEAL));
         assertEquals(4, deck.amtCardType(CardType.NOPE));
         assertEquals(4, deck.amtCardType(CardType.TACO_CAT));
         assertEquals(4, deck.amtCardType(CardType.BEARD_CAT));
@@ -62,7 +65,7 @@ public class DeckTests {
         Deck deck = new Deck(rand);
         Card card = deck.draw();
         assertNotNull(card);
-        assertEquals(33, deck.size());
+        assertEquals(45, deck.size());
     }
 
     @Test
@@ -327,5 +330,174 @@ public class DeckTests {
                 IllegalArgumentException.class, () -> deck.peek(3));
         assertEquals("Cannot peek at more cards than exist in deck", exception.getMessage()
         );
+    }
+
+    @Test
+    public void TC27_DrawBottom_FromEmptyDeck() {
+        Deck deck = new Deck(new Random());
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                deck::drawBottom
+        );
+
+        assertEquals("Cannot draw from empty deck", exception.getMessage());
+    }
+
+    @Test
+    public void TC28_DrawBottom_FromOneCardDeck() {
+        Deck deck = new Deck(new Random());
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        Card onlyCard = new Card(CardType.DEFUSE);
+        deck.insertBottom(onlyCard);
+
+        Card drawn = deck.drawBottom();
+
+        assertEquals(onlyCard, drawn);
+        assertEquals(0, deck.size());
+    }
+
+    @Test
+    public void TC29_DrawBottom_FromTwoCardDeck_ChecksBottomCard() {
+        Deck deck = new Deck(new Random());
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        Card bottomCard = new Card(CardType.DEFUSE);
+        Card topCard = new Card(CardType.EXPLODING_KITTEN);
+
+        deck.insertBottom(bottomCard);
+        deck.insertBottom(topCard);
+
+        Card drawn = deck.drawBottom();
+
+        assertEquals(bottomCard, drawn);
+        assertEquals(1, deck.size());
+    }
+
+    @Test
+    public void TC30_DrawBottom_UpdatesAmtCardType() {
+        Deck deck = new Deck(new Random());
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.DEFUSE));
+
+        assertEquals(1, deck.amtCardType(CardType.DEFUSE));
+
+        deck.drawBottom();
+
+        assertEquals(0, deck.amtCardType(CardType.DEFUSE));
+    }
+
+    @Test
+    public void TC31_SwapTopTwo_EmptyDeck() {
+        Deck deck = new Deck(new Random());
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                deck::swapTopTwo
+        );
+
+        assertEquals(
+                "Cannot swap top two cards when deck has fewer than 2 cards",
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    public void TC32_SwapTopTwo_OneCardDeck() {
+        Deck deck = new Deck(new Random());
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.DEFUSE));
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                deck::swapTopTwo
+        );
+
+        assertEquals(
+                "Cannot swap top two cards when deck has fewer than 2 cards",
+                exception.getMessage()
+        );
+    }
+
+    @Test
+    public void TC33_SwapTopTwo_TwoCardDeck_SwapsOrder() {
+        Deck deck = new Deck(new Random());
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SKIP));
+        deck.insertBottom(new Card(CardType.ATTACK));
+
+        deck.swapTopTwo();
+
+        List<Card> peeked = deck.peek(2);
+
+        assertEquals(CardType.SKIP, peeked.get(0).getType());
+        assertEquals(CardType.ATTACK, peeked.get(1).getType());
+        assertEquals(2, deck.size());
+    }
+
+    @Test
+    public void TC34_SwapTopTwo_ThreeCardDeck_OnlySwapsTopTwo() {
+        Deck deck = new Deck(new Random());
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.NOPE));
+        deck.insertBottom(new Card(CardType.SKIP));
+        deck.insertBottom(new Card(CardType.ATTACK));
+
+        deck.swapTopTwo();
+
+        List<Card> peeked = deck.peek(3);
+
+        assertEquals(CardType.SKIP, peeked.get(0).getType());
+        assertEquals(CardType.ATTACK, peeked.get(1).getType());
+        assertEquals(CardType.NOPE, peeked.get(2).getType());
+        assertEquals(3, deck.size());
+    }
+
+    @Test
+    public void TC35_SwapTopTwo_DuplicateCards_SizeUnchanged() {
+        Deck deck = new Deck(new Random());
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.DEFUSE));
+        deck.insertBottom(new Card(CardType.DEFUSE));
+
+        deck.swapTopTwo();
+
+        assertEquals(2, deck.size());
+        assertEquals(2, deck.amtCardType(CardType.DEFUSE));
     }
 }

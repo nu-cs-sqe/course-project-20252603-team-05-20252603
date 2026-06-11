@@ -3,6 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.util.Random;
 
 public class Game {
     private static final int STARTING_RANDOM_CARDS = 5;
@@ -10,11 +11,16 @@ public class Game {
     private final List<Player> players;
     private final Deck deck;
     private final List<Card> discardPile;
+    private final Random random;
 
     private boolean setupComplete;
 
     private int currentPlayerIndex;
+    private int turnDirection;
     private int pendingTurnsForCurrentPlayer;
+
+    private boolean activePeekSwap;
+    private List<Card> activeAlterTheFutureCards;
 
     public Game(List<Player> players, Deck deck) {
         if (players == null) {
@@ -42,9 +48,13 @@ public class Game {
         this.players = players;
         this.deck = deck;
         this.discardPile = new ArrayList<>();
+        this.random = new Random();
         this.setupComplete = false;
         this.currentPlayerIndex = 0;
+        this.turnDirection = 1;
         this.pendingTurnsForCurrentPlayer = 0;
+        this.activePeekSwap = false;
+        this.activeAlterTheFutureCards = null;
     }
 
     public void setupGame() {
@@ -121,17 +131,13 @@ public class Game {
     }
 
     public void drawCard() {
-        if (!setupComplete) {
-            throw new IllegalStateException("Game setup has not been completed");
-        }
-
-        if (getActivePlayerCount() <= 1) {
-            throw new IllegalStateException("Game is over");
-        }
-
-        Player currentPlayer = getCurrentPlayer();
+        validateGameCanPlayCard();
         Card drawnCard = deck.draw();
+        handleDrawnCard(drawnCard);
+    }
 
+    private void handleDrawnCard(Card drawnCard) {
+        Player currentPlayer = getCurrentPlayer();
         if (drawnCard.getType() == CardType.EXPLODING_KITTEN) {
             if (currentPlayer.hasCard(CardType.DEFUSE)) {
                 discardPile.add(currentPlayer.removeCard(CardType.DEFUSE));
@@ -147,10 +153,8 @@ public class Game {
                     moveToNextActivePlayer();
                 }
             }
-
             return;
         }
-
         currentPlayer.addCard(drawnCard);
         finishCurrentDrawTurn();
     }
@@ -198,17 +202,11 @@ public class Game {
             throw new IllegalArgumentException("Card type cannot be null");
         }
 
-        if (type == CardType.FAVOR || type == CardType.TRADE) {
+        if (type == CardType.FAVOR || type == CardType.TRADE || type == CardType.STEAL) {
             throw new IllegalArgumentException(type + " requires a target player");
         }
 
-        if (!setupComplete) {
-            throw new IllegalStateException("Game setup has not been completed");
-        }
-
-        if (getActivePlayerCount() <= 1) {
-            throw new IllegalStateException("Game is over");
-        }
+        validateGameCanPlayCard();
 
         Player currentPlayer = getCurrentPlayer();
         Card playedCard = currentPlayer.removeCard(type);
@@ -217,8 +215,20 @@ public class Game {
         if (type == CardType.ATTACK) {
             pendingTurnsForCurrentPlayer += 2;
             moveToNextActivePlayer();
-        } else if (type == CardType.SKIP) {
+        }
+        else if (type == CardType.REVERSE) {
+            turnDirection *= -1;
             endTurn();
+        }
+        else if (type == CardType.SKIP) {
+            endTurn();
+        }
+        else if (type == CardType.SHUFFLE) {
+            deck.shuffle();
+        }
+        else if (type == CardType.DRAW_FROM_BOTTOM) {
+            Card drawnCard = deck.drawBottom();
+            handleDrawnCard(drawnCard);
         }
     }
 
@@ -227,7 +237,7 @@ public class Game {
             throw new IllegalArgumentException("Card type cannot be null");
         }
 
-        if (type != CardType.FAVOR && type != CardType.TRADE) {
+        if (type != CardType.FAVOR && type != CardType.TRADE && type != CardType.STEAL) {
             playCard(type);
             return;
         }
@@ -254,6 +264,11 @@ public class Game {
                     targetPlayer.getHand().get(0).getType());
             currentPlayer.addCard(targetPlayerCard);
             targetPlayer.addCard(currentPlayerCard);
+        } else if (type == CardType.STEAL) {
+            int cardIndex = random.nextInt(targetPlayer.getHand().size());
+            Card stolenCard = targetPlayer.removeCard(
+                    targetPlayer.getHand().get(cardIndex).getType());
+            currentPlayer.addCard(stolenCard);
         }
     }
 
@@ -335,6 +350,84 @@ public class Game {
         }
     }
 
+    public List<Card> playSeeTheFuture() {
+        validateGameCanPlayCard();
+        Player currentPlayer = getCurrentPlayer();
+        Card playedCard = currentPlayer.removeCard(CardType.SEE_THE_FUTURE);
+        discardPile.add(playedCard);
+        return deck.peek(3);
+    }
+
+    public List<Card> playPeekSwap() {
+        validateGameCanPlayCard();
+        if (deck.size() < 2) {
+            throw new IllegalStateException(
+                "Cannot play Peek Swap when deck has fewer than 2 cards");
+        }
+        Player currentPlayer = getCurrentPlayer();
+        Card playedCard = currentPlayer.removeCard(CardType.PEEK_SWAP);
+        discardPile.add(playedCard);
+
+        activePeekSwap = true;
+        return deck.peek(2);
+    }
+
+    public void swapPeekedCards() {
+        if (!activePeekSwap) {
+            throw new IllegalStateException("No Peek Swap action is currently active");
+        }
+        deck.swapTopTwo();
+        activePeekSwap = false;
+    }
+
+    public void declinePeekSwap() {
+        if (!activePeekSwap) {
+            throw new IllegalStateException("No Peek Swap action is currently active");
+        }
+        activePeekSwap = false;
+    }
+
+    public List<Card> playAlterTheFuture() {
+        validateGameCanPlayCard();
+        if (deck.size() < 3) {
+            throw new IllegalStateException(
+                "Cannot play Alter the Future when deck has fewer than 3 cards");
+        }
+
+        Player currentPlayer = getCurrentPlayer();
+        Card playedCard = currentPlayer.removeCard(CardType.ALTER_THE_FUTURE);
+        discardPile.add(playedCard);
+
+        activeAlterTheFutureCards = new ArrayList<>(deck.peek(3));
+        return Collections.unmodifiableList(activeAlterTheFutureCards);
+    }
+
+    public void reorderAlteredFuture(List<Card> orderedCards) {
+        if (activeAlterTheFutureCards == null) {
+            throw new IllegalStateException("No Alter the Future action is currently active");
+        }
+
+        if (orderedCards == null) {
+            throw new IllegalArgumentException("Alter the Future order cannot be null");
+        }
+
+        if (orderedCards.size() != activeAlterTheFutureCards.size()) {
+            throw new IllegalArgumentException(
+                    "Alter the Future order must contain exactly 3 cards");
+        }
+
+        List<Card> remainingCards = new ArrayList<>(activeAlterTheFutureCards);
+        for (Card card : orderedCards) {
+            if (!remainingCards.remove(card)) {
+                throw new IllegalArgumentException(
+                        "Alter the Future order must contain the same peeked cards");
+            }
+        }
+
+        deck.reorderTopCards(orderedCards);
+        activeAlterTheFutureCards = null;
+    }
+
     private void validateGameCanPlayCard() {
         if (!setupComplete) {
             throw new IllegalStateException("Game setup has not been completed");
@@ -342,6 +435,15 @@ public class Game {
 
         if (getActivePlayerCount() <= 1) {
             throw new IllegalStateException("Game is over");
+        }
+
+        if (activePeekSwap) {
+            throw new IllegalStateException("Must resolve Peek Swap before playing another card");
+        }
+
+        if (activeAlterTheFutureCards != null) {
+            throw new IllegalStateException(
+                    "Must resolve Alter the Future before playing another card");
         }
     }
 
@@ -400,7 +502,8 @@ public class Game {
 
     private void moveToNextActivePlayer() {
         do {
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+            currentPlayerIndex = (currentPlayerIndex + turnDirection + players.size())
+                    % players.size();
         } while (!players.get(currentPlayerIndex).isActive());
     }
 }
