@@ -45,3 +45,8 @@
 11. [done] Anthony: Fixed Cat pair combo to steal a random card and updated matching tests/docs
 12. [done] Anthony: Added Card Collector win condition with BVA/tests/implementation/docs
 13. [done] Anthony: Added console internationalization support with English/Spanish resource bundles, tests, and README note
+14. [done] Cyrus: Completed BVA/TDD for Attack card, including stacked Attack turns
+15. [done] Cyrus: Implemented Reverse card and updated turn-order logic
+16. [done] Cyrus: Implemented Alter the Future card and added deck-reordering logic
+17. [done] Cyrus: Implemented invented Steal card and added targeted player hand-transfer logic
+18. [done] Cyrus: Added tests for new card behavior and meaningful exception messages
