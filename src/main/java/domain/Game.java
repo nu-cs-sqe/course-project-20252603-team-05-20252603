@@ -210,6 +210,11 @@ public class Game {
             throw new IllegalStateException("Game is over");
         }
 
+        if (type == CardType.DEFUSE) {
+            throw new IllegalStateException(
+                    "Defuse can only be used when drawing an Exploding Kitten");
+        }
+
         Player currentPlayer = getCurrentPlayer();
         Card playedCard = currentPlayer.removeCard(type);
         discardPile.add(playedCard);
