@@ -44,24 +44,44 @@ public class PlayerTest {
 
     @Test
     public void constructor_nullName_throwsException() {
-        assertThrows(IllegalArgumentException.class, () -> new Player(null));
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Player(null)
+        );
+
+        assertEquals("Player name cannot be null or empty", exception.getMessage());
     }
 
     @Test
     public void constructor_emptyName_throwsException() {
-        assertThrows(IllegalArgumentException.class, () -> new Player(""));
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Player("")
+        );
+
+        assertEquals("Player name cannot be null or empty", exception.getMessage());
     }
 
     @Test
     public void constructor_whitespaceName_throwsException() {
-        assertThrows(IllegalArgumentException.class, () -> new Player("   "));
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Player("   ")
+        );
+
+        assertEquals("Player name cannot be null or empty", exception.getMessage());
     }
 
     @Test
     public void addCard_nullCard_throwsException() {
         Player player = new Player("Anthony");
 
-        assertThrows(IllegalArgumentException.class, () -> player.addCard(null));
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> player.addCard(null)
+        );
+
+        assertEquals("Card cannot be null", exception.getMessage());
     }
 
     @Test
@@ -209,7 +229,12 @@ public class PlayerTest {
     public void removeCard_emptyHand_throwsException() {
         Player player = new Player("Anthony");
 
-        assertThrows(IllegalStateException.class, () -> player.removeCard(CardType.DEFUSE));
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> player.removeCard(CardType.DEFUSE)
+        );
+
+        assertEquals("Player does not have card of type DEFUSE", exception.getMessage());
     }
 
     @Test
@@ -218,7 +243,12 @@ public class PlayerTest {
 
         player.addCard(new Card(CardType.SKIP));
 
-        assertThrows(IllegalStateException.class, () -> player.removeCard(CardType.DEFUSE));
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> player.removeCard(CardType.DEFUSE)
+        );
+
+        assertEquals("Player does not have card of type DEFUSE", exception.getMessage());
     }
 
     @Test
@@ -260,14 +290,24 @@ public class PlayerTest {
 
         player.addCard(new Card(CardType.DEFUSE));
 
-        assertThrows(IllegalStateException.class, () -> player.removeCard(null));
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> player.removeCard(null)
+        );
+
+        assertEquals("Player does not have card of type null", exception.getMessage());
     }
 
     @Test
     public void countCardsOfType_nullType_throwsException() {
         Player player = new Player("Anthony");
 
-        assertThrows(IllegalArgumentException.class, () -> player.countCardsOfType(null));
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> player.countCardsOfType(null)
+        );
+
+        assertEquals("Card type cannot be null", exception.getMessage());
     }
 
     @Test
