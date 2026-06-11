@@ -13,6 +13,7 @@ public enum CardType {
     MARK,
     SHUFFLE,
     SEE_THE_FUTURE,
+    STEAL,
     NOPE,
     TACO_CAT,
     BEARD_CAT,

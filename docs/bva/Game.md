@@ -219,6 +219,23 @@
 | G125 | Current player plays valid `TRADE` | Deck size does not change | :y: |
 | G126 | Current player plays valid `TRADE` | No player is eliminated | :y: |
 
+#### Steal
+| Test Case | State of the System | Expected Output | Implemented? |
+|-----------|---|---|--------------|
+| G126S1 | Current player plays `STEAL` without a target player | Throws `IllegalArgumentException` with meaningful message | :y: |
+| G126S2 | Current player plays `STEAL` with `null` target player | Throws `IllegalArgumentException` with meaningful message | :y: |
+| G126S3 | Current player plays `STEAL` with a target player not in the game | Throws `IllegalArgumentException` with meaningful message | :y: |
+| G126S4 | Current player plays `STEAL` targeting themself | Throws `IllegalArgumentException` with meaningful message | :y: |
+| G126S5 | Current player plays `STEAL` targeting a player with no cards | Throws `IllegalStateException` with meaningful message | :y: |
+| G126S6 | Current player does not have `STEAL` | Throws `IllegalStateException` with meaningful message | :y: |
+| G126S7 | Invalid `STEAL` play | `STEAL` remains in current player's hand and is not discarded | :y: |
+| G126S8 | Current player plays valid `STEAL` | Removes `STEAL` from current player's hand and adds it to discard pile | :y: |
+| G126S9 | Current player plays valid `STEAL` | Transfers one card from target player to current player | :y: |
+| G126S10 | Target player has multiple cards during valid `STEAL` | Transfers exactly one target card | :y: |
+| G126S11 | Current player plays valid `STEAL` | Current player does not change | :y: |
+| G126S12 | Current player plays valid `STEAL` | Deck size does not change | :y: |
+| G126S13 | Current player plays valid `STEAL` | No player is eliminated | :y: |
+
 #### Mark
 | Test Case | State of the System | Expected Output | Implemented? |
 |-----------|---|---|--------------|

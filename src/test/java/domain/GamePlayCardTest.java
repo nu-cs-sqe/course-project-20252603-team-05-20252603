@@ -1378,6 +1378,234 @@ public class GamePlayCardTest {
         assertTrue(player2.isActive());
     }
 
+    // G126S1
+    @Test
+    public void playingStealWithoutTargetThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card steal = new Card(CardType.STEAL);
+
+        player1.addCard(steal);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL);
+        });
+
+        assertEquals("STEAL requires a target player", exception.getMessage());
+    }
+
+    // G126S2
+    @Test
+    public void playingStealWithNullTargetThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL, null);
+        });
+
+        assertEquals("Target player cannot be null", exception.getMessage());
+    }
+
+    // G126S3
+    @Test
+    public void playingStealWithTargetNotInGameThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player3.addCard(new Card(CardType.SKIP));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL, player3);
+        });
+
+        assertEquals("Target player must be in the game", exception.getMessage());
+    }
+
+    // G126S4
+    @Test
+    public void playingStealTargetingCurrentPlayerThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL, player1);
+        });
+
+        assertEquals("Target player must be different", exception.getMessage());
+    }
+
+    // G126S5
+    @Test
+    public void playingStealTargetingPlayerWithNoCardsThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.STEAL));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.STEAL, player2);
+        });
+
+        assertEquals("Target player has no cards", exception.getMessage());
+    }
+
+    // G126S6
+    @Test
+    public void playingStealWithoutStealThrowsException() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.STEAL);
+        player2.addCard(new Card(CardType.SKIP));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.playCard(CardType.STEAL, player2);
+        });
+
+        assertEquals("Player does not have card of type STEAL", exception.getMessage());
+    }
+
+    // G126S7
+    @Test
+    public void invalidStealDoesNotDiscardSteal() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card steal = new Card(CardType.STEAL);
+
+        player1.addCard(steal);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(CardType.STEAL, player1);
+        });
+
+        assertTrue(player1.getHand().contains(steal));
+        assertFalse(game.getDiscardPile().contains(steal));
+    }
+
+    // G126S8
+    @Test
+    public void validStealMovesStealFromHandToDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card steal = new Card(CardType.STEAL);
+
+        player1.addCard(steal);
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertFalse(player1.getHand().contains(steal));
+        assertTrue(game.getDiscardPile().contains(steal));
+    }
+
+    // G126S9
+    @Test
+    public void validStealTransfersOneCardFromTargetToCurrentPlayer() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card stolenCard = new Card(CardType.SKIP);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(stolenCard);
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertTrue(player1.getHand().contains(stolenCard));
+        assertFalse(player2.getHand().contains(stolenCard));
+    }
+
+    // G126S10
+    @Test
+    public void validStealFromTargetWithMultipleCardsTransfersExactlyOneCard() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card firstTargetCard = new Card(CardType.SKIP);
+        Card secondTargetCard = new Card(CardType.ATTACK);
+
+        while (!player2.getHand().isEmpty()) {
+            player2.removeCard(player2.getHand().get(0).getType());
+        }
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(firstTargetCard);
+        player2.addCard(secondTargetCard);
+        int currentPlayerHandSizeBeforeSteal = player1.getHand().size();
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertEquals(1, player2.getHand().size());
+        assertEquals(currentPlayerHandSizeBeforeSteal, player1.getHand().size());
+    }
+
+    // G126S11
+    @Test
+    public void validStealDoesNotAdvanceTurn() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertEquals(player1, game.getCurrentPlayer());
+    }
+
+    // G126S12
+    @Test
+    public void validStealDoesNotChangeDeckSize() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(new Card(CardType.SKIP));
+        int deckSizeBeforeSteal = game.getDeck().size();
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertEquals(deckSizeBeforeSteal, game.getDeck().size());
+    }
+
+    // G126S13
+    @Test
+    public void validStealDoesNotEliminatePlayers() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        player1.addCard(new Card(CardType.STEAL));
+        player2.addCard(new Card(CardType.SKIP));
+
+        game.playCard(CardType.STEAL, player2);
+
+        assertTrue(player1.isActive());
+        assertTrue(player2.isActive());
+    }
+
     // G127
     @Test
     public void playingMarkWithNullTargetThrowsException() {

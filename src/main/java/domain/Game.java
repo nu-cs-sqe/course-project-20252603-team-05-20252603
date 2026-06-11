@@ -3,6 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.util.Random;
 
 public class Game {
     private static final int STARTING_RANDOM_CARDS = 5;
@@ -10,6 +11,7 @@ public class Game {
     private final List<Player> players;
     private final Deck deck;
     private final List<Card> discardPile;
+    private final Random random;
 
     private boolean setupComplete;
 
@@ -46,6 +48,7 @@ public class Game {
         this.players = players;
         this.deck = deck;
         this.discardPile = new ArrayList<>();
+        this.random = new Random();
         this.setupComplete = false;
         this.currentPlayerIndex = 0;
         this.turnDirection = 1;
@@ -199,7 +202,7 @@ public class Game {
             throw new IllegalArgumentException("Card type cannot be null");
         }
 
-        if (type == CardType.FAVOR || type == CardType.TRADE) {
+        if (type == CardType.FAVOR || type == CardType.TRADE || type == CardType.STEAL) {
             throw new IllegalArgumentException(type + " requires a target player");
         }
 
@@ -234,7 +237,7 @@ public class Game {
             throw new IllegalArgumentException("Card type cannot be null");
         }
 
-        if (type != CardType.FAVOR && type != CardType.TRADE) {
+        if (type != CardType.FAVOR && type != CardType.TRADE && type != CardType.STEAL) {
             playCard(type);
             return;
         }
@@ -261,6 +264,11 @@ public class Game {
                     targetPlayer.getHand().get(0).getType());
             currentPlayer.addCard(targetPlayerCard);
             targetPlayer.addCard(currentPlayerCard);
+        } else if (type == CardType.STEAL) {
+            int cardIndex = random.nextInt(targetPlayer.getHand().size());
+            Card stolenCard = targetPlayer.removeCard(
+                    targetPlayer.getHand().get(cardIndex).getType());
+            currentPlayer.addCard(stolenCard);
         }
     }
 
