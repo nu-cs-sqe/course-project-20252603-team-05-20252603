@@ -2126,7 +2126,7 @@ public class GamePlayCardTest {
 
     // G154, G155, G156
     @Test
-    public void validCatPairComboTransfersFirstTargetCardToCurrentPlayer() {
+    public void validCatPairComboTransfersRandomTargetCardToCurrentPlayer() {
         Player player1 = new Player("Player 1");
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
@@ -2141,13 +2141,19 @@ public class GamePlayCardTest {
         player1.addCard(new Card(CardType.TACO_CAT));
         player2.addCard(firstTargetCard);
         player2.addCard(secondTargetCard);
+        int currentPlayerHandSize = player1.getHand().size();
+        int targetPlayerHandSize = player2.getHand().size();
 
         game.playCatPairCombo(CardType.TACO_CAT, player2);
 
-        assertTrue(player1.getHand().contains(firstTargetCard));
-        assertFalse(player1.getHand().contains(secondTargetCard));
-        assertFalse(player2.getHand().contains(firstTargetCard));
-        assertTrue(player2.getHand().contains(secondTargetCard));
+        boolean firstCardTransferred = player1.getHand().contains(firstTargetCard)
+                && !player2.getHand().contains(firstTargetCard);
+        boolean secondCardTransferred = player1.getHand().contains(secondTargetCard)
+                && !player2.getHand().contains(secondTargetCard);
+
+        assertEquals(currentPlayerHandSize - 1, player1.getHand().size());
+        assertEquals(targetPlayerHandSize - 1, player2.getHand().size());
+        assertTrue(firstCardTransferred || secondCardTransferred);
     }
 
     // G157
