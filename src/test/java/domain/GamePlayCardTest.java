@@ -2509,6 +2509,7 @@ public class GamePlayCardTest {
         Player player2 = new Player("Player 2");
         Game game = createStartedGame(player1, player2);
         // give current player one SHUFFLE
+        removeAll(player1, CardType.SHUFFLE);
         Card shuffle = new Card(CardType.SHUFFLE);
         player1.addCard(shuffle);
         game.playCard(CardType.SHUFFLE);

@@ -66,6 +66,8 @@ public class Game {
             player.addCard(new Card(CardType.DEFUSE));
         }
 
+        deck.shuffle();
+
         for (int i = 0; i < STARTING_RANDOM_CARDS; i++) {
             for (Player player : players) {
                 player.addCard(deck.draw());
