@@ -270,7 +270,7 @@
 | G151 | Current player plays two matching `BEARD_CAT` cards | Cat pair combo succeeds | :y: |
 | G152 | Current player plays two matching `RAINBOW_RALPHING_CAT` cards | Cat pair combo succeeds | :y: |
 | G153 | Current player plays two matching `HAIRY_POTATO_CAT` cards | Cat pair combo succeeds | :y: |
-| G154 | Current player plays a valid Cat pair combo | Transfers the first card from target player's hand | :y: |
+| G154 | Current player plays a valid Cat pair combo | Transfers one random card from target player's hand | :y: |
 | G155 | Current player plays a valid Cat pair combo | Target player loses the transferred card | :y: |
 | G156 | Current player plays a valid Cat pair combo | Current player gains the transferred card | :y: |
 | G157 | Current player plays a valid Cat pair combo | Current player does not change | :y: |
