@@ -1788,4 +1788,50 @@ public class GamePlayCardTest {
         assertEquals(0, player1.countCardsOfType(CardType.DEFUSE));
         assertEquals(1, player1.countCardsOfType(CardType.SHIELD));
     }
+
+    // G166
+    @Test
+    public void oneDefuseCannotBePlayedWithoutDrawingExplodingKitten() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.DEFUSE));
+
+        assertThrows(IllegalStateException.class, () -> game.playCard(CardType.DEFUSE));
+    }
+
+    // G167
+    @Test
+    public void rejectedDefusePlayKeepsCardOutOfDiscardPile() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        Card defuse = new Card(CardType.DEFUSE);
+        player1.addCard(defuse);
+
+        assertThrows(IllegalStateException.class, () -> game.playCard(CardType.DEFUSE));
+
+        assertTrue(player1.getHand().contains(defuse));
+        assertFalse(game.getDiscardPile().contains(defuse));
+    }
+
+    // G168
+    @Test
+    public void twoDefusesRemainWhenManualPlayIsRejected() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        removeAll(player1, CardType.DEFUSE);
+        player1.addCard(new Card(CardType.DEFUSE));
+        player1.addCard(new Card(CardType.DEFUSE));
+
+        assertThrows(IllegalStateException.class, () -> game.playCard(CardType.DEFUSE));
+
+        assertEquals(2, player1.countCardsOfType(CardType.DEFUSE));
+    }
 }

@@ -219,3 +219,6 @@
 | G163 | A Shield is used against an Exploding Kitten | Used Shield is added to the discard pile | :y: |
 | G164 | A Shield is used against an Exploding Kitten | Current player's turn ends and advances to the next active player | :y: |
 | G165 | Current player has both a Defuse and a Shield when drawing an Exploding Kitten | Defuse is consumed first and Shield remains in the player's hand | :y: |
+| G166 | Current player has exactly 1 Defuse and attempts to play it without drawing an Exploding Kitten | Throws `IllegalStateException` | :y: |
+| G167 | Current player attempts to play a Defuse without drawing an Exploding Kitten | Defuse remains in hand and is not added to the discard pile | :y: |
+| G168 | Current player has 2 Defuses and attempts to play one without drawing an Exploding Kitten | Both Defuses remain in hand | :y: |
