@@ -269,6 +269,92 @@ Effect:
 - Reveal one card from the chosen player's hand.
 - The revealed card stays in the chosen player's hand.
 
+## Defuse
 
+Effect:
+
+* Protects a player from an Exploding Kitten.
+* If a player draws an Exploding Kitten and has a Defuse, the Defuse card is discarded.
+* The player survives.
+* The player's turn ends normally.
+
+---
+
+## Reverse
+
+Reverse is an implemented additional card.
+
+Effect:
+
+* Reverse the direction of play.
+* End the current player's turn.
+* No card is drawn.
+
+---
+
+## Alter the Future
+
+Alter the Future is an implemented additional card.
+
+Effect:
+
+* Privately inspect the top 3 cards of the Draw Pile.
+* Rearrange those cards in any order.
+* Return them to the top of the Draw Pile.
+* The player must finish reordering the cards before performing any other action.
+
+---
+
+## Shield
+
+Shield is an implemented additional card.
+
+Effect:
+
+* Protects a player from an Exploding Kitten.
+* If a player draws an Exploding Kitten and has a Shield but no Defuse, the Shield card is discarded.
+* The player survives.
+* The player's turn ends normally.
+
+---
+
+## Steal
+
+Steal is an implemented additional card.
+
+Effect:
+
+* Choose another player.
+* Discard the Steal card.
+* Take one random card from the chosen player's hand.
+* The chosen player loses that card.
+
+---
+
+## Draw from Bottom
+
+Draw from Bottom is an implemented additional card.
+
+Effect:
+
+* Discard the Draw from Bottom card.
+* Draw the bottom card of the Draw Pile instead of the top card.
+* The drawn card follows all normal draw rules.
+* If the drawn card is an Exploding Kitten, Defuse and Shield rules still apply.
+* Drawing from the bottom ends the player's turn unless Attack effects require additional turns.
+
+---
+
+## Peek Swap
+
+Peek Swap is an implemented additional card.
+
+Effect:
+
+* Privately inspect the top 2 cards of the Draw Pile.
+* Choose whether to swap the order of those cards.
+* If the player chooses to swap, the top 2 cards exchange positions.
+* If the player chooses not to swap, the deck remains unchanged.
+* The player must resolve the swap decision before performing any other action.
 
 Additional Win Condition:
