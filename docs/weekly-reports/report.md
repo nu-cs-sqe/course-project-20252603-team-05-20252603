@@ -20,7 +20,7 @@
 1. [done] Helena: Installed Code Coverage (Jacoco) and Mutation Testing Tool
 2. [done] Rachel: Completed BVA, TDD for Deck Class for Game Setup Phase
 3. [done] Cyrus: Completed BVA, TDD for Deck Class for Card Setup Phase
-4. [done] Anthony: Completed BVA, TDD for Deck Class for Player Setup Phase
+4. [done] Anthony: Completed BVA, TDD for Player Class for Player Setup Phase
 5. [done] Cyrus: Write Game Setup Design Document
 
 # Week 9 (5/25/2026-5/31/2026)
@@ -36,3 +36,12 @@
 2. [done] Rachel: Completed UI for the game to actually be playable in the command line
 3. [done] Rachel: Completed full game instructions, updated Readme with dependencies/tools
 4. [done] Rachel: Fixed integration tests involving new features (shuffles, new cards available in deck)
+5. [done] Anthony: Added Player turn-support BVA/tests for active state, card lookup, card removal, and card counting
+6. [done] Anthony: Added Game play-card foundation BVA/TDD with discard pile support, invalid play handling, and basic playCard behavior
+7. [done] Anthony: Added Cat Card no-effect play BVA and tests
+8. [done] Anthony: Implemented Favor, Trade, Mark, Cat pair combo, and Cat three combo with BVA/tests/rules updates
+9. [done] Anthony: Added Game integration tests, including Attack turn-state integration flow
+10. [done] Anthony: Added meaningful exception message assertions for Player and Anthony-owned card/combo tests
+11. [done] Anthony: Fixed Cat pair combo to steal a random card and updated matching tests/docs
+12. [done] Anthony: Added Card Collector win condition with BVA/tests/implementation/docs
+13. [done] Anthony: Added console internationalization support with English/Spanish resource bundles, tests, and README note
