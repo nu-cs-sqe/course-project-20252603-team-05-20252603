@@ -2,33 +2,59 @@ package ui;
 
 import domain.*;
 
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 public class ConsoleGame {
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
+    private final PrintStream output;
+    private final Random random;
+
+    private MessageProvider messages;
     private Game game;
 
+    public ConsoleGame() {
+        this(System.in, System.out, new Random());
+    }
+
+    ConsoleGame(InputStream input, PrintStream output, Random random) {
+        this.scanner = new Scanner(input);
+        this.output = output;
+        this.random = random;
+        this.messages = MessageProvider.forLocale(java.util.Locale.ENGLISH);
+    }
+
     public void run() {
+        messages = askForLanguage();
         int playerCount = askForPlayerCount();
         List<Player> players = createPlayers(playerCount);
 
-        game = new Game(players, new Deck(new Random()));
+        game = new Game(players, new Deck(random));
         game.setupGame();
 
         while (!game.isGameOver()) {
             takeTurn();
         }
 
-        System.out.println("\nGame over!");
-        System.out.println("Winner: " + game.getWinner().getName());
+        output.println();
+        output.println(messages.get("game.over"));
+        output.println(messages.format("winner", game.getWinner().getName()));
+    }
+
+    private MessageProvider askForLanguage() {
+        output.println(messages.get("language.prompt"));
+        output.println(messages.get("language.english"));
+        output.println(messages.get("language.spanish"));
+        return MessageProvider.fromLanguageChoice(scanner.nextLine());
     }
 
     private int askForPlayerCount() {
         while (true) {
-            System.out.print("How many players? ");
+            printPrompt("player.count.prompt");
 
             try {
                 int count = Integer.parseInt(scanner.nextLine());
@@ -37,9 +63,9 @@ public class ConsoleGame {
                     return count;
                 }
 
-                System.out.println("Please enter a number from 2 to 5.");
+                output.println(messages.get("player.count.invalid.range"));
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+                output.println(messages.get("player.count.invalid.number"));
             }
         }
     }
@@ -48,11 +74,11 @@ public class ConsoleGame {
         List<Player> players = new ArrayList<>();
 
         for (int i = 1; i <= playerCount; i++) {
-            System.out.print("Enter name for Player " + i + ": ");
+            printPrompt("player.name.prompt", i);
             String name = scanner.nextLine();
 
             if (name.isBlank()) {
-                name = "Player " + i;
+                name = messages.format("player.default.name", i);
             }
 
             players.add(new Player(name));
@@ -64,9 +90,10 @@ public class ConsoleGame {
     private void takeTurn() {
         Player currentPlayer = game.getCurrentPlayer();
 
-        System.out.println("\n==============================");
-        System.out.println("Current player: " + currentPlayer.getName());
-        System.out.println("==============================");
+        output.println();
+        output.println("==============================");
+        output.println(messages.format("current.player", currentPlayer.getName()));
+        output.println("==============================");
 
         boolean turnStillActive = true;
 
@@ -75,11 +102,12 @@ public class ConsoleGame {
 
             printHand(currentPlayer);
 
-            System.out.println("\nChoose an action:");
-            System.out.println("1. Play one card");
-            System.out.println("2. Play Cat Pair Combo");
-            System.out.println("3. Play Cat Three Combo");
-            System.out.println("4. Draw card");
+            output.println();
+            output.println(messages.get("choose.action"));
+            output.println(messages.get("action.play.card"));
+            output.println(messages.get("action.cat.pair"));
+            output.println(messages.get("action.cat.three"));
+            output.println(messages.get("action.draw"));
 
             String choice = scanner.nextLine();
 
@@ -94,32 +122,33 @@ public class ConsoleGame {
                     game.drawCard();
                     turnStillActive = false;
                 } else {
-                    System.out.println("Invalid choice.");
+                    output.println(messages.get("invalid.choice"));
                 }
             } catch (IllegalArgumentException | IllegalStateException e) {
-                System.out.println("Error: " + e.getMessage());
+                output.println(messages.format("error.prefix", e.getMessage()));
             }
         }
     }
 
     private void printHand(Player player) {
-        System.out.println("\nHand:");
+        output.println();
+        output.println(messages.get("hand"));
 
         List<Card> hand = player.getHand();
 
         for (int i = 0; i < hand.size(); i++) {
-            System.out.println(i + ". " + hand.get(i).getType());
+            output.println(messages.format("indexed.item", i, hand.get(i).getType()));
         }
     }
 
     private void playOneCard() {
         Player currentPlayer = game.getCurrentPlayer();
 
-        System.out.print("Enter card index: ");
+        printPrompt("card.index.prompt");
         int index = readInt();
 
         if (index < 0 || index >= currentPlayer.getHand().size()) {
-            System.out.println("Invalid card index.");
+            output.println(messages.get("invalid.card.index"));
             return;
         }
 
@@ -135,32 +164,32 @@ public class ConsoleGame {
         } else if (type == CardType.MARK) {
             Player target = chooseTargetPlayer();
             Card revealed = game.playMark(target);
-            System.out.println("Revealed card: " + revealed.getType());
+            output.println(messages.format("revealed.card", revealed.getType()));
         } else if (type == CardType.SEE_THE_FUTURE) {
             List<Card> cards = game.playSeeTheFuture();
-            printCards("Top 3 cards:", cards);
+            printCards(messages.get("top.three.cards"), cards);
         } else if (type == CardType.PEEK_SWAP) {
             List<Card> cards = game.playPeekSwap();
-            printCards("Top 2 cards:", cards);
+            printCards(messages.get("top.two.cards"), cards);
 
-            System.out.print("Swap these two cards? y/n: ");
+            printPrompt("peek.swap.prompt");
             String answer = scanner.nextLine();
 
-            if (answer.equalsIgnoreCase("y")) {
+            if (answer.equalsIgnoreCase(messages.get("yes.answer"))) {
                 game.swapPeekedCards();
-                System.out.println("Cards swapped.");
+                output.println(messages.get("cards.swapped"));
             } else {
                 game.declinePeekSwap();
-                System.out.println("Cards left unchanged.");
+                output.println(messages.get("cards.unchanged"));
             }
         } else if (type == CardType.ALTER_THE_FUTURE) {
             List<Card> cards = game.playAlterTheFuture();
-            printCards("Top 3 cards:", cards);
+            printCards(messages.get("top.three.cards"), cards);
 
             List<Card> reorderedCards = askForNewOrder(cards);
             game.reorderAlteredFuture(reorderedCards);
 
-            System.out.println("Top cards reordered.");
+            output.println(messages.get("alter.future.reordered"));
         } else {
             game.playCard(type);
         }
@@ -169,11 +198,11 @@ public class ConsoleGame {
     private void playCatPairCombo() {
         Player currentPlayer = game.getCurrentPlayer();
 
-        System.out.print("Enter index of Cat Card type to use: ");
+        printPrompt("cat.card.index.prompt");
         int index = readInt();
 
         if (index < 0 || index >= currentPlayer.getHand().size()) {
-            System.out.println("Invalid card index.");
+            output.println(messages.get("invalid.card.index"));
             return;
         }
 
@@ -181,17 +210,17 @@ public class ConsoleGame {
         Player target = chooseTargetPlayer();
 
         game.playCatPairCombo(catType, target);
-        System.out.println("Cat Pair Combo played.");
+        output.println(messages.get("combo.cat.pair.played"));
     }
 
     private void playCatThreeCombo() {
         Player currentPlayer = game.getCurrentPlayer();
 
-        System.out.print("Enter index of Cat Card type to use: ");
+        printPrompt("cat.card.index.prompt");
         int index = readInt();
 
         if (index < 0 || index >= currentPlayer.getHand().size()) {
-            System.out.println("Invalid card index.");
+            output.println(messages.get("invalid.card.index"));
             return;
         }
 
@@ -201,27 +230,28 @@ public class ConsoleGame {
         CardType requestedType = chooseCardType();
 
         game.playCatThreeCombo(catType, target, requestedType);
-        System.out.println("Cat Three Combo played.");
+        output.println(messages.get("combo.cat.three.played"));
     }
 
     private Player chooseTargetPlayer() {
         List<Player> players = game.getPlayers();
         Player currentPlayer = game.getCurrentPlayer();
 
-        System.out.println("\nChoose target player:");
+        output.println();
+        output.println(messages.get("target.choose"));
 
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
 
             if (player != currentPlayer && player.isActive()) {
-                System.out.println(i + ". " + player.getName());
+                output.println(messages.format("indexed.item", i, player.getName()));
             }
         }
 
         int index = readInt();
 
         if (index < 0 || index >= players.size()) {
-            throw new IllegalArgumentException("Invalid target player index");
+            throw new IllegalArgumentException(messages.get("invalid.target.index"));
         }
 
         return players.get(index);
@@ -230,16 +260,17 @@ public class ConsoleGame {
     private CardType chooseCardType() {
         CardType[] types = CardType.values();
 
-        System.out.println("\nChoose requested card type:");
+        output.println();
+        output.println(messages.get("card.type.choose"));
 
         for (int i = 0; i < types.length; i++) {
-            System.out.println(i + ". " + types[i]);
+            output.println(messages.format("indexed.item", i, types[i]));
         }
 
         int index = readInt();
 
         if (index < 0 || index >= types.length) {
-            throw new IllegalArgumentException("Invalid card type index");
+            throw new IllegalArgumentException(messages.get("invalid.card.type.index"));
         }
 
         return types[index];
@@ -248,16 +279,16 @@ public class ConsoleGame {
     private List<Card> askForNewOrder(List<Card> cards) {
         List<Card> reorderedCards = new ArrayList<>();
 
-        System.out.println("Enter the new order using indexes 0, 1, 2.");
+        output.println(messages.get("new.order.prompt"));
 
         while (reorderedCards.size() < cards.size()) {
-            System.out.print("Card " + reorderedCards.size() + ": ");
+            printPrompt("new.order.card.prompt", reorderedCards.size());
             int index = readInt();
 
             if (index < 0 || index >= cards.size()) {
-                System.out.println("Invalid index.");
+                output.println(messages.get("invalid.index"));
             } else if (reorderedCards.contains(cards.get(index))) {
-                System.out.println("You already chose that card.");
+                output.println(messages.get("duplicate.card.choice"));
             } else {
                 reorderedCards.add(cards.get(index));
             }
@@ -267,10 +298,11 @@ public class ConsoleGame {
     }
 
     private void printCards(String title, List<Card> cards) {
-        System.out.println("\n" + title);
+        output.println();
+        output.println(title);
 
         for (int i = 0; i < cards.size(); i++) {
-            System.out.println(i + ". " + cards.get(i).getType());
+            output.println(messages.format("indexed.item", i, cards.get(i).getType()));
         }
     }
 
@@ -278,7 +310,12 @@ public class ConsoleGame {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Please enter a valid number");
+            throw new IllegalArgumentException(messages.get("valid.number.error"));
         }
+    }
+
+    private void printPrompt(String key, Object... arguments) {
+        output.print(messages.format(key, arguments));
+        output.print(" ");
     }
 }

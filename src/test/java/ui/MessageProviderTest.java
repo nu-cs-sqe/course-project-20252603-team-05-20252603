@@ -39,6 +39,7 @@ public class MessageProviderTest {
             "target.choose",
             "card.type.choose",
             "peek.swap.prompt",
+            "yes.answer",
             "cards.swapped",
             "cards.unchanged",
             "alter.future.reordered",
