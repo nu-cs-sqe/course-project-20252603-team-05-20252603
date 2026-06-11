@@ -358,3 +358,17 @@ Effect:
 * The player must resolve the swap decision before performing any other action.
 
 Additional Win Condition:
+
+Card Collector is an implemented additional win condition.
+
+Rule:
+
+* After setup is complete, if any active player has 15 or more cards in hand,
+  the game ends.
+* If exactly one active player has 15 or more cards, that player wins.
+* If multiple active players have 15 or more cards, the active player with the
+  most cards wins.
+* If multiple active players tie with 15 or more cards, there is no winner.
+* Inactive or eliminated players cannot win by Card Collector.
+* Before setup is complete, Card Collector does not apply.
+* The original last-surviving-player win condition still applies.

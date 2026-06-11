@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class Game {
     private static final int STARTING_RANDOM_CARDS = 5;
+    private static final int CARD_COLLECTOR_WIN_THRESHOLD = 15;
 
     private final List<Player> players;
     private final Deck deck;
@@ -170,7 +171,7 @@ public class Game {
             return false;
         }
 
-        return getActivePlayerCount() <= 1;
+        return getActivePlayerCount() <= 1 || hasCardCollectorCandidate();
     }
 
     public Player getWinner() {
@@ -178,17 +179,54 @@ public class Game {
             return null;
         }
 
-        if (getActivePlayerCount() != 1) {
-            return null;
-        }
-
-        for (Player player : players) {
-            if (player.isActive()) {
-                return player;
+        if (getActivePlayerCount() == 1) {
+            for (Player player : players) {
+                if (player.isActive()) {
+                    return player;
+                }
             }
         }
 
-        return null;
+        return getCardCollectorWinner();
+    }
+
+    private boolean hasCardCollectorCandidate() {
+        for (Player player : players) {
+            if (player.isActive()
+                    && player.getHand().size() >= CARD_COLLECTOR_WIN_THRESHOLD) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Player getCardCollectorWinner() {
+        Player winner = null;
+        int highestCardCount = CARD_COLLECTOR_WIN_THRESHOLD - 1;
+        boolean tied = false;
+
+        for (Player player : players) {
+            if (!player.isActive()) {
+                continue;
+            }
+
+            int cardCount = player.getHand().size();
+
+            if (cardCount > highestCardCount) {
+                winner = player;
+                highestCardCount = cardCount;
+                tied = false;
+            } else if (cardCount == highestCardCount) {
+                tied = true;
+            }
+        }
+
+        if (tied) {
+            return null;
+        }
+
+        return winner;
     }
 
     public List<Player> getPlayers() {

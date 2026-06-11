@@ -23,6 +23,18 @@ public class GameIsGameOverTest {
         assertFalse(game.isGameOver());
     }
 
+    @Test
+    public void isGameOverReturnsFalseWhenPlayerHasFifteenCardsBeforeSetup() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        addCardsUntilHandSize(player1, 15);
+
+        assertFalse(game.isGameOver());
+    }
+
     // G41
     @Test
     public void isGameOverReturnsFalseWhenGameHasFiveActivePlayers() {
@@ -95,5 +107,55 @@ public class GameIsGameOverTest {
         player2.eliminate();
 
         assertTrue(game.isGameOver());
+    }
+
+    @Test
+    public void isGameOverReturnsTrueWhenActivePlayerHasExactlyFifteenCardsAfterSetup() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+
+        addCardsUntilHandSize(player1, 15);
+
+        assertTrue(game.isGameOver());
+    }
+
+    @Test
+    public void isGameOverReturnsFalseWhenHighestActivePlayerHasFourteenCardsAfterSetup() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2), deck);
+
+        game.setupGame();
+
+        addCardsUntilHandSize(player1, 14);
+
+        assertFalse(game.isGameOver());
+    }
+
+    @Test
+    public void isGameOverIgnoresInactivePlayerWithFifteenCards() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Player player3 = new Player("Player 3");
+        Deck deck = new Deck(new Random());
+        Game game = new Game(List.of(player1, player2, player3), deck);
+
+        game.setupGame();
+
+        addCardsUntilHandSize(player1, 15);
+        player1.eliminate();
+
+        assertFalse(game.isGameOver());
+    }
+
+    private void addCardsUntilHandSize(Player player, int handSize) {
+        while (player.getHand().size() < handSize) {
+            player.addCard(new Card(CardType.SHUFFLE));
+        }
     }
 }

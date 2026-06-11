@@ -407,3 +407,16 @@
 | G239 | Player swaps after Peek Swap and then attempts to swap again | Throws IllegalStateException with meaningful message | :y: |
 | G240 | Player declines after Peek Swap and then attempts to decline again | Throws IllegalStateException with meaningful message | :y: |
 | G241 | Game starts with no pending Peek Swap action | Attempting to swap before any Peek Swap has been played throws `IllegalStateException` with meaningful message | :y: |
+
+#### Card Collector Win Condition
+| Test Case | State of the System | Expected Output | Implemented? |
+|------|---|---|-----|
+| G242 | Player has 15 cards before setup is complete | `isGameOver()` returns `false` | :y: |
+| G243 | Player has 15 cards before setup is complete | `getWinner()` returns `null` | :y: |
+| G244 | Setup is complete and one active player has exactly 15 cards | `isGameOver()` returns `true` | :y: |
+| G245 | Setup is complete and one active player has exactly 15 cards | `getWinner()` returns that player | :y: |
+| G246 | Setup is complete and the highest active player has 14 cards | `isGameOver()` returns `false` | :y: |
+| G247 | Multiple active players have at least 15 cards | `getWinner()` returns the active player with the most cards | :y: |
+| G248 | Multiple active players tie with at least 15 cards | `getWinner()` returns `null` | :y: |
+| G249 | Inactive player has 15 cards while multiple active players remain below 15 cards | Player does not win and game continues | :y: |
+| G250 | Game has exactly one active player | Standard elimination win condition still returns that player | :y: |
