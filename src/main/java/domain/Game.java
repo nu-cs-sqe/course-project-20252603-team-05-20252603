@@ -313,7 +313,7 @@ public class Game {
                     targetPlayer.getHand().get(0).getType());
             currentPlayer.addCard(targetPlayerCard);
             targetPlayer.addCard(currentPlayerCard);
-        } else if (type == CardType.STEAL) {
+        } else {
             int cardIndex = random.nextInt(targetPlayer.getHand().size());
             Card stolenCard = targetPlayer.removeCard(
                     targetPlayer.getHand().get(cardIndex).getType());
@@ -536,9 +536,6 @@ public class Game {
             throw new IllegalStateException("Current player has no card to trade");
         }
 
-        if (targetPlayer.getHand().isEmpty()) {
-            throw new IllegalStateException("Target player has no cards");
-        }
     }
 
     private void finishCurrentDrawTurn() {

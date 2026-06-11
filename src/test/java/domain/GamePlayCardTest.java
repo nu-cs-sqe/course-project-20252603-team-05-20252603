@@ -1461,6 +1461,35 @@ public class GamePlayCardTest {
         assertTrue(player2.isActive());
     }
 
+    @Test
+    public void targetedPlayCardThrowsExceptionWhenTypeIsNull() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            game.playCard(null, player2);
+        });
+
+        assertEquals("Card type cannot be null", exception.getMessage());
+    }
+
+    @Test
+    public void targetedPlayCardDelegatesNonTargetedCardsToRegularPlay() {
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = createStartedGame(player1, player2);
+        Card skip = new Card(CardType.SKIP);
+
+        removeAll(player1, CardType.SKIP);
+        player1.addCard(skip);
+
+        game.playCard(CardType.SKIP, player2);
+
+        assertTrue(game.getDiscardPile().contains(skip));
+        assertEquals(player2, game.getCurrentPlayer());
+    }
+
     // G126S1
     @Test
     public void playingStealWithoutTargetThrowsException() {

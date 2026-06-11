@@ -83,4 +83,33 @@ public class GameCurrentPlayerTest {
             game.getCurrentPlayer();
         });
     }
+
+    @Test
+    public void getCurrentPlayerThrowsExceptionWhenNoActivePlayerCanBeFound() {
+        Player player1 = new ActiveThenInactivePlayer("Player 1");
+        Player player2 = new ActiveThenInactivePlayer("Player 2");
+        Game game = new Game(List.of(player1, player2), new Deck(new Random()));
+
+        game.setupGame();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            game.getCurrentPlayer();
+        });
+
+        assertEquals("No active players available", exception.getMessage());
+    }
+
+    private static class ActiveThenInactivePlayer extends Player {
+        private int activeChecks;
+
+        ActiveThenInactivePlayer(String name) {
+            super(name);
+        }
+
+        @Override
+        public boolean isActive() {
+            activeChecks++;
+            return activeChecks == 1;
+        }
+    }
 }

@@ -83,6 +83,18 @@ public class GameGetWinnerTest {
     }
 
     @Test
+    public void getWinnerReturnsNullWhenNoActivePlayerCanBeFoundAfterActiveCount() {
+        Player player1 = new ActiveThenInactivePlayer("Player 1");
+        Player player2 = new Player("Player 2");
+        Game game = new Game(List.of(player1, player2), new Deck(new Random()));
+
+        game.setupGame();
+        player2.eliminate();
+
+        assertNull(game.getWinner());
+    }
+
+    @Test
     public void getWinnerReturnsActivePlayerWithExactlyFifteenCardsAfterSetup() {
         Player player1 = new Player("Player 1");
         Player player2 = new Player("Player 2");
@@ -147,6 +159,20 @@ public class GameGetWinnerTest {
     private void addCardsUntilHandSize(Player player, int handSize) {
         while (player.getHand().size() < handSize) {
             player.addCard(new Card(CardType.SHUFFLE));
+        }
+    }
+
+    private static class ActiveThenInactivePlayer extends Player {
+        private int activeChecks;
+
+        ActiveThenInactivePlayer(String name) {
+            super(name);
+        }
+
+        @Override
+        public boolean isActive() {
+            activeChecks++;
+            return activeChecks == 1;
         }
     }
 }

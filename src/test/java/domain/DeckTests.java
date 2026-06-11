@@ -502,4 +502,36 @@ public class DeckTests {
         assertEquals(2, deck.size());
         assertEquals(2, deck.amtCardType(CardType.DEFUSE));
     }
+
+    @Test
+    public void reorderTopCardsWithNullOrderThrowsException() {
+        Deck deck = new Deck(new Random());
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> deck.reorderTopCards(null)
+        );
+
+        assertEquals("Ordered cards cannot be null", exception.getMessage());
+    }
+
+    @Test
+    public void reorderTopCardsWithMoreCardsThanDeckThrowsException() {
+        Deck deck = new Deck(new Random());
+
+        while (deck.size() > 0) {
+            deck.draw();
+        }
+
+        deck.insertBottom(new Card(CardType.SKIP));
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> deck.reorderTopCards(List.of(
+                        new Card(CardType.SKIP),
+                        new Card(CardType.ATTACK)))
+        );
+
+        assertEquals("Cannot reorder more cards than exist in deck", exception.getMessage());
+    }
 }
