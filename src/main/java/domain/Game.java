@@ -214,6 +214,11 @@ public class Game {
 
         validateGameCanPlayCard();
 
+        if (type == CardType.DEFUSE) {
+            throw new IllegalStateException(
+                    "Defuse can only be used when drawing an Exploding Kitten");
+        }
+
         Player currentPlayer = getCurrentPlayer();
         Card playedCard = currentPlayer.removeCard(type);
         discardPile.add(playedCard);
@@ -317,7 +322,9 @@ public class Game {
         discardPile.add(firstCat);
         discardPile.add(secondCat);
 
-        Card transferredCard = targetPlayer.removeCard(targetPlayer.getHand().get(0).getType());
+        int cardIndex = random.nextInt(targetPlayer.getHand().size());
+        Card transferredCard = targetPlayer.removeCard(
+                targetPlayer.getHand().get(cardIndex).getType());
         currentPlayer.addCard(transferredCard);
     }
 

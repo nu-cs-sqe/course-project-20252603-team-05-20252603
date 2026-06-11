@@ -183,7 +183,7 @@ Implemented pair combo:
 - Play two matching Cat Cards.
 - Choose another player.
 - Discard both Cat Cards.
-- Take one card from the chosen player's hand.
+- Take one random card from the chosen player's hand.
 
 Implemented three-of-a-kind combo:
 - Play three matching Cat Cards.

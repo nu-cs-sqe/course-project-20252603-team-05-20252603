@@ -169,6 +169,9 @@
 | G87 | Current player has 2 Defuse cards and draws an Exploding Kitten | Exactly 1 Defuse is removed and 1 Defuse remains | :y: |
 | G88 | A Defuse is used against an Exploding Kitten | Used Defuse is added to the discard pile | :y: |
 | G89 | A Defuse is used against an Exploding Kitten | Current player's turn ends and advances to the next active player | :y: |
+| G89D1 | Current player has exactly 1 Defuse and attempts to play it without drawing an Exploding Kitten | Throws `IllegalStateException` | :y: |
+| G89D2 | Current player attempts to play a Defuse without drawing an Exploding Kitten | Defuse remains in hand and is not added to the discard pile | :y: |
+| G89D3 | Current player has 2 Defuses and attempts to play one without drawing an Exploding Kitten | Both Defuses remain in hand | :y: |
 
 #### Skip
 | Test Case | State of the System | Expected Output | Implemented? |
@@ -270,7 +273,7 @@
 | G151 | Current player plays two matching `BEARD_CAT` cards | Cat pair combo succeeds | :y: |
 | G152 | Current player plays two matching `RAINBOW_RALPHING_CAT` cards | Cat pair combo succeeds | :y: |
 | G153 | Current player plays two matching `HAIRY_POTATO_CAT` cards | Cat pair combo succeeds | :y: |
-| G154 | Current player plays a valid Cat pair combo | Transfers the first card from target player's hand | :y: |
+| G154 | Current player plays a valid Cat pair combo | Transfers one random card from target player's hand | :y: |
 | G155 | Current player plays a valid Cat pair combo | Target player loses the transferred card | :y: |
 | G156 | Current player plays a valid Cat pair combo | Current player gains the transferred card | :y: |
 | G157 | Current player plays a valid Cat pair combo | Current player does not change | :y: |
