@@ -411,12 +411,12 @@
 #### Card Collector Win Condition
 | Test Case | State of the System | Expected Output | Implemented? |
 |------|---|---|-----|
-| G242 | Player has 15 cards before setup is complete | `isGameOver()` returns `false` | :x: |
-| G243 | Player has 15 cards before setup is complete | `getWinner()` returns `null` | :x: |
-| G244 | Setup is complete and one active player has exactly 15 cards | `isGameOver()` returns `true` | :x: |
-| G245 | Setup is complete and one active player has exactly 15 cards | `getWinner()` returns that player | :x: |
-| G246 | Setup is complete and the highest active player has 14 cards | `isGameOver()` returns `false` | :x: |
-| G247 | Multiple active players have at least 15 cards | `getWinner()` returns the active player with the most cards | :x: |
-| G248 | Multiple active players tie with at least 15 cards | `getWinner()` returns `null` | :x: |
-| G249 | Inactive player has 15 cards while multiple active players remain below 15 cards | Player does not win and game continues | :x: |
-| G250 | Game has exactly one active player | Standard elimination win condition still returns that player | :x: |
+| G242 | Player has 15 cards before setup is complete | `isGameOver()` returns `false` | :y: |
+| G243 | Player has 15 cards before setup is complete | `getWinner()` returns `null` | :y: |
+| G244 | Setup is complete and one active player has exactly 15 cards | `isGameOver()` returns `true` | :y: |
+| G245 | Setup is complete and one active player has exactly 15 cards | `getWinner()` returns that player | :y: |
+| G246 | Setup is complete and the highest active player has 14 cards | `isGameOver()` returns `false` | :y: |
+| G247 | Multiple active players have at least 15 cards | `getWinner()` returns the active player with the most cards | :y: |
+| G248 | Multiple active players tie with at least 15 cards | `getWinner()` returns `null` | :y: |
+| G249 | Inactive player has 15 cards while multiple active players remain below 15 cards | Player does not win and game continues | :y: |
+| G250 | Game has exactly one active player | Standard elimination win condition still returns that player | :y: |
