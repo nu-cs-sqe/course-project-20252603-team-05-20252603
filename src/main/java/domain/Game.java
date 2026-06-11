@@ -311,7 +311,8 @@ public class Game {
         discardPile.add(firstCat);
         discardPile.add(secondCat);
 
-        Card transferredCard = targetPlayer.removeCard(targetPlayer.getHand().get(0).getType());
+        int cardIndex = random.nextInt(targetPlayer.getHand().size());
+        Card transferredCard = targetPlayer.removeCard(targetPlayer.getHand().get(cardIndex).getType());
         currentPlayer.addCard(transferredCard);
     }
 
