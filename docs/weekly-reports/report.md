@@ -50,3 +50,8 @@
 16. [done] Cyrus: Implemented Alter the Future card and added deck-reordering logic
 17. [done] Cyrus: Implemented invented Steal card and added targeted player hand-transfer logic
 18. [done] Cyrus: Added tests for new card behavior and meaningful exception messages
+19. [done] Helena: Completed BVA/TDD for Exploding Kitten behavior, including player elimination, game continuation, and win conditions
+20. [done] Helena: Completed BVA/TDD for Defuse behavior, including card consumption, discard handling, turn advancement, and preventing manual play
+21. [done] Helena: Completed BVA/TDD for Skip behavior, including card consumption, turn advancement, eliminated-player handling, and turn-order wrapping
+22. [done] Helena: Completed BVA/TDD for Shield behavior, including explosion protection, card consumption, discard handling, and Defuse priority
+23. [done] Helena: Contributed to integration testing by validating card interactions, turn transitions, player elimination, and end-to-end game outcomes
