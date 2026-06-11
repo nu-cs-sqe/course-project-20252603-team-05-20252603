@@ -19,5 +19,11 @@
 - SpotBugs (static analysis)
 - Checkstyle (style checking)
 
+## Console Internationalization
+- The console UI supports English and Spanish.
+- The player chooses the language at the beginning of the game.
+- New locales can be added by creating another `messages_<locale>.properties`
+  file in `src/main/resources`.
+
 ## Acknowledgements
 REFERENCES, SOURCE OF HELP ETC
