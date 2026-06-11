@@ -26,11 +26,13 @@
 # Week 9 (5/25/2026-5/31/2026)
 **Planning and Progress Tracking**:
 1. [done] Helena: Completed BVA, TDD for Game Class for Game Setup Phase and One Turn
-2. [done] Rachel: Completed design doc for Turn 1, installed Checkstyle and Spotbugs, completed BVA/TDD for Deck peek() method for See the Future Card
+2. [done] Rachel: Completed design doc for Turn 1, installed Checkstyle and Spotbugs
+3. [done] Rachel: completed BVA/TDD for Deck peek() method for See the Future Card
 
 # Week 10 (6/1/2026-6/10/2026)
 **Planning and Progress Tracking**:
-1. [done] Rachel: Completed BVA/TDD for Cards: Shuffle, See The Future, Draw From Bottom
-2. [done]
-3. [done]
-4. [done]
+1. [done] Rachel: Completed BVA/TDD for Cards: Shuffle, See The Future, Draw From Bottom, Peek Swap
+2. [done] Rachel: Completed BVA for Deck swapTopTwo() and drawBottom() for usage in other cards
+2. [done] Rachel: Completed UI for the game to actually be playable in the command line
+3. [done] Rachel: Completed full game instructions, updated Readme with dependencies/tools
+4. [done] Rachel: Fixed integration tests involving new features (shuffles, new cards available in deck)
